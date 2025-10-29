@@ -1,0 +1,60 @@
+# P0-1: 雙引擎 ASR 系統依賴
+
+# 核心 ASR 引擎
+openai-whisper>=20231117
+funasr>=1.0.0
+
+# 深度學習框架
+torch>=2.1.0
+torchaudio>=2.1.0
+transformers>=4.35.0
+
+# 音頻處理
+librosa>=0.10.1
+soundfile>=0.12.1
+pydub>=0.25.1
+audioread>=3.0.1
+
+# 數據處理
+numpy>=1.24.0
+pandas>=2.1.0
+scipy>=1.11.0
+
+# 異步處理
+asyncio
+aiohttp>=3.9.0
+
+# 模型優化
+onnx>=1.15.0
+onnxruntime>=1.16.0
+onnxruntime-gpu>=1.16.0  # GPU 版本
+
+# 語言處理
+jieba>=0.42.1  # 中文分詞
+pypinyin>=0.50.0  # 拼音轉換
+
+# 測試工具
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+
+# 性能監控
+psutil>=5.9.0
+py-cpuinfo>=9.0.0
+
+# 日誌
+loguru>=0.7.0
+
+# 配置管理
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+
+# API 開發（已有但確保版本）
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# 數據驗證
+pydantic>=2.5.0
+
+# 進度條
+tqdm>=4.66.0
