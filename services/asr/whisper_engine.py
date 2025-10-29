@@ -117,29 +117,122 @@ class WhisperEngine:
         
         # 閩南語優化
         if features.get('is_minnan', False):
-            whisper_options['language'] = 'zh'
-            whisper_options['initial_prompt'] = "這是台灣閩南語，可能混合華語。"
-            whisper_options['temperature'] = 0.2  # 降低溫度提高穩定性
+            whisper_options.update(self._get_minnan_optimization(features))
             logger.debug("  應用閩南語優化參數")
         
         # 高齡語音優化
         elif features.get('is_elderly', False):
-            whisper_options['temperature'] = 0.2
-            whisper_options['beam_size'] = 10  # 增加 beam size
-            whisper_options['patience'] = 2.0
+            whisper_options.update(self._get_elderly_optimization(features))
             logger.debug("  應用高齡語音優化參數")
         
         # 低 SNR 環境優化
         if features.get('is_low_snr', False):
-            whisper_options['compression_ratio_threshold'] = 3.0
-            whisper_options['logprob_threshold'] = -1.5
+            whisper_options.update(self._get_low_snr_optimization(features))
             logger.debug("  應用低 SNR 優化參數")
         
-        # 用戶自定義選項
+        # 用戶自定義選項（優先級最高）
         if 'language' in options:
             whisper_options['language'] = options['language']
+        if 'initial_prompt' in options:
+            whisper_options['initial_prompt'] = options['initial_prompt']
         
         return whisper_options
+    
+    def _get_minnan_optimization(self, features: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        閩南語優化參數
+        
+        針對台灣閩南語的特殊優化：
+        - 使用中文語言模式
+        - 添加閩南語提示詞
+        - 降低溫度提高穩定性
+        - 增加 beam size 提高準確率
+        """
+        minnan_confidence = features.get('minnan_confidence', 0.5)
+        
+        # 基礎閩南語優化
+        optimization = {
+            'language': 'zh',
+            'temperature': 0.2,  # 降低溫度
+            'beam_size': 8,  # 增加 beam size
+            'best_of': 8,
+            'patience': 1.5,
+        }
+        
+        # 根據閩南語置信度調整提示詞
+        if minnan_confidence > 0.7:
+            # 高置信度：純閩南語
+            optimization['initial_prompt'] = (
+                "這是台灣閩南語。常見詞彙：啥物、按怎、佗位、啥人、敢有、"
+                "毋是、毋知、毋好、足、誠。"
+            )
+        elif minnan_confidence > 0.4:
+            # 中等置信度：混合語音
+            optimization['initial_prompt'] = (
+                "這是台灣閩南語與華語混合的對話。"
+            )
+        else:
+            # 低置信度：閩南語口音的華語
+            optimization['initial_prompt'] = (
+                "這是帶有閩南語口音的華語。"
+            )
+        
+        return optimization
+    
+    def _get_elderly_optimization(self, features: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        高齡語音優化參數
+        
+        針對高齡者語音特徵的優化：
+        - 語速較慢
+        - 音量較小
+        - 可能有顫抖
+        - 停頓較多
+        """
+        return {
+            'temperature': 0.2,  # 降低溫度提高穩定性
+            'beam_size': 10,  # 增加 beam size
+            'best_of': 10,
+            'patience': 2.0,  # 增加耐心值
+            'compression_ratio_threshold': 2.8,  # 放寬壓縮比閾值
+            'logprob_threshold': -1.2,  # 放寬 log prob 閾值
+            'no_speech_threshold': 0.5,  # 降低無語音閾值
+            'condition_on_previous_text': True,  # 利用上下文
+        }
+    
+    def _get_low_snr_optimization(self, features: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        低 SNR 環境優化參數
+        
+        針對噪音環境的優化：
+        - 放寬各種閾值
+        - 增加解碼策略的多樣性
+        - 利用上下文信息
+        """
+        snr_db = features.get('snr_db', 0)
+        
+        # 基礎低 SNR 優化
+        optimization = {
+            'compression_ratio_threshold': 3.0,
+            'logprob_threshold': -1.5,
+            'no_speech_threshold': 0.7,  # 提高無語音閾值
+            'condition_on_previous_text': True,
+        }
+        
+        # 根據 SNR 級別調整
+        if snr_db < -30:  # 極低 SNR
+            optimization.update({
+                'temperature': [0.0, 0.2, 0.4],  # 減少溫度範圍
+                'beam_size': 10,
+                'best_of': 10,
+            })
+        elif snr_db < -20:  # 很低 SNR
+            optimization.update({
+                'temperature': [0.0, 0.2, 0.4, 0.6],
+                'beam_size': 8,
+            })
+        
+        return optimization
     
     def _calculate_confidence(self, result: Dict[str, Any]) -> float:
         """
@@ -185,12 +278,59 @@ class WhisperEngine:
             logger.warning(f"置信度計算失敗: {e}")
             return 0.5
     
+    def optimize_for_inference(self):
+        """
+        優化模型以提升推理速度
+        
+        包括：
+        - 設置為評估模式
+        - 禁用梯度計算
+        - 使用 torch.inference_mode
+        """
+        if self.model is not None:
+            self.model.eval()
+            for param in self.model.parameters():
+                param.requires_grad = False
+            logger.info("✓ 模型已優化為推理模式")
+    
+    def get_memory_usage(self) -> Dict[str, Any]:
+        """
+        獲取記憶體使用情況
+        """
+        memory_info = {
+            'device': self.device,
+            'model_size': self.model_size
+        }
+        
+        if self.device == 'cuda' and torch.cuda.is_available():
+            memory_info.update({
+                'gpu_memory_allocated': f"{torch.cuda.memory_allocated() / 1024**3:.2f} GB",
+                'gpu_memory_reserved': f"{torch.cuda.memory_reserved() / 1024**3:.2f} GB",
+                'gpu_memory_total': f"{torch.cuda.get_device_properties(0).total_memory / 1024**3:.2f} GB"
+            })
+        
+        return memory_info
+    
+    def clear_cache(self):
+        """
+        清理 GPU 快取
+        """
+        if self.device == 'cuda' and torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            logger.info("✓ GPU 快取已清理")
+    
     def get_model_info(self) -> Dict[str, Any]:
         """獲取模型信息"""
-        return {
+        info = {
             'engine': 'whisper',
             'model_size': self.model_size,
             'device': self.device,
             'cuda_available': torch.cuda.is_available(),
             'model_loaded': self.model is not None
         }
+        
+        # 添加記憶體信息
+        if self.model is not None:
+            info['memory_usage'] = self.get_memory_usage()
+        
+        return info

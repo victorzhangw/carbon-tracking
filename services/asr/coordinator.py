@@ -73,6 +73,9 @@ class ASRCoordinator:
         self.target_sample_rate = 16000  # 目標採樣率
         self.max_audio_length = 60  # 最大音頻長度（秒）
         
+        # 優化模型推理
+        self.whisper_engine.optimize_for_inference()
+        
         logger.info("✓ ASR Coordinator 初始化完成")
     
     async def recognize(self, 
@@ -323,3 +326,70 @@ class ASRCoordinator:
             }
         
         return output
+
+    
+    async def recognize_batch(self,
+                            audio_data_list: list,
+                            options: Optional[Dict[str, Any]] = None) -> list:
+        """
+        批次識別多個音頻
+        
+        Args:
+            audio_data_list: 音頻數據列表
+            options: 可選參數
+        
+        Returns:
+            識別結果列表
+        """
+        logger.info(f"開始批次識別 {len(audio_data_list)} 個音頻...")
+        
+        # 並行處理所有音頻
+        tasks = [
+            self.recognize(audio_data, options)
+            for audio_data in audio_data_list
+        ]
+        
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        # 處理異常
+        processed_results = []
+        for i, result in enumerate(results):
+            if isinstance(result, Exception):
+                logger.error(f"音頻 {i} 識別失敗: {result}")
+                processed_results.append({
+                    'success': False,
+                    'error': str(result),
+                    'index': i
+                })
+            else:
+                result['index'] = i
+                processed_results.append(result)
+        
+        logger.info(f"✓ 批次識別完成")
+        return processed_results
+    
+    def get_system_info(self) -> Dict[str, Any]:
+        """
+        獲取系統信息
+        """
+        info = {
+            'coordinator': {
+                'version': '1.0.0',
+                'enable_funasr': self.enable_funasr,
+                'target_sample_rate': self.target_sample_rate,
+                'max_audio_length': self.max_audio_length
+            },
+            'whisper_engine': self.whisper_engine.get_model_info()
+        }
+        
+        if self.funasr_engine:
+            info['funasr_engine'] = self.funasr_engine.get_model_info()
+        
+        return info
+    
+    def clear_cache(self):
+        """清理快取"""
+        self.whisper_engine.clear_cache()
+        if self.funasr_engine:
+            self.funasr_engine.clear_cache()
+        logger.info("✓ 系統快取已清理")
