@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>語音互動系統 - 增強版</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #4cc9f0;
+            --success-color: #2ec4b6;
+            --warning-color: #ff9f1c;
+            --error-color: #e71d36;
+            --text-dark: #2b2d42;
+            --text-light: #8d99ae;
+            --background: #f8f9fa;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .main-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        /* 錄音控制區域 */
+        .recording-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+        }
+
+        .recording-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #26a69a;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .recording-status {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .status-recording {
+            color: var(--error-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-ready {
+            color: var(--success-color);
+        }
+
+        .status-waiting {
+            color: var(--text-light);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* 音頻可視化 */
+        .audio-visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            height: 60px;
+            margin: 20px 0;
+            gap: 2px;
+        }
+
+        .bar {
+            width: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            transition: height 0.1s ease;
+            min-height: 4px;
+        }
+
+        /* 處理流程指示器 */
+        .process-flow {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .flow-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e9ecef;
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 120px;
+        }
+
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-icon {
+            background: var(--primary-color);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .step.completed .step-icon {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* 對話區域 */
+        .conversation-area {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .user-message {
+            background: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .ai-message {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .message-content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .sentiment-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .sentiment-positive { background: #d4edda; color: #155724; }
+        .sentiment-neutral { background: #e2e3e5; color: #383d41; }
+        .sentiment-negative { background: #f8d7da; color: #721c24; }
+
+        /* 音頻播放器 */
+        .audio-player {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .audio-player audio {
+            width: 100%;
+            height: 40px;
+        }
+
+        .audio-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--success-color);
+        }
+
+        /* 空狀態 */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+
+        .empty-state .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* 客服選擇 */
+        .staff-selection {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .staff-selection select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        /* 載入動畫 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .recording-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .flow-steps {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .flow-steps::before {
+                display: none;
+            }
+            
+            .message {
+                max-width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎤 語音互動系統</h1>
+            <p>智能語音識別 • AI分析回應 • 語音合成</p>
+        </div>
+
+        <div class="main-card">
+            <!-- 錄音控制區域 -->
+            <div class="recording-section">
+                <h3>語音錄製</h3>
+                
+                <!-- 音頻可視化 -->
+                <div class="audio-visualizer" id="visualizer">
+                    <!-- 動態生成的音頻條 -->
+                </div>
+
+                <!-- 錄音控制按鈕 -->
+                <div class="recording-controls">
+                    <button id="recordBtn" class="btn btn-primary">
+                        <span id="recordIcon">🎤</span>
+                        <span id="recordText">開始錄音</span>
+                    </button>
+                    
+                    <button id="playBtn" class="btn btn-success" disabled>
+                        <span>▶️</span>
+                        播放錄音
+                    </button>
+                    
+                    <button id="processBtn" class="btn btn-success" disabled>
+                        <span>🚀</span>
+                        開始分析
+                    </button>
+                </div>
+
+                <!-- 錄音狀態 -->
+                <div class="recording-status">
+                    <div id="statusDisplay" class="status-waiting">
+                        點擊麥克風開始錄音
+                    </div>
+                </div>
+            </div>
+
+            <!-- 處理流程指示器 -->
+            <div class="process-flow">
+                <h4>處理流程</h4>
+                <div class="flow-steps">
+                    <div class="step" id="step1">
+                        <div class="step-icon">🎤</div>
+                        <div class="step-label">語音識別</div>
+                    </div>
+                    <div class="step" id="step2">
+                        <div class="step-icon">🤖</div>
+                        <div class="step-label">AI分析</div>
+                    </div>
+                    <div class="step" id="step3">
+                        <div class="step-icon">🔊</div>
+                        <div class="step-label">語音合成</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 對話顯示區域 -->
+            <div class="conversation-area" id="conversationArea">
+                <div class="empty-state">
+                    <div class="icon">💬</div>
+                    <h3>開始語音對話</h3>
+                    <p>點擊麥克風按鈕開始錄音，系統將自動進行語音識別、AI分析和語音合成</p>
+                </div>
+            </div>
+
+            <!-- 客服選擇 -->
+            <div class="staff-selection">
+                <label for="staffSelect">選擇客服語音模型:</label>
+                <select id="staffSelect">
+                    <option value="admin">管理員</option>
+                    <option value="staff001">客服001</option>
+                    <option value="staff002">客服002</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class VoiceInteractionSystem {
+            constructor() {
+                this.isRecording = false;
+                this.isProcessing = false;
+                this.audioBlob = null;
+                this.recorder = null;
+                this.recordingTime = 0;
+                this.recordingTimer = null;
+                this.visualBars = [];
+                this.visualInterval = null;
+                this.currentStep = 0;
+                
+                this.initializeElements();
+                this.initializeVisualizer();
+                this.bindEvents();
+            }
+
+            initializeElements() {
+                this.recordBtn = document.getElementById('recordBtn');
+                this.playBtn = document.getElementById('playBtn');
+                this.processBtn = document.getElementById('processBtn');
+                this.statusDisplay = document.getElementById('statusDisplay');
+                this.conversationArea = document.getElementById('conversationArea');
+                this.staffSelect = document.getElementById('staffSelect');
+                this.visualizer = document.getElementById('visualizer');
+                this.recordIcon = document.getElementById('recordIcon');
+                this.recordText = document.getElementById('recordText');
+            }
+
+            initializeVisualizer() {
+                // 創建音頻可視化條
+                for (let i = 0; i < 40; i++) {
+                    const bar = document.createElement('div');
+                    bar.className = 'bar';
+                    bar.style.height = '4px';
+                    this.visualizer.appendChild(bar);
+                    this.visualBars.push(bar);
+                }
+            }
+
+            bindEvents() {
+                this.recordBtn.addEventListener('click', () => this.toggleRecording());
+                this.playBtn.addEventListener('click', () => this.playRecording());
+                this.processBtn.addEventListener('click', () => this.processVoiceInteraction());
+            }
+
+            async toggleRecording() {
+                if (this.isRecording) {
+                    await this.stopRecording();
+                } else {
+                    await this.startRecording();
+                }
+            }
+
+            async startRecording() {
+                try {
+                    this.resetConversation();
+                    
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    this.recorder = new MediaRecorder(stream);
+                    
+                    const audioChunks = [];
+                    this.recorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) {
+                            audioChunks.push(event.data);
+                        }
+                    };
+                    
+                    this.recorder.onstop = () => {
+                        this.audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        stream.getTracks().forEach(track => track.stop());
+                        this.playBtn.disabled = false;
+                        this.processBtn.disabled = false;
+                    };
+                    
+                    this.recorder.start();
+                    this.isRecording = true;
+                    this.updateRecordingUI();
+                    this.startTimer();
+                    this.startVisualization();
+                    
+                } catch (error) {
+                    alert('無法訪問麥克風: ' + error.message);
+                    console.error('錄音失敗:', error);
+                }
+            }
+
+            async stopRecording() {
+                if (this.recorder && this.isRecording) {
+                    this.recorder.stop();
+                    this.isRecording = false;
+                    this.updateRecordingUI();
+                    this.stopTimer();
+                    this.stopVisualization();
+                }
+            }
+
+            playRecording() {
+                if (this.audioBlob) {
+                    const audioUrl = URL.createObjectURL(this.audioBlob);
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                }
+            }
+
+            async processVoiceInteraction() {
+                if (!this.audioBlob) {
+                    alert('請先錄製音頻');
+                    return;
+                }
+                
+                this.isProcessing = true;
+                this.processBtn.disabled = true;
+                this.recordBtn.disabled = true;
+                
+                try {
+                    // 步驟1: 語音識別
+                    this.setStep(1);
+                    const transcript = await this.performSpeechRecognition();
+                    this.displayUserMessage(transcript);
+                    
+                    // 步驟2: AI分析回應
+                    this.setStep(2);
+                    const aiResponse = await this.performAIAnalysis(transcript);
+                    this.displayAIMessage(aiResponse);
+                    
+                    // 步驟3: 語音合成
+                    this.setStep(3);
+                    await this.performVoiceSynthesis(aiResponse);
+                    
+                    // 完成
+                    this.setStep(0);
+                    this.showSuccess('語音互動完成！');
+                    
+                } catch (error) {
+                    this.showError('處理過程中發生錯誤: ' + error.message);
+                    this.setStep(0);
+                } finally {
+                    this.isProcessing = false;
+                    this.processBtn.disabled = false;
+                    this.recordBtn.disabled = false;
+                }
+            }
+
+            async performSpeechRecognition() {
+                const formData = new FormData();
+                formData.append('file', this.audioBlob, 'recording.wav');
+                
+                const response = await fetch('/process_audio', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.transcript) {
+                    return data.transcript;
+                } else {
+                    throw new Error('語音識別失敗');
+                }
+            }
+
+            async performAIAnalysis(transcript) {
+                const response = await fetch('/voice_clone/generate_response_voice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_input: transcript,
+                        staff_code: this.staffSelect.value
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    return {
+                        text: data.ai_analysis.response_text,
+                        sentiment: data.ai_analysis.sentiment,
+                        audioUrl: data.voice_output.audio_url
+                    };
+                } else {
+                    throw new Error(data.message || 'AI分析失敗');
+                }
+            }
+
+            async performVoiceSynthesis(aiResponse) {
+                // 語音合成已在AI分析中完成
+                if (!aiResponse.audioUrl) {
+                    throw new Error('語音合成失敗');
+                }
+            }
+
+            displayUserMessage(transcript) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message user-message';
+                messageDiv.innerHTML = `
+                    <div class="message-header">
+                        <span>👤 您說</span>
+                        <span>${new Date().toLocaleTimeString()}</span>
+                    </div>
+                    <div class="message-content">${transcript}</div>
+                `;
+                
+                this.clearEmptyState();
+                this.conversationArea.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            displayAIMessage(aiResponse) {
+                const sentimentClass = this.getSentimentClass(aiResponse.sentiment);
+                
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message ai-message';
+                messageDiv.innerHTML = `
+                    <div class="message-header">
+                        <span>🤖 AI客服</span>
+                        <span class="sentiment-tag ${sentimentClass}">${aiResponse.sentiment}</span>
+                        <span>${new Date().toLocaleTimeString()}</span>
+                    </div>
+                    <div class="message-content">
+                        ${aiResponse.text}
+                        ${aiResponse.audioUrl ? `
+                            <div class="audio-player">
+                                <audio controls src="${aiResponse.audioUrl}" id="aiAudio_${Date.now()}">
+                                    您的瀏覽器不支援音頻播放
+                                </audio>
+                                <div class="audio-status">
+                                    <span>🔊 AI語音回應已生成</span>
+                                    <button class="btn btn-sm btn-primary" onclick="this.previousElementSibling.previousElementSibling.play()">
+                                        ▶️ 播放語音
+                                    </button>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                this.conversationArea.appendChild(messageDiv);
+                this.scrollToBottom();
+                
+                // 自動播放AI語音回應
+                if (aiResponse.audioUrl) {
+                    setTimeout(() => {
+                        const audioElement = messageDiv.querySelector('audio');
+                        if (audioElement) {
+                            audioElement.play().catch(error => {
+                                console.warn('自動播放失敗，可能需要用戶互動:', error);
+                                // 顯示播放提示
+                                const statusElement = messageDiv.querySelector('.audio-status span');
+                                if (statusElement) {
+                                    statusElement.innerHTML = '🔊 點擊播放按鈕聆聽AI語音回應';
+                                    statusElement.style.color = '#ff9f1c';
+                                }
+                            });
+                        }
+                    }, 500); // 延遲500ms確保音頻元素已載入
+                }
+            }
+
+            clearEmptyState() {
+                const emptyState = this.conversationArea.querySelector('.empty-state');
+                if (emptyState) {
+                    emptyState.remove();
+                }
+            }
+
+            scrollToBottom() {
+                this.conversationArea.scrollTop = this.conversationArea.scrollHeight;
+            }
+
+            resetConversation() {
+                this.conversationArea.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">💬</div>
+                        <h3>開始語音對話</h3>
+                        <p>點擊麥克風按鈕開始錄音，系統將自動進行語音識別、AI分析和語音合成</p>
+                    </div>
+                `;
+                this.setStep(0);
+            }
+
+            updateRecordingUI() {
+                if (this.isRecording) {
+                    this.recordIcon.textContent = '⏹️';
+                    this.recordText.textContent = '停止錄音';
+                    this.statusDisplay.className = 'status-recording';
+                    this.statusDisplay.textContent = '錄音中...';
+                    this.playBtn.disabled = true;
+                    this.processBtn.disabled = true;
+                } else {
+                    this.recordIcon.textContent = '🎤';
+                    this.recordText.textContent = '開始錄音';
+                    this.statusDisplay.className = 'status-ready';
+                    this.statusDisplay.textContent = '錄音完成，可以開始分析';
+                }
+            }
+
+            setStep(step) {
+                this.currentStep = step;
+                
+                // 重置所有步驟
+                for (let i = 1; i <= 3; i++) {
+                    const stepElement = document.getElementById(`step${i}`);
+                    stepElement.classList.remove('active', 'completed');
+                }
+                
+                // 設置當前步驟
+                if (step > 0) {
+                    for (let i = 1; i < step; i++) {
+                        document.getElementById(`step${i}`).classList.add('completed');
+                    }
+                    if (step <= 3) {
+                        document.getElementById(`step${step}`).classList.add('active');
+                    }
+                }
+            }
+
+            startTimer() {
+                this.recordingTime = 0;
+                this.recordingTimer = setInterval(() => {
+                    this.recordingTime++;
+                    this.statusDisplay.textContent = `錄音中: ${this.formatTime(this.recordingTime)}`;
+                }, 1000);
+            }
+
+            stopTimer() {
+                if (this.recordingTimer) {
+                    clearInterval(this.recordingTimer);
+                    this.recordingTimer = null;
+                }
+            }
+
+            startVisualization() {
+                this.visualInterval = setInterval(() => {
+                    this.visualBars.forEach(bar => {
+                        const height = this.isRecording ? Math.floor(Math.random() * 30) + 5 : 5;
+                        bar.style.height = `${height}px`;
+                    });
+                }, 100);
+            }
+
+            stopVisualization() {
+                if (this.visualInterval) {
+                    clearInterval(this.visualInterval);
+                    this.visualInterval = null;
+                }
+                setTimeout(() => {
+                    this.visualBars.forEach(bar => {
+                        bar.style.height = '4px';
+                    });
+                }, 300);
+            }
+
+            formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            getSentimentClass(sentiment) {
+                const classes = {
+                    '正面': 'sentiment-positive',
+                    '中性': 'sentiment-neutral',
+                    '負面': 'sentiment-negative'
+                };
+                return classes[sentiment] || 'sentiment-neutral';
+            }
+
+            showSuccess(message) {
+                // 可以添加成功提示
+                console.log('Success:', message);
+            }
+
+            showError(message) {
+                alert(message);
+                console.error('Error:', message);
+            }
+        }
+
+        // 初始化系統
+        document.addEventListener('DOMContentLoaded', () => {
+            new VoiceInteractionSystem();
+        });
+    </script>
+</body>
+</html>

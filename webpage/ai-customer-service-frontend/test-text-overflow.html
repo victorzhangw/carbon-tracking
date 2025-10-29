@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文字框測試</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        margin: 20px;
+        background: #f5f5f5;
+      }
+
+      .test-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .chat-container {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 16px;
+        margin: 20px 0;
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .message-bubble {
+        margin-bottom: 12px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+      }
+
+      .message-bubble.user {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+      }
+
+      .message-bubble.ai {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+      }
+
+      .user-bubble {
+        max-width: 70%;
+        min-width: 0;
+        background: linear-gradient(135deg, #4361ee, #4cc9f0);
+        color: white;
+        border-radius: 16px 16px 4px 16px;
+        padding: 12px 16px;
+        box-shadow: 0 2px 8px rgba(67, 97, 238, 0.25);
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        overflow: hidden;
+      }
+
+      .ai-bubble-container {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        max-width: 80%;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .ai-avatar {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, #2ed573, #7bed9f);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 5px;
+        font-size: 14px;
+      }
+
+      .ai-bubble {
+        background: white;
+        border-radius: 16px 16px 16px 4px;
+        padding: 12px 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        flex: 1;
+        min-width: 0;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        overflow: hidden;
+      }
+
+      .bubble-content {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        white-space: pre-wrap;
+        max-width: 100%;
+        overflow: hidden;
+      }
+
+      .message-text,
+      .ai-text {
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 6px;
+        color: #1c1c1c;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        white-space: pre-wrap;
+        max-width: 100%;
+        overflow: hidden;
+      }
+
+      .user-bubble .message-text {
+        color: white;
+      }
+
+      .test-section {
+        margin: 30px 0;
+      }
+
+      .test-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="test-container">
+      <h1>VoiceInteractionFlow 文字框測試</h1>
+
+      <div class="test-section">
+        <div class="test-title">測試 1: 長文字測試</div>
+        <div class="chat-container">
+          <div class="message-bubble user">
+            <div class="user-bubble">
+              <div class="bubble-content">
+                <div class="message-text">
+                  這是一個非常長的用戶消息，用來測試文字是否能夠正確地在文字框內換行，而不會溢出到框外。這個消息包含了很多文字，應該能夠測試出文字換行的效果。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="message-bubble ai">
+            <div class="ai-bubble-container">
+              <div class="ai-avatar">AI</div>
+              <div class="ai-bubble">
+                <div class="bubble-content">
+                  <div class="ai-text">
+                    這是AI的回應，同樣是一個很長的消息。我們需要確保這些文字能夠正確地在氣泡內換行，不會超出邊界。這個測試將幫助我們驗證文字處理是否正確。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <div class="test-title">測試 2: 超長單詞測試</div>
+        <div class="chat-container">
+          <div class="message-bubble user">
+            <div class="user-bubble">
+              <div class="bubble-content">
+                <div class="message-text">
+                  這是一個包含超長英文單詞的測試：supercalifragilisticexpialidocious這個單詞非常長，需要強制換行。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="message-bubble ai">
+            <div class="ai-bubble-container">
+              <div class="ai-avatar">AI</div>
+              <div class="ai-bubble">
+                <div class="bubble-content">
+                  <div class="ai-text">
+                    我理解您的測試。這裡是另一個超長單詞：pneumonoultramicroscopicsilicovolcanoconiosispneumonoultramicroscopicsilicovolcanoconiosis，它應該被正確地強制換行。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <div class="test-title">測試 3: 混合內容測試</div>
+        <div class="chat-container">
+          <div class="message-bubble user">
+            <div class="user-bubble">
+              <div class="bubble-content">
+                <div class="message-text">
+                  這是一個混合測試： 包含換行符號 和一些
+                  URL：https://www.example.com/very/long/path/that/should/break/properly
+                  以及一些數字：1234567890123456789012345678901234567890
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="message-bubble ai">
+            <div class="ai-bubble-container">
+              <div class="ai-avatar">AI</div>
+              <div class="ai-bubble">
+                <div class="bubble-content">
+                  <div class="ai-text">
+                    收到您的混合內容測試。 這裡是我的回應，包含： - 列表項目 -
+                    另一個很長的URL：https://www.verylongdomainname.com/with/many/path/segments/that/should/wrap/correctly
+                    - 以及一些特殊字符：!@#$%^&*()_+-=[]{}|;':\",./<>?
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <div class="test-title">測試結果說明</div>
+        <p>
+          如果以上所有測試中的文字都能正確地在各自的氣泡內顯示，沒有溢出到框外，那麼修復就是成功的。
+        </p>
+        <p>主要修復內容包括：</p>
+        <ul>
+          <li>添加了 <code>overflow-wrap: break-word</code></li>
+          <li>添加了 <code>word-break: break-word</code></li>
+          <li>添加了 <code>white-space: pre-wrap</code></li>
+          <li>添加了 <code>overflow: hidden</code></li>
+          <li>設置了正確的 <code>max-width</code> 和 <code>min-width</code></li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

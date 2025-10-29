@@ -1,0 +1,2126 @@
+{
+  "named_endpoints": {
+    "/change_lang_choices": {
+      "parameters": [
+        {
+          "label": "ASR 模型",
+          "parameter_name": "key",
+          "parameter_has_default": true,
+          "parameter_default": "达摩 ASR (中文)",
+          "type": {
+            "type": "string",
+            "enum": [
+              "达摩 ASR (中文)",
+              "Faster Whisper (多语种)"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['达摩 ASR (中文)', 'Faster Whisper (多语种)']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "达摩 ASR (中文)"
+        }
+      ],
+      "returns": [
+        {
+          "label": "ASR 語言設置",
+          "type": {
+            "type": "string",
+            "enum": [
+              "zh",
+              "yue"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['zh', 'yue']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        }
+      ]
+    },
+    "/change_size_choices": {
+      "parameters": [
+        {
+          "label": "ASR 模型",
+          "parameter_name": "key",
+          "parameter_has_default": true,
+          "parameter_default": "达摩 ASR (中文)",
+          "type": {
+            "type": "string",
+            "enum": [
+              "达摩 ASR (中文)",
+              "Faster Whisper (多语种)"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['达摩 ASR (中文)', 'Faster Whisper (多语种)']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "达摩 ASR (中文)"
+        }
+      ],
+      "returns": [
+        {
+          "label": "ASR 模型尺寸",
+          "type": {
+            "type": "string",
+            "enum": [
+              "large"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['large']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        }
+      ]
+    },
+    "/change_precision_choices": {
+      "parameters": [
+        {
+          "label": "ASR 模型",
+          "parameter_name": "key",
+          "parameter_has_default": true,
+          "parameter_default": "达摩 ASR (中文)",
+          "type": {
+            "type": "string",
+            "enum": [
+              "达摩 ASR (中文)",
+              "Faster Whisper (多语种)"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['达摩 ASR (中文)', 'Faster Whisper (多语种)']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "达摩 ASR (中文)"
+        }
+      ],
+      "returns": [
+        {
+          "label": "數據類型精度",
+          "type": {
+            "type": "string",
+            "enum": [
+              "float32"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['float32']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        }
+      ]
+    },
+    "/change_label": {
+      "parameters": [
+        {
+          "label": "標註文件路徑 (含文件後綴 *.list)",
+          "parameter_name": "path_list",
+          "parameter_has_default": true,
+          "parameter_default": "D:\\RVC1006\\GPT-SoVITS\\raw\\xxx.list",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        }
+      ],
+      "returns": [
+        {
+          "label": "音頻標註WebUI進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/change_label_1": {
+      "parameters": [
+        {
+          "label": "標註文件路徑 (含文件後綴 *.list)",
+          "parameter_name": "path_list",
+          "parameter_has_default": true,
+          "parameter_default": "D:\\RVC1006\\GPT-SoVITS\\raw\\xxx.list",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        }
+      ],
+      "returns": [
+        {
+          "label": "音頻標註WebUI進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/change_uvr5": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "人聲分離WebUI進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/change_uvr5_1": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "人聲分離WebUI進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/sync": {
+      "parameters": [
+        {
+          "label": "預訓練SoVITS-G模型路徑",
+          "parameter_name": "text",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        }
+      ],
+      "returns": [
+        {
+          "label": "預訓練SoVITS-G模型路徑",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/open_asr": {
+      "parameters": [
+        {
+          "label": "輸入文件夾路徑",
+          "parameter_name": "asr_inp_dir",
+          "parameter_has_default": true,
+          "parameter_default": "D:\\GPT-SoVITS\\raw\\xxx",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "輸出文件夾路徑",
+          "parameter_name": "asr_opt_dir",
+          "parameter_has_default": true,
+          "parameter_default": "output/asr_opt",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "ASR 模型",
+          "parameter_name": "asr_model",
+          "parameter_has_default": true,
+          "parameter_default": "达摩 ASR (中文)",
+          "type": {
+            "type": "string",
+            "enum": [
+              "达摩 ASR (中文)",
+              "Faster Whisper (多语种)"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['达摩 ASR (中文)', 'Faster Whisper (多语种)']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "达摩 ASR (中文)"
+        },
+        {
+          "label": "ASR 模型尺寸",
+          "parameter_name": "asr_model_size",
+          "parameter_has_default": true,
+          "parameter_default": "large",
+          "type": {
+            "type": "string",
+            "enum": [
+              "large"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['large']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "large"
+        },
+        {
+          "label": "ASR 語言設置",
+          "parameter_name": "asr_lang",
+          "parameter_has_default": true,
+          "parameter_default": "zh",
+          "type": {
+            "type": "string",
+            "enum": [
+              "zh",
+              "yue"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['zh', 'yue']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "zh"
+        },
+        {
+          "label": "數據類型精度",
+          "parameter_name": "asr_precision",
+          "parameter_has_default": true,
+          "parameter_default": "float32",
+          "type": {
+            "type": "string",
+            "enum": [
+              "float32"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['float32']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "float32"
+        }
+      ],
+      "returns": [
+        {
+          "label": "語音識別進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "標註文件路徑 (含文件後綴 *.list)",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "*文本標注文件",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "*訓練集音頻文件目錄",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/close_asr": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "語音識別進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/open_slice": {
+      "parameters": [
+        {
+          "label": "音頻自動切分輸入路徑，可文件可文件夾",
+          "parameter_name": "inp",
+          "parameter_has_default": true,
+          "parameter_default": "",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "切分後的子音頻的輸出根目錄",
+          "parameter_name": "opt_root",
+          "parameter_has_default": true,
+          "parameter_default": "output/slicer_opt",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "threshold:音量小於這個值視作靜音的備選切割點",
+          "parameter_name": "threshold",
+          "parameter_has_default": true,
+          "parameter_default": "-34",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "min_length:每段最小多長，如果第一段太短一直和後面段連起來直到超過這個值",
+          "parameter_name": "min_length",
+          "parameter_has_default": true,
+          "parameter_default": "4000",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "min_interval:最短切割間隔",
+          "parameter_name": "min_interval",
+          "parameter_has_default": true,
+          "parameter_default": "300",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "hop_size:怎麼算音量曲線，越小精度越大計算量越高（不是精度越大效果越好）",
+          "parameter_name": "hop_size",
+          "parameter_has_default": true,
+          "parameter_default": "10",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "max_sil_kept:切完後靜音最多留多長",
+          "parameter_name": "max_sil_kept",
+          "parameter_has_default": true,
+          "parameter_default": "500",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "max:歸一化後最大值多少",
+          "parameter_name": "_max",
+          "parameter_has_default": true,
+          "parameter_default": 0.9,
+          "type": {
+            "type": "number",
+            "description": "numeric value between 0 and 1"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 0 and 1"
+          },
+          "component": "Slider",
+          "example_input": 0
+        },
+        {
+          "label": "alpha_mix:混多少比例歸一化後音頻進來",
+          "parameter_name": "alpha",
+          "parameter_has_default": true,
+          "parameter_default": 0.25,
+          "type": {
+            "type": "number",
+            "description": "numeric value between 0 and 1"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 0 and 1"
+          },
+          "component": "Slider",
+          "example_input": 0
+        },
+        {
+          "label": "切割使用的進程數",
+          "parameter_name": "n_parts",
+          "parameter_has_default": true,
+          "parameter_default": 4,
+          "type": {
+            "type": "number",
+            "description": "numeric value between 1 and 20"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 1 and 20"
+          },
+          "component": "Slider",
+          "example_input": 1
+        }
+      ],
+      "returns": [
+        {
+          "label": "語音切分進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "輸入文件夾路徑",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "輸入文件夾路徑",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "*訓練集音頻文件目錄",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/close_slice": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "語音切分進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/open_denoise": {
+      "parameters": [
+        {
+          "label": "輸入文件夾路徑",
+          "parameter_name": "denoise_inp_dir",
+          "parameter_has_default": true,
+          "parameter_default": "",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "輸出文件夾路徑",
+          "parameter_name": "denoise_opt_dir",
+          "parameter_has_default": true,
+          "parameter_default": "output/denoise_opt",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        }
+      ],
+      "returns": [
+        {
+          "label": "語音降噪進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "輸入文件夾路徑",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "*訓練集音頻文件目錄",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/close_denoise": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "語音降噪進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/open1a": {
+      "parameters": [
+        {
+          "label": "*文本標注文件",
+          "parameter_name": "inp_text",
+          "parameter_has_default": true,
+          "parameter_default": "D:\\RVC1006\\GPT-SoVITS\\raw\\xxx.list",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "*訓練集音頻文件目錄",
+          "parameter_name": "inp_wav_dir",
+          "parameter_has_default": false,
+          "parameter_default": null,
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "*實驗/模型名",
+          "parameter_name": "exp_name",
+          "parameter_has_default": true,
+          "parameter_default": "xxx",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "GPU卡號以-分割，每個卡號一個進程",
+          "parameter_name": "gpu_numbers",
+          "parameter_has_default": true,
+          "parameter_default": "0-0",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練中文BERT模型路徑",
+          "parameter_name": "bert_pretrained_dir",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/chinese-roberta-wwm-ext-large",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        }
+      ],
+      "returns": [
+        {
+          "label": "文本分詞與特徵提取進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/close1a": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "文本分詞與特徵提取進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/open1b": {
+      "parameters": [
+        {
+          "label": "*文本標注文件",
+          "parameter_name": "inp_text",
+          "parameter_has_default": true,
+          "parameter_default": "D:\\RVC1006\\GPT-SoVITS\\raw\\xxx.list",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "*訓練集音頻文件目錄",
+          "parameter_name": "inp_wav_dir",
+          "parameter_has_default": false,
+          "parameter_default": null,
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "*實驗/模型名",
+          "parameter_name": "exp_name",
+          "parameter_has_default": true,
+          "parameter_default": "xxx",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "GPU卡號以-分割，每個卡號一個進程",
+          "parameter_name": "gpu_numbers",
+          "parameter_has_default": true,
+          "parameter_default": "0-0",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練SSL模型路徑",
+          "parameter_name": "ssl_pretrained_dir",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/chinese-hubert-base",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        }
+      ],
+      "returns": [
+        {
+          "label": "語音自監督特徵提取進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/close1b": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "語音自監督特徵提取進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/open1c": {
+      "parameters": [
+        {
+          "label": "*文本標注文件",
+          "parameter_name": "inp_text",
+          "parameter_has_default": true,
+          "parameter_default": "D:\\RVC1006\\GPT-SoVITS\\raw\\xxx.list",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "*實驗/模型名",
+          "parameter_name": "exp_name",
+          "parameter_has_default": true,
+          "parameter_default": "xxx",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "GPU卡號以-分割，每個卡號一個進程",
+          "parameter_name": "gpu_numbers",
+          "parameter_has_default": true,
+          "parameter_default": "0-0",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練SoVITS-G模型路徑",
+          "parameter_name": "pretrained_s2G_path",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        }
+      ],
+      "returns": [
+        {
+          "label": "語義Token提取進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/close1c": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "語義Token提取進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/open1abc": {
+      "parameters": [
+        {
+          "label": "*文本標注文件",
+          "parameter_name": "inp_text",
+          "parameter_has_default": true,
+          "parameter_default": "D:\\RVC1006\\GPT-SoVITS\\raw\\xxx.list",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "*訓練集音頻文件目錄",
+          "parameter_name": "inp_wav_dir",
+          "parameter_has_default": false,
+          "parameter_default": null,
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "*實驗/模型名",
+          "parameter_name": "exp_name",
+          "parameter_has_default": true,
+          "parameter_default": "xxx",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "GPU卡號以-分割，每個卡號一個進程",
+          "parameter_name": "gpu_numbers1a",
+          "parameter_has_default": true,
+          "parameter_default": "0-0",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "GPU卡號以-分割，每個卡號一個進程",
+          "parameter_name": "gpu_numbers1Ba",
+          "parameter_has_default": true,
+          "parameter_default": "0-0",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "GPU卡號以-分割，每個卡號一個進程",
+          "parameter_name": "gpu_numbers1c",
+          "parameter_has_default": true,
+          "parameter_default": "0-0",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練中文BERT模型路徑",
+          "parameter_name": "bert_pretrained_dir",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/chinese-roberta-wwm-ext-large",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練SSL模型路徑",
+          "parameter_name": "ssl_pretrained_dir",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/chinese-hubert-base",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練SoVITS-G模型路徑",
+          "parameter_name": "pretrained_s2G_path",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        }
+      ],
+      "returns": [
+        {
+          "label": "訓練集格式化一鍵三連進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/close1abc": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "訓練集格式化一鍵三連進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/close1Ba": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "SoVITS訓練進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/close1Bb": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "GPT訓練進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/change_choices": {
+      "parameters": [],
+      "returns": [
+        {
+          "label": "SoVITS模型列表",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth",
+              "GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth",
+              "GPT_SoVITS/pretrained_models/s2G488k.pth",
+              "GPT_SoVITS/pretrained_models/s2Gv3.pth"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth', 'GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth', 'GPT_SoVITS/pretrained_models/s2G488k.pth', 'GPT_SoVITS/pretrained_models/s2Gv3.pth']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        },
+        {
+          "label": "GPT模型列表",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt",
+              "GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt', 'GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        }
+      ]
+    },
+    "/change_tts_inference": {
+      "parameters": [
+        {
+          "label": "預訓練中文BERT模型路徑",
+          "parameter_name": "bert_path",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/chinese-roberta-wwm-ext-large",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練SSL模型路徑",
+          "parameter_name": "cnhubert_base_path",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/chinese-hubert-base",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "GPU卡號,只能填1個整數",
+          "parameter_name": "gpu_number",
+          "parameter_has_default": true,
+          "parameter_default": "0",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "GPT模型列表",
+          "parameter_name": "gpt_path",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt",
+              "GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt', 'GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt"
+        },
+        {
+          "label": "SoVITS模型列表",
+          "parameter_name": "sovits_path",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/s2G488k.pth",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth",
+              "GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth",
+              "GPT_SoVITS/pretrained_models/s2G488k.pth",
+              "GPT_SoVITS/pretrained_models/s2Gv3.pth"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth', 'GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth', 'GPT_SoVITS/pretrained_models/s2G488k.pth', 'GPT_SoVITS/pretrained_models/s2Gv3.pth']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth"
+        },
+        {
+          "label": "啟用並行推理版本",
+          "parameter_name": "batched_infer_enabled",
+          "parameter_has_default": true,
+          "parameter_default": false,
+          "type": {
+            "type": "boolean"
+          },
+          "python_type": {
+            "type": "bool",
+            "description": ""
+          },
+          "component": "Checkbox",
+          "example_input": true
+        }
+      ],
+      "returns": [
+        {
+          "label": "TTS推理WebUI進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/change_tts_inference_1": {
+      "parameters": [
+        {
+          "label": "預訓練中文BERT模型路徑",
+          "parameter_name": "bert_path",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/chinese-roberta-wwm-ext-large",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練SSL模型路徑",
+          "parameter_name": "cnhubert_base_path",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/chinese-hubert-base",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "GPU卡號,只能填1個整數",
+          "parameter_name": "gpu_number",
+          "parameter_has_default": true,
+          "parameter_default": "0",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "GPT模型列表",
+          "parameter_name": "gpt_path",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt",
+              "GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt', 'GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt"
+        },
+        {
+          "label": "SoVITS模型列表",
+          "parameter_name": "sovits_path",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/s2G488k.pth",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth",
+              "GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth",
+              "GPT_SoVITS/pretrained_models/s2G488k.pth",
+              "GPT_SoVITS/pretrained_models/s2Gv3.pth"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth', 'GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth', 'GPT_SoVITS/pretrained_models/s2G488k.pth', 'GPT_SoVITS/pretrained_models/s2Gv3.pth']",
+            "description": ""
+          },
+          "component": "Dropdown",
+          "example_input": "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth"
+        },
+        {
+          "label": "啟用並行推理版本",
+          "parameter_name": "batched_infer_enabled",
+          "parameter_has_default": true,
+          "parameter_default": false,
+          "type": {
+            "type": "boolean"
+          },
+          "python_type": {
+            "type": "bool",
+            "description": ""
+          },
+          "component": "Checkbox",
+          "example_input": true
+        }
+      ],
+      "returns": [
+        {
+          "label": "TTS推理WebUI進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        }
+      ]
+    },
+    "/open1Ba": {
+      "parameters": [
+        {
+          "label": "每張顯卡的batch_size",
+          "parameter_name": "batch_size",
+          "parameter_has_default": true,
+          "parameter_default": 2,
+          "type": {
+            "type": "number",
+            "description": "numeric value between 1 and 6"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 1 and 6"
+          },
+          "component": "Slider",
+          "example_input": 1
+        },
+        {
+          "label": "總訓練輪數total_epoch，不建議太高",
+          "parameter_name": "total_epoch",
+          "parameter_has_default": true,
+          "parameter_default": 8,
+          "type": {
+            "type": "number",
+            "description": "numeric value between 1 and 25"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 1 and 25"
+          },
+          "component": "Slider",
+          "example_input": 1
+        },
+        {
+          "label": "*實驗/模型名",
+          "parameter_name": "exp_name",
+          "parameter_has_default": true,
+          "parameter_default": "xxx",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "文本模塊學習率權重",
+          "parameter_name": "text_low_lr_rate",
+          "parameter_has_default": true,
+          "parameter_default": 0.4,
+          "type": {
+            "type": "number",
+            "description": "numeric value between 0.2 and 0.6"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 0.2 and 0.6"
+          },
+          "component": "Slider",
+          "example_input": 0.2
+        },
+        {
+          "label": "是否僅保存最新的權重文件以節省硬盤空間",
+          "parameter_name": "if_save_latest",
+          "parameter_has_default": true,
+          "parameter_default": true,
+          "type": {
+            "type": "boolean"
+          },
+          "python_type": {
+            "type": "bool",
+            "description": ""
+          },
+          "component": "Checkbox",
+          "example_input": true
+        },
+        {
+          "label": "是否在每次保存時間點將最終小模型保存至weights文件夾",
+          "parameter_name": "if_save_every_weights",
+          "parameter_has_default": true,
+          "parameter_default": true,
+          "type": {
+            "type": "boolean"
+          },
+          "python_type": {
+            "type": "bool",
+            "description": ""
+          },
+          "component": "Checkbox",
+          "example_input": true
+        },
+        {
+          "label": "保存頻率save_every_epoch",
+          "parameter_name": "save_every_epoch",
+          "parameter_has_default": true,
+          "parameter_default": 4,
+          "type": {
+            "type": "number",
+            "description": "numeric value between 1 and 25"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 1 and 25"
+          },
+          "component": "Slider",
+          "example_input": 1
+        },
+        {
+          "label": "GPU卡號以-分割，每個卡號一個進程",
+          "parameter_name": "gpu_numbers1Ba",
+          "parameter_has_default": true,
+          "parameter_default": "0",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練SoVITS-G模型路徑",
+          "parameter_name": "pretrained_s2G",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練SoVITS-D模型路徑",
+          "parameter_name": "pretrained_s2D",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2D2333k.pth",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "v3是否开启梯度检查点节省显存占用",
+          "parameter_name": "if_grad_ckpt",
+          "parameter_has_default": true,
+          "parameter_default": false,
+          "type": {
+            "type": "boolean"
+          },
+          "python_type": {
+            "type": "bool",
+            "description": ""
+          },
+          "component": "Checkbox",
+          "example_input": true
+        },
+        {
+          "label": "LoRA階",
+          "parameter_name": "lora_rank",
+          "parameter_has_default": true,
+          "parameter_default": "32",
+          "type": {
+            "enum": [
+              "16",
+              "32",
+              "64",
+              "128"
+            ],
+            "title": "Radio",
+            "type": "string"
+          },
+          "python_type": {
+            "type": "Literal['16', '32', '64', '128']",
+            "description": ""
+          },
+          "component": "Radio",
+          "example_input": "16"
+        }
+      ],
+      "returns": [
+        {
+          "label": "SoVITS訓練進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "SoVITS模型列表",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth",
+              "GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth",
+              "GPT_SoVITS/pretrained_models/s2G488k.pth",
+              "GPT_SoVITS/pretrained_models/s2Gv3.pth"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth', 'GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth', 'GPT_SoVITS/pretrained_models/s2G488k.pth', 'GPT_SoVITS/pretrained_models/s2Gv3.pth']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        },
+        {
+          "label": "GPT模型列表",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt",
+              "GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt', 'GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        }
+      ]
+    },
+    "/open1Bb": {
+      "parameters": [
+        {
+          "label": "每張顯卡的batch_size",
+          "parameter_name": "batch_size",
+          "parameter_has_default": true,
+          "parameter_default": 2,
+          "type": {
+            "type": "number",
+            "description": "numeric value between 1 and 40"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 1 and 40"
+          },
+          "component": "Slider",
+          "example_input": 1
+        },
+        {
+          "label": "總訓練輪數total_epoch",
+          "parameter_name": "total_epoch",
+          "parameter_has_default": true,
+          "parameter_default": 15,
+          "type": {
+            "type": "number",
+            "description": "numeric value between 2 and 50"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 2 and 50"
+          },
+          "component": "Slider",
+          "example_input": 2
+        },
+        {
+          "label": "*實驗/模型名",
+          "parameter_name": "exp_name",
+          "parameter_has_default": true,
+          "parameter_default": "xxx",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "是否開啟DPO訓練選項(實驗性)",
+          "parameter_name": "if_dpo",
+          "parameter_has_default": true,
+          "parameter_default": false,
+          "type": {
+            "type": "boolean"
+          },
+          "python_type": {
+            "type": "bool",
+            "description": ""
+          },
+          "component": "Checkbox",
+          "example_input": true
+        },
+        {
+          "label": "是否僅保存最新的權重文件以節省硬盤空間",
+          "parameter_name": "if_save_latest",
+          "parameter_has_default": true,
+          "parameter_default": true,
+          "type": {
+            "type": "boolean"
+          },
+          "python_type": {
+            "type": "bool",
+            "description": ""
+          },
+          "component": "Checkbox",
+          "example_input": true
+        },
+        {
+          "label": "是否在每次保存時間點將最終小模型保存至weights文件夾",
+          "parameter_name": "if_save_every_weights",
+          "parameter_has_default": true,
+          "parameter_default": true,
+          "type": {
+            "type": "boolean"
+          },
+          "python_type": {
+            "type": "bool",
+            "description": ""
+          },
+          "component": "Checkbox",
+          "example_input": true
+        },
+        {
+          "label": "保存頻率save_every_epoch",
+          "parameter_name": "save_every_epoch",
+          "parameter_has_default": true,
+          "parameter_default": 5,
+          "type": {
+            "type": "number",
+            "description": "numeric value between 1 and 50"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 1 and 50"
+          },
+          "component": "Slider",
+          "example_input": 1
+        },
+        {
+          "label": "GPU卡號以-分割，每個卡號一個進程",
+          "parameter_name": "gpu_numbers",
+          "parameter_has_default": true,
+          "parameter_default": "0",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        },
+        {
+          "label": "預訓練GPT模型路徑",
+          "parameter_name": "pretrained_s1",
+          "parameter_has_default": true,
+          "parameter_default": "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox",
+          "example_input": "Hello!!"
+        }
+      ],
+      "returns": [
+        {
+          "label": "GPT訓練進程輸出資訊",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "SoVITS模型列表",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth",
+              "GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth",
+              "GPT_SoVITS/pretrained_models/s2G488k.pth",
+              "GPT_SoVITS/pretrained_models/s2Gv3.pth"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth', 'GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth', 'GPT_SoVITS/pretrained_models/s2G488k.pth', 'GPT_SoVITS/pretrained_models/s2Gv3.pth']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        },
+        {
+          "label": "GPT模型列表",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt",
+              "GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt', 'GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        }
+      ]
+    },
+    "/switch_version": {
+      "parameters": [
+        {
+          "label": "版本",
+          "parameter_name": "version_",
+          "parameter_has_default": true,
+          "parameter_default": "v2",
+          "type": {
+            "enum": [
+              "v1",
+              "v2",
+              "v4"
+            ],
+            "title": "Radio",
+            "type": "string"
+          },
+          "python_type": {
+            "type": "Literal['v1', 'v2', 'v4']",
+            "description": ""
+          },
+          "component": "Radio",
+          "example_input": "v1"
+        }
+      ],
+      "returns": [
+        {
+          "label": "預訓練SoVITS-G模型路徑",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "預訓練SoVITS-D模型路徑",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "預訓練GPT模型路徑",
+          "type": {
+            "type": "string"
+          },
+          "python_type": {
+            "type": "str",
+            "description": ""
+          },
+          "component": "Textbox"
+        },
+        {
+          "label": "GPT模型列表",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt",
+              "GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt",
+              "GPT_SoVITS/pretrained_models/s1v3.ckpt"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s1bert25hz-5kh-longer-epoch=12-step=369668.ckpt', 'GPT_SoVITS/pretrained_models/s1bert25hz-2kh-longer-epoch=68e-step=50232.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt', 'GPT_SoVITS/pretrained_models/s1v3.ckpt']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        },
+        {
+          "label": "SoVITS模型列表",
+          "type": {
+            "type": "string",
+            "enum": [
+              "GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth",
+              "GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth",
+              "GPT_SoVITS/pretrained_models/s2G488k.pth",
+              "GPT_SoVITS/pretrained_models/s2Gv3.pth"
+            ]
+          },
+          "python_type": {
+            "type": "Literal['GPT_SoVITS/pretrained_models/gsv-v2final-pretrained/s2G2333k.pth', 'GPT_SoVITS/pretrained_models/gsv-v4-pretrained/s2Gv4.pth', 'GPT_SoVITS/pretrained_models/s2G488k.pth', 'GPT_SoVITS/pretrained_models/s2Gv3.pth']",
+            "description": ""
+          },
+          "component": "Dropdown"
+        },
+        {
+          "label": "每張顯卡的batch_size",
+          "type": {
+            "type": "number",
+            "description": "numeric value between 1 and 6"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 1 and 6"
+          },
+          "component": "Slider"
+        },
+        {
+          "label": "總訓練輪數total_epoch，不建議太高",
+          "type": {
+            "type": "number",
+            "description": "numeric value between 1 and 25"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 1 and 25"
+          },
+          "component": "Slider"
+        },
+        {
+          "label": "保存頻率save_every_epoch",
+          "type": {
+            "type": "number",
+            "description": "numeric value between 1 and 25"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 1 and 25"
+          },
+          "component": "Slider"
+        },
+        {
+          "label": "文本模塊學習率權重",
+          "type": {
+            "type": "number",
+            "description": "numeric value between 0.2 and 0.6"
+          },
+          "python_type": {
+            "type": "float",
+            "description": "numeric value between 0.2 and 0.6"
+          },
+          "component": "Slider"
+        },
+        {
+          "label": "v3是否开启梯度检查点节省显存占用",
+          "type": {
+            "type": "boolean"
+          },
+          "python_type": {
+            "type": "bool",
+            "description": ""
+          },
+          "component": "Checkbox"
+        },
+        {
+          "label": "啟用並行推理版本",
+          "type": {
+            "type": "boolean"
+          },
+          "python_type": {
+            "type": "bool",
+            "description": ""
+          },
+          "component": "Checkbox"
+        },
+        {
+          "label": "LoRA階",
+          "type": {
+            "enum": [
+              "16",
+              "32",
+              "64",
+              "128"
+            ],
+            "title": "Radio",
+            "type": "string"
+          },
+          "python_type": {
+            "type": "Literal['16', '32', '64', '128']",
+            "description": ""
+          },
+          "component": "Radio"
+        }
+      ]
+    }
+  },
+  "unnamed_endpoints": {
+
+  }
+}

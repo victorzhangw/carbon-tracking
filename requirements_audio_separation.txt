@@ -1,0 +1,13 @@
+# 音頻人聲分離所需的 Python 套件
+librosa>=0.10.0
+soundfile>=0.12.1
+numpy>=1.21.0
+scipy>=1.9.0
+noisereduce>=3.0.0
+pydub>=0.25.1
+ffmpeg-python>=0.2.0
+
+# 可選：如果需要更好的音頻處理效果
+# tensorflow>=2.10.0  # 用於深度學習模型
+# torch>=1.12.0       # PyTorch 版本
+# torchaudio>=0.12.0  # PyTorch 音頻處理

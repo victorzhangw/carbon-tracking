@@ -1,0 +1,253 @@
+// ViewUI 企業級淡綠色主題覆蓋樣式
+
+// 定義字體變數
+$primary-font: "Microsoft JhengHei", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+// 全局覆蓋 iView UI 組件字體
+$iview-components: (
+  btn,
+  input,
+  select,
+  select-dropdown,
+  menu,
+  table,
+  modal,
+  card,
+  form,
+  tabs,
+  alert,
+  badge,
+  breadcrumb,
+  dropdown,
+  dropdown-menu,
+  radio,
+  checkbox,
+  date-picker,
+  time-picker,
+  tooltip,
+  poptip,
+  collapse,
+  tag,
+  notification,
+  message,
+  drawer,
+  page,
+  steps,
+  progress,
+  split,
+  divider,
+  cell,
+  list,
+  avatar
+);
+
+// 生成所有 iView 組件的字體覆蓋
+@each $component in $iview-components {
+  .ivu-#{$component} {
+    font-family: $primary-font !important;
+  }
+}
+
+// 覆蓋特定組件與子元素
+.ivu-menu-item,
+.ivu-menu-submenu-title,
+.ivu-form-item-label,
+.ivu-table th,
+.ivu-table td,
+.ivu-select-selection-selected-value,
+.ivu-modal-header,
+.ivu-modal-body,
+.ivu-modal-footer,
+.ivu-tabs-tab,
+.ivu-page-item,
+.ivu-btn {
+  font-family: $primary-font !important;
+}
+
+// 確保所有訊息提示也使用相同字體
+.ivu-message-notice-content,
+.ivu-notice-notice-content,
+.ivu-tooltip-inner,
+.ivu-poptip-body {
+  font-family: $primary-font !important;
+}
+
+// 處理 placeholder
+.ivu-input::-webkit-input-placeholder,
+.ivu-input::-moz-placeholder,
+.ivu-input:-ms-input-placeholder,
+.ivu-input::placeholder {
+  font-family: $primary-font !important;
+}
+
+// 針對 iView UI 中的輸入元素特別處理
+input.ivu-input,
+textarea.ivu-input {
+  font-family: $primary-font !important;
+}
+
+// 覆蓋任何級別的嵌套
+body {
+  .ivu-select-dropdown {
+    * {
+      font-family: $primary-font !important;
+    }
+  }
+
+  .ivu-dropdown-menu {
+    * {
+      font-family: $primary-font !important;
+    }
+  }
+
+  .ivu-modal {
+    * {
+      font-family: $primary-font !important;
+    }
+  }
+}
+
+// 主色調定義 - 更淡雅的綠色系
+$primary-color: #7cb342;
+$primary-light: #9ccc65;
+$primary-dark: #689f38;
+$success-color: #7cb342;
+$warning-color: #faad14;
+$error-color: #ff4d4f;
+$info-color: #1890ff;
+
+// 按鈕樣式覆蓋
+.ivu-btn {
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.ivu-btn-primary {
+    background-color: $primary-color;
+    border-color: $primary-color;
+    
+    &:hover, &:focus {
+      background-color: $primary-light;
+      border-color: $primary-light;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+    }
+    
+    &:active {
+      background-color: $primary-dark;
+      border-color: $primary-dark;
+      transform: translateY(0);
+    }
+  }
+}
+
+// 輸入框樣式覆蓋
+.ivu-input {
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+  }
+  
+  &:hover {
+    border-color: $primary-light;
+  }
+}
+
+// 選單樣式覆蓋
+.ivu-menu {
+  &.ivu-menu-light {
+    .ivu-menu-item {
+      &:hover {
+        background-color: rgba($primary-color, 0.1);
+        color: $primary-color;
+      }
+      
+      &.ivu-menu-item-active {
+        background-color: rgba($primary-color, 0.15);
+        color: $primary-color;
+        font-weight: 500;
+        
+        &::after {
+          background-color: $primary-color;
+        }
+      }
+    }
+  }
+  
+  &.ivu-menu-dark {
+    background: linear-gradient(180deg, $primary-color 0%, $primary-dark 100%);
+    
+    .ivu-menu-item {
+      color: rgba(255, 255, 255, 0.85);
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+      }
+      
+      &.ivu-menu-item-active {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// 卡片樣式覆蓋
+.ivu-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// 進度條樣式覆蓋
+.ivu-progress {
+  .ivu-progress-bg {
+    background-color: $primary-color;
+  }
+}
+
+// 開關樣式覆蓋
+.ivu-switch {
+  &.ivu-switch-checked {
+    background-color: $primary-color;
+    border-color: $primary-color;
+  }
+}
+
+// 複選框樣式覆蓋
+.ivu-checkbox {
+  &.ivu-checkbox-checked .ivu-checkbox-inner {
+    background-color: $primary-color;
+    border-color: $primary-color;
+  }
+}
+
+// 單選框樣式覆蓋
+.ivu-radio {
+  &.ivu-radio-checked .ivu-radio-inner {
+    border-color: $primary-color;
+    
+    &::after {
+      background-color: $primary-color;
+    }
+  }
+}
+
+// 覆蓋全局變數 (如果 ViewUI 允許)
+:root {
+  --font-family: #{$primary-font};
+  --ivu-primary-color: #{$primary-color};
+  --ivu-success-color: #{$success-color};
+  --ivu-warning-color: #{$warning-color};
+  --ivu-error-color: #{$error-color};
+}

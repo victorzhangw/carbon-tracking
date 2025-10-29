@@ -1,0 +1,28 @@
+// 主題顏色
+$primary-color: #2d8cf0;
+$info-color: #2db7f5;
+$success-color: #19be6b;
+$warning-color: #ff9900;
+$error-color: #ed4014;
+
+// 背景顏色
+$background-color-base: #f5f7f9;
+
+// 文字顏色
+$text-color: #515a6e;
+$text-color-secondary: #808695;
+
+// 邊框相關
+$border-color-base: #dcdee2;
+$border-radius-base: 4px;
+$border-radius-small: 2px;
+
+// 陰影
+$shadow-base: 0 2px 8px rgba(0, 0, 0, 0.08);
+$shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+// 響應式斷點
+$screen-xs: 480px;
+$screen-sm: 768px;
+$screen-md: 992px;
+$screen-lg: 1200px;

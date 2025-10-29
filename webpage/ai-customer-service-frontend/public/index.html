@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 客服管理系統</title>
+    <script src="https://unpkg.com/wavesurfer.js@6.6.3/dist/wavesurfer.js"></script>
+    <script src="https://unpkg.com/wavesurfer.js@6.6.3/dist/plugin/wavesurfer.regions.js"></script>
+    <link rel="icon" href="/favicon.ico" />
+    <!-- 使用適合iView的字體 -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <style>
+      :root {
+        --vh: 1vh;
+      }
+
+      body {
+        font-family: "Noto Sans TC", "Helvetica Neue", Helvetica, "PingFang TC",
+          "PingFang SC", "Hiragino Sans GB", "Microsoft JhengHei",
+          "Microsoft YaHei", 微軟雅黑, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f7f9;
+        overflow-x: hidden;
+      }
+
+      /* 載入動畫 */
+      #app-loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+
+      #app-loading.loaded {
+        opacity: 0;
+      }
+
+      .spinner {
+        width: 70px;
+        text-align: center;
+      }
+
+      .spinner > div {
+        width: 12px;
+        height: 12px;
+        background-color: #2d8cf0;
+        border-radius: 100%;
+        display: inline-block;
+        animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+        margin: 0 3px;
+      }
+
+      .spinner .bounce1 {
+        animation-delay: -0.32s;
+      }
+
+      .spinner .bounce2 {
+        animation-delay: -0.16s;
+      }
+
+      .loading-text {
+        margin-top: 15px;
+        font-size: 16px;
+        color: #515a6e;
+      }
+
+      @keyframes sk-bouncedelay {
+        0%,
+        80%,
+        100% {
+          transform: scale(0);
+        }
+        40% {
+          transform: scale(1);
+        }
+      }
+
+      #app {
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 載入動畫 -->
+    <div id="app-loading">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+      <div class="loading-text">載入中，請稍候...</div>
+    </div>
+
+    <!-- 應用程式掛載點 -->
+    <div id="app"></div>
+
+    <!-- 必要的 polyfill 和主要腳本 -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

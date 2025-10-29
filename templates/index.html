@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 語音系統</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #4cc9f0;
+            --primary-dark: #3a0ca3;
+            --success-color: #2ec4b6;
+            --warning-color: #ff9f1c;
+            --error-color: #e71d36;
+            --text-dark: #2b2d42;
+            --text-light: #8d99ae;
+            --background: #f8f9fa;
+            --card-bg: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Tab Navigation */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 50px;
+            background-color: var(--card-bg);
+            padding: 0.5rem;
+        }
+
+        .tab-btn {
+            border: none;
+            background: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 1rem;
+        }
+
+        .card-title i {
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
+            color: white;
+            padding: 0.6rem;
+            border-radius: 12px;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .card-title h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.6rem;
+            margin: 0.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            background-color: var(--text-light);
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(46, 196, 182, 0.3);
+        }
+
+        .btn-success:hover {
+            background-color: #20a799;
+            transform: translateY(-2px);
+        }
+
+        .btn-success:disabled {
+            background-color: var(--text-light);
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        /* Waveform */
+        .waveform-container {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            margin: 1.5rem 0;
+            background-color: rgba(67, 97, 238, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Result Section */
+        .result {
+            margin-top: 1.5rem;
+        }
+
+        .result-item {
+            display: flex;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .result-label {
+            flex: 0 0 150px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .result-value {
+            flex: 1;
+        }
+
+        /* Input Fields */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .input-field:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        /* Status */
+        .status {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 12px;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Audio Player */
+        .audio-player {
+            margin-top: 1.5rem;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        audio {
+            width: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+                border-radius: 16px;
+            }
+            
+            .tab-btn {
+                border-radius: 0;
+                width: 100%;
+            }
+            
+            .card-title {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .card-title i {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+            
+            .result-item {
+                flex-direction: column;
+            }
+            
+            .result-label {
+                flex: 0 0 auto;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Example Text */
+        .example-text {
+            background-color: rgba(67, 97, 238, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 功能比較樣式 */
+        .feature-comparison {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--background);
+            border-radius: 12px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .comparison-item {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .comparison-item ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comparison-item li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .comparison-item li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .comparison-item li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI 語音互動平台</h1>
+            <p>智能語音分析與模擬系統</p>
+        </header>
+
+        <!-- 選單 -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="analysis"><i class="fas fa-microphone-alt"></i> AI 語音分析</button>
+            <button class="tab-btn" data-tab="simulation"><i class="fas fa-headset"></i> 服務聲音模擬</button>
+            <button class="tab-btn" data-tab="voice-interaction"><i class="fas fa-comments"></i> 語音互動</button>
+        </div>
+
+        <!-- AI 語音分析系統 -->
+        <div id="analysis-tab" class="tab-content active fade-in">
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-brain"></i>
+                    <h2>AI 語音分析系統</h2>
+                </div>
+                <p>使用您的聲音進行即時分析，獲取情緒評估和智能回應。</p>
+                
+                <div class="button-group">
+                    <button id="startRecord" class="btn btn-primary"><i class="fas fa-microphone"></i> 開始錄音</button>
+                    <button id="stopRecord" class="btn btn-success" disabled><i class="fas fa-stop-circle"></i> 停止錄音</button>
+                </div>
+                
+                <div class="waveform-container">
+                    <canvas id="waveform-analysis"></canvas>
+                </div>
+                
+                <div class="audio-player" id="audio-player-container" style="display: none;">
+                    <audio id="audio-player" controls>
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                
+                <div class="result">
+                    <div class="result-item">
+                        <div class="result-label"><i class="fas fa-comment"></i> 語音轉文字</div>
+                        <div class="result-value" id="transcript">暫無資料</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label"><i class="fas fa-smile"></i> 情緒分析</div>
+                        <div class="result-value" id="sentiment">暫無資料</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label"><i class="fas fa-robot"></i> 分析回應</div>
+                        <div class="result-value" id="response">暫無資料</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 語音互動 -->
+        <div id="voice-interaction-tab" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-comments"></i>
+                    <h2>語音互動系統</h2>
+                </div>
+                <p>體驗不同版本的語音互動功能，選擇最適合您的使用方式。</p>
+                
+                <div class="button-group">
+                    <a href="/voice_interaction" class="btn btn-primary">
+                        <i class="fas fa-microphone-alt"></i> 語音互動 (增強版)
+                    </a>
+                    <a href="/voice_interaction_realtime" class="btn btn-success">
+                        <i class="fas fa-bolt"></i> 語音互動 (即時版)
+                    </a>
+                    <a href="/voice_clone/demo" class="btn btn-warning">
+                        <i class="fas fa-clone"></i> 語音克隆演示
+                    </a>
+                </div>
+                
+                <div class="feature-comparison">
+                    <h3><i class="fas fa-list"></i> 功能比較</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <h4>增強版</h4>
+                            <ul>
+                                <li>手動控制錄音</li>
+                                <li>分步驟處理</li>
+                                <li>詳細狀態顯示</li>
+                                <li>適合學習使用</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-item">
+                            <h4>即時版 🆕</h4>
+                            <ul>
+                                <li>一鍵錄音</li>
+                                <li>自動斷句分析</li>
+                                <li>即時回覆</li>
+                                <li>流暢對話體驗</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-item">
+                            <h4>語音克隆</h4>
+                            <ul>
+                                <li>個人化語音</li>
+                                <li>聲音模型訓練</li>
+                                <li>高品質合成</li>
+                                <li>專業應用</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 服務聲音模擬 -->
+        <div id="simulation-tab" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-headset"></i>
+                    <h2>服務聲音模擬</h2>
+                </div>
+                <p>錄製標準化服務聲音樣本，協助提升客戶服務品質。</p>
+                
+                <div class="example-text">
+                    <h3><i class="fas fa-quote-left"></i> 範例文字</h3>
+                    <p>有看過圓形的臭豆腐嗎，有一間素食小吃店業者，為了做出跟一般臭豆腐不一樣的味道，發揮創意研發春捲臭豆腐，用豆皮當外皮包進臭豆腐渣，加入杏包菇等食材，獨特的外型、口味吸引許多顧客上門。</p>
+                </div>
+                
+                <div class="input-group">
+                    <label for="personnelCode"><i class="fas fa-id-badge"></i> 人員代號</label>
+                    <input type="text" id="personnelCode" class="input-field" placeholder="請輸入您的人員代號">
+                </div>
+                
+                <button id="startSimulation" class="btn btn-primary"><i class="fas fa-microphone"></i> 開始錄音 (15 秒)</button>
+                
+                <div class="status" id="simulationStatus" style="display: none;"></div>
+                
+                <div class="waveform-container">
+                    <canvas id="waveform-simulation"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 選單切換邏輯
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                // 移除所有選項的 active 類別
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    content.classList.remove('fade-in');
+                });
+                
+                // 添加 active 類別到選中的選項
+                button.classList.add('active');
+                const activeTab = document.getElementById(`${tabId}-tab`);
+                activeTab.classList.add('active');
+                
+                // 添加動畫
+                setTimeout(() => {
+                    activeTab.classList.add('fade-in');
+                }, 50);
+            });
+        });
+
+        // AI 語音分析系統功能
+        const startRecordButton = document.getElementById('startRecord');
+        const stopRecordButton = document.getElementById('stopRecord');
+        const transcriptSpan = document.getElementById('transcript');
+        const sentimentSpan = document.getElementById('sentiment');
+        const responseSpan = document.getElementById('response');
+        const waveformAnalysis = document.getElementById('waveform-analysis');
+        const audioPlayerContainer = document.getElementById('audio-player-container');
+        
+        // 設置 canvas 尺寸
+        waveformAnalysis.width = waveformAnalysis.parentElement.offsetWidth;
+        waveformAnalysis.height = waveformAnalysis.parentElement.offsetHeight;
+        
+        const canvasCtxAnalysis = waveformAnalysis.getContext('2d');
+        let mediaRecorderAnalysis, audioChunksAnalysis = [], analyserAnalysis, dataArrayAnalysis, animationIdAnalysis;
+
+        function drawWaveformAnalysis() {
+            animationIdAnalysis = requestAnimationFrame(drawWaveformAnalysis);
+            analyserAnalysis.getByteTimeDomainData(dataArrayAnalysis);
+
+            canvasCtxAnalysis.fillStyle = 'rgba(67, 97, 238, 0.05)';
+            canvasCtxAnalysis.fillRect(0, 0, waveformAnalysis.width, waveformAnalysis.height);
+            canvasCtxAnalysis.lineWidth = 3;
+            canvasCtxAnalysis.strokeStyle = '#4361ee';
+            canvasCtxAnalysis.beginPath();
+
+            const sliceWidth = waveformAnalysis.width / dataArrayAnalysis.length;
+            let x = 0;
+
+            dataArrayAnalysis.forEach((value, index) => {
+                const v = value / 128.0;
+                const y = (v * waveformAnalysis.height) / 2;
+                if (index === 0) {
+                    canvasCtxAnalysis.moveTo(x, y);
+                } else {
+                    canvasCtxAnalysis.lineTo(x, y);
+                }
+                x += sliceWidth;
+            });
+            canvasCtxAnalysis.lineTo(waveformAnalysis.width, waveformAnalysis.height / 2);
+            canvasCtxAnalysis.stroke();
+        }
+
+        startRecordButton.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const source = audioContext.createMediaStreamSource(stream);
+                analyserAnalysis = audioContext.createAnalyser();
+                analyserAnalysis.fftSize = 2048;
+                dataArrayAnalysis = new Uint8Array(analyserAnalysis.frequencyBinCount);
+                source.connect(analyserAnalysis);
+
+                drawWaveformAnalysis();
+
+                mediaRecorderAnalysis = new MediaRecorder(stream);
+                audioChunksAnalysis = [];
+                mediaRecorderAnalysis.ondataavailable = (event) => audioChunksAnalysis.push(event.data);
+
+                mediaRecorderAnalysis.start();
+                startRecordButton.disabled = true;
+                stopRecordButton.disabled = false;
+                
+                // 重置結果
+                transcriptSpan.textContent = '錄音中...';
+                sentimentSpan.textContent = '等待分析...';
+                responseSpan.textContent = '等待回應...';
+                audioPlayerContainer.style.display = 'none';
+
+                // 添加錄音指示器
+                startRecordButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> 錄音中...';
+                
+                console.log('錄音開始...');
+            } catch (error) {
+                console.error('錄音失敗：', error);
+                alert('無法開始錄音，請檢查麥克風權限設定。');
+            }
+        });
+
+        stopRecordButton.addEventListener('click', async () => {
+            mediaRecorderAnalysis.stop();
+            cancelAnimationFrame(animationIdAnalysis);
+
+            startRecordButton.disabled = false;
+            stopRecordButton.disabled = true;
+            
+            // 更新按鈕樣式
+            startRecordButton.innerHTML = '<i class="fas fa-microphone"></i> 開始錄音';
+            stopRecordButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 處理中...';
+
+            mediaRecorderAnalysis.onstop = async () => {
+                const audioBlob = new Blob(audioChunksAnalysis, { type: 'audio/wav' });
+                const formData = new FormData();
+                formData.append('file', audioBlob, 'recording.wav');
+
+                // 語音轉文字和情緒分析
+                try {
+                    const response = await fetch('/process_audio', { method: 'POST', body: formData });
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        // 更新結果
+                        transcriptSpan.textContent = result.transcript;
+                        sentimentSpan.textContent = result.sentiment;
+                        responseSpan.textContent = result.response;
+                        
+                        // 音頻處理
+                        const audioUrl = result.audio_url;
+                        const fullAudioUrl = window.location.origin + audioUrl;
+                        
+                        // 更新音頻播放器
+                        const audioPlayer = document.getElementById("audio-player");
+                        audioPlayer.src = fullAudioUrl;
+                        audioPlayer.playbackRate = 0.55;
+                        
+                        // 顯示音頻播放器
+                        audioPlayerContainer.style.display = "block";
+                        
+                        // 自動播放
+                        audioPlayer.play();
+                        
+                        // 復原按鈕樣式
+                        stopRecordButton.innerHTML = '<i class="fas fa-stop-circle"></i> 停止錄音';
+                    } else {
+                        throw new Error(result.error || '處理音頻時發生錯誤');
+                    }
+                } catch (error) {
+                    console.error('音頻處理失敗：', error);
+                    alert('音頻處理失敗，請稍後重試。');
+                    
+                    // 復原按鈕樣式
+                    stopRecordButton.innerHTML = '<i class="fas fa-stop-circle"></i> 停止錄音';
+                    
+                    // 重置結果
+                    transcriptSpan.textContent = '處理失敗';
+                    sentimentSpan.textContent = '處理失敗';
+                    responseSpan.textContent = '處理失敗';
+                }
+            };
+
+            console.log('錄音停止...');
+        });
+
+        // 服務聲音模擬功能
+        const personnelCodeInput = document.getElementById('personnelCode');
+        const startSimulationButton = document.getElementById('startSimulation');
+        const simulationStatus = document.getElementById('simulationStatus');
+        const waveformSimulation = document.getElementById('waveform-simulation');
+        
+        // 設置 canvas 尺寸
+        waveformSimulation.width = waveformSimulation.parentElement.offsetWidth;
+        waveformSimulation.height = waveformSimulation.parentElement.offsetHeight;
+        
+        const canvasCtxSimulation = waveformSimulation.getContext('2d');
+        let mediaRecorderSimulation, audioChunksSimulation = [], analyserSimulation, dataArraySimulation, animationIdSimulation;
+        let countdownInterval;
+
+        function drawWaveformSimulation(stream) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const source = audioContext.createMediaStreamSource(stream);
+            analyserSimulation = audioContext.createAnalyser();
+            analyserSimulation.fftSize = 2048;
+            dataArraySimulation = new Uint8Array(analyserSimulation.frequencyBinCount);
+            source.connect(analyserSimulation);
+
+            function render() {
+                animationIdSimulation = requestAnimationFrame(render);
+                analyserSimulation.getByteTimeDomainData(dataArraySimulation);
+
+                canvasCtxSimulation.fillStyle = 'rgba(67, 97, 238, 0.05)';
+                canvasCtxSimulation.fillRect(0, 0, waveformSimulation.width, waveformSimulation.height);
+                canvasCtxSimulation.lineWidth = 3;
+                canvasCtxSimulation.strokeStyle = '#ff9f1c';
+                canvasCtxSimulation.beginPath();
+
+                const sliceWidth = waveformSimulation.width / dataArraySimulation.length;
+                let x = 0;
+
+                dataArraySimulation.forEach((value, index) => {
+                    const v = value / 128.0;
+                    const y = (v * waveformSimulation.height) / 2;
+                    if (index === 0) {
+                        canvasCtxSimulation.moveTo(x, y);
+                    } else {
+                        canvasCtxSimulation.lineTo(x, y);
+                    }
+                    x += sliceWidth;
+                });
+                canvasCtxSimulation.lineTo(waveformSimulation.width, waveformSimulation.height / 2);
+                canvasCtxSimulation.stroke();
+            }
+            render();
+        }
+
+        startSimulationButton.addEventListener('click', async () => {
+            const personnelCode = personnelCodeInput.value.trim();
+            if (!personnelCode) {
+                alert('請輸入人員代號！');
+                personnelCodeInput.focus();
+                return;
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                drawWaveformSimulation(stream);
+                mediaRecorderSimulation = new MediaRecorder(stream);
+                audioChunksSimulation = [];
+                mediaRecorderSimulation.ondataavailable = (event) => audioChunksSimulation.push(event.data);
+
+                mediaRecorderSimulation.start();
+                
+                // 更新按鈕和狀態
+                startSimulationButton.disabled = true;
+                startSimulationButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> 錄音中...';
+                simulationStatus.style.display = 'block';
+                
+                // 倒數計時
+                let timeLeft = 15;
+                simulationStatus.innerHTML = `<i class="fas fa-clock"></i> 錄音中...剩餘 ${timeLeft} 秒`;
+                
+                countdownInterval = setInterval(() => {
+                    timeLeft--;
+                    simulationStatus.innerHTML = `<i class="fas fa-clock"></i> 錄音中...剩餘 ${timeLeft} 秒`;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(countdownInterval);
+                    }
+                }, 1000);
+
+                setTimeout(() => {
+                    mediaRecorderSimulation.stop();
+                    cancelAnimationFrame(animationIdSimulation);
+                    clearInterval(countdownInterval);
+                    
+                    simulationStatus.innerHTML = '<i class="fas fa-upload"></i> 錄音完成，正在上傳音檔...';
+
+                    mediaRecorderSimulation.onstop = async () => {
+                        const audioBlob = new Blob(audioChunksSimulation, { type: 'audio/wav' });
+                        const now = new Date();
+                        const filename = `${personnelCode}_${now.toISOString().replace(/[-:.TZ]/g, '').slice(2, 14)}.wav`;
+
+                        const formData = new FormData();
+                        formData.append('file', audioBlob, filename);
+
+                        try {
+                            const response = await fetch('/upload_mockvoice', { method: 'POST', body: formData });
+                            if (response.ok) {
+                                simulationStatus.innerHTML = '<i class="fas fa-check-circle"></i> 音檔已成功上傳！';
+                                simulationStatus.style.backgroundColor = 'rgba(46, 196, 182, 0.1)';
+                                simulationStatus.style.color = '#2ec4b6';
+                            } else {
+                                throw new Error('音檔上傳失敗');
+                            }
+                        } catch (error) {
+                            simulationStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> 音檔上傳失敗，請重試。';
+                            simulationStatus.style.backgroundColor = 'rgba(231, 29, 54, 0.1)';
+                            simulationStatus.style.color = '#e71d36';
+                        } finally {
+                            startSimulationButton.disabled = false;
+                            startSimulationButton.innerHTML = '<i class="fas fa-microphone"></i> 開始錄音 (15 秒)';
+                        }
+                    };
+                }, 15000);
+            } catch (error) {
+                console.error('錄音失敗：', error);
+                simulationStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> 錄音失敗，請檢查麥克風設定。';
+                simulationStatus.style.display = 'block';
+                simulationStatus.style.backgroundColor = 'rgba(231, 29, 54, 0.1)';
+                simulationStatus.style.color = '#e71d36';
+            }
+        });
+        
+        // 調整 canvas 大小
+        window.addEventListener('resize', () => {
+            waveformAnalysis.width = waveformAnalysis.parentElement.offsetWidth;
+            waveformAnalysis.height = waveformAnalysis.parentElement.offsetHeight;
+            
+            waveformSimulation.width = waveformSimulation.parentElement.offsetWidth;
+            waveformSimulation.height = waveformSimulation.parentElement.offsetHeight;
+        });
+    </script>
+</body>
+</html>
