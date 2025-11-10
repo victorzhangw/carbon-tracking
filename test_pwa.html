@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWA 功能測試</title>
+    <style>
+      body {
+        font-family: "Microsoft JhengHei", Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f1f8e9;
+      }
+      h1 {
+        color: #689f38;
+      }
+      .test-section {
+        background: white;
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .test-item {
+        padding: 10px;
+        margin: 10px 0;
+        border-left: 4px solid #8bc34a;
+        background: #f9fbe7;
+      }
+      .status {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        margin-left: 10px;
+      }
+      .status.success {
+        background: #c5e1a5;
+        color: #33691e;
+      }
+      .status.error {
+        background: #ffcdd2;
+        color: #b71c1c;
+      }
+      .status.pending {
+        background: #ffe082;
+        color: #f57f17;
+      }
+      button {
+        background: #8bc34a;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button:hover {
+        background: #7cb342;
+      }
+      pre {
+        background: #263238;
+        color: #aedd94;
+        padding: 15px;
+        border-radius: 4px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 PWA 功能測試</h1>
+
+    <div class="test-section">
+      <h2>1. Service Worker 狀態</h2>
+      <div class="test-item">
+        <strong>註冊狀態：</strong>
+        <span id="sw-status" class="status pending">檢查中...</span>
+      </div>
+      <div class="test-item">
+        <strong>Service Worker 狀態：</strong>
+        <span id="sw-state" class="status pending">檢查中...</span>
+      </div>
+      <button onclick="checkServiceWorker()">重新檢查</button>
+      <button onclick="unregisterServiceWorker()">取消註冊</button>
+    </div>
+
+    <div class="test-section">
+      <h2>2. Manifest 檢查</h2>
+      <div class="test-item">
+        <strong>Manifest 載入：</strong>
+        <span id="manifest-status" class="status pending">檢查中...</span>
+      </div>
+      <div id="manifest-details"></div>
+      <button onclick="checkManifest()">檢查 Manifest</button>
+    </div>
+
+    <div class="test-section">
+      <h2>3. 快取狀態</h2>
+      <div class="test-item">
+        <strong>快取數量：</strong>
+        <span id="cache-count">-</span>
+      </div>
+      <div id="cache-details"></div>
+      <button onclick="checkCaches()">檢查快取</button>
+      <button onclick="clearAllCaches()">清除所有快取</button>
+    </div>
+
+    <div class="test-section">
+      <h2>4. 安裝狀態</h2>
+      <div class="test-item">
+        <strong>運行模式：</strong>
+        <span id="display-mode">-</span>
+      </div>
+      <div class="test-item">
+        <strong>可安裝：</strong>
+        <span id="installable">-</span>
+      </div>
+      <button onclick="installPWA()" id="install-btn" style="display: none">
+        安裝 PWA
+      </button>
+    </div>
+
+    <div class="test-section">
+      <h2>5. 網路狀態</h2>
+      <div class="test-item">
+        <strong>連線狀態：</strong>
+        <span id="online-status">-</span>
+      </div>
+      <button onclick="testOffline()">測試離線功能</button>
+    </div>
+
+    <div class="test-section">
+      <h2>6. 測試結果</h2>
+      <pre id="test-results">等待測試...</pre>
+    </div>
+
+    <script>
+      let deferredPrompt;
+      let testResults = [];
+
+      // 初始化測試
+      window.addEventListener("load", () => {
+        runAllTests();
+      });
+
+      async function runAllTests() {
+        testResults = [];
+        log("🚀 開始 PWA 功能測試...\n");
+
+        await checkServiceWorker();
+        await checkManifest();
+        await checkCaches();
+        checkDisplayMode();
+        checkOnlineStatus();
+
+        log("\n✅ 測試完成！");
+      }
+
+      async function checkServiceWorker() {
+        log("檢查 Service Worker...");
+
+        if ("serviceWorker" in navigator) {
+          try {
+            const registration = await navigator.serviceWorker.getRegistration(
+              "/carbon/"
+            );
+
+            if (registration) {
+              document.getElementById("sw-status").textContent = "已註冊";
+              document.getElementById("sw-status").className = "status success";
+
+              const state = registration.active
+                ? registration.active.state
+                : "未啟動";
+              document.getElementById("sw-state").textContent = state;
+              document.getElementById("sw-state").className =
+                state === "activated" ? "status success" : "status error";
+
+              log(`✓ Service Worker 已註冊，狀態：${state}`);
+            } else {
+              document.getElementById("sw-status").textContent = "未註冊";
+              document.getElementById("sw-status").className = "status error";
+              log("✗ Service Worker 未註冊");
+            }
+          } catch (error) {
+            log(`✗ 檢查失敗：${error.message}`);
+          }
+        } else {
+          log("✗ 瀏覽器不支援 Service Worker");
+        }
+      }
+
+      async function checkManifest() {
+        log("檢查 Manifest...");
+
+        try {
+          const response = await fetch("/static/manifest.json");
+          const manifest = await response.json();
+
+          document.getElementById("manifest-status").textContent = "已載入";
+          document.getElementById("manifest-status").className =
+            "status success";
+
+          const details = document.getElementById("manifest-details");
+          details.innerHTML = `
+                    <div class="test-item">
+                        <strong>名稱：</strong>${manifest.name}<br>
+                        <strong>簡稱：</strong>${manifest.short_name}<br>
+                        <strong>主題色：</strong><span style="background:${manifest.theme_color};padding:2px 10px;color:white;">${manifest.theme_color}</span><br>
+                        <strong>圖示數量：</strong>${manifest.icons.length}
+                    </div>
+                `;
+
+          log(`✓ Manifest 已載入：${manifest.name}`);
+        } catch (error) {
+          document.getElementById("manifest-status").textContent = "載入失敗";
+          document.getElementById("manifest-status").className = "status error";
+          log(`✗ Manifest 載入失敗：${error.message}`);
+        }
+      }
+
+      async function checkCaches() {
+        log("檢查快取...");
+
+        if ("caches" in window) {
+          try {
+            const cacheNames = await caches.keys();
+            document.getElementById("cache-count").textContent =
+              cacheNames.length;
+
+            const details = document.getElementById("cache-details");
+            let html = "";
+
+            for (const cacheName of cacheNames) {
+              const cache = await caches.open(cacheName);
+              const keys = await cache.keys();
+              html += `
+                            <div class="test-item">
+                                <strong>${cacheName}</strong><br>
+                                快取項目：${keys.length} 個
+                            </div>
+                        `;
+            }
+
+            details.innerHTML = html;
+            log(`✓ 找到 ${cacheNames.length} 個快取`);
+          } catch (error) {
+            log(`✗ 檢查快取失敗：${error.message}`);
+          }
+        } else {
+          log("✗ 瀏覽器不支援 Cache API");
+        }
+      }
+
+      function checkDisplayMode() {
+        log("檢查顯示模式...");
+
+        const isStandalone =
+          window.matchMedia("(display-mode: standalone)").matches ||
+          window.navigator.standalone === true;
+
+        const mode = isStandalone ? "獨立模式（已安裝）" : "瀏覽器模式";
+        document.getElementById("display-mode").textContent = mode;
+        log(`✓ 運行模式：${mode}`);
+      }
+
+      function checkOnlineStatus() {
+        log("檢查網路狀態...");
+
+        const status = navigator.onLine ? "線上" : "離線";
+        document.getElementById("online-status").textContent = status;
+        log(`✓ 網路狀態：${status}`);
+      }
+
+      async function unregisterServiceWorker() {
+        if ("serviceWorker" in navigator) {
+          const registration = await navigator.serviceWorker.getRegistration(
+            "/carbon/"
+          );
+          if (registration) {
+            await registration.unregister();
+            log("✓ Service Worker 已取消註冊");
+            alert("Service Worker 已取消註冊，請重新整理頁面");
+          }
+        }
+      }
+
+      async function clearAllCaches() {
+        if ("caches" in window) {
+          const cacheNames = await caches.keys();
+          await Promise.all(cacheNames.map((name) => caches.delete(name)));
+          log("✓ 所有快取已清除");
+          alert("所有快取已清除");
+          await checkCaches();
+        }
+      }
+
+      async function testOffline() {
+        log("測試離線功能...");
+        alert(
+          "請開啟開發者工具 > Network > 勾選 Offline，然後重新整理頁面測試離線功能"
+        );
+      }
+
+      // 安裝提示
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById("installable").textContent = "是";
+        document.getElementById("install-btn").style.display = "inline-block";
+        log("✓ PWA 可以安裝");
+      });
+
+      async function installPWA() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          log(`安裝結果：${outcome}`);
+          deferredPrompt = null;
+        }
+      }
+
+      function log(message) {
+        testResults.push(message);
+        document.getElementById("test-results").textContent =
+          testResults.join("\n");
+      }
+
+      // 網路狀態監聽
+      window.addEventListener("online", () => {
+        document.getElementById("online-status").textContent = "線上";
+        log("✓ 網路已連線");
+      });
+
+      window.addEventListener("offline", () => {
+        document.getElementById("online-status").textContent = "離線";
+        log("⚠ 網路已斷線");
+      });
+    </script>
+  </body>
+</html>

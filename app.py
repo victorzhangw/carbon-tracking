@@ -26,6 +26,8 @@ from routes.voice_clone import voice_clone_bp
 from routes.simple_tts import simple_tts_bp
 from routes.voice_chat import voice_chat_bp
 from routes.emotion import emotion_bp
+from routes.asr import asr_bp  # P0-1: 雙引擎 ASR API
+from routes.carbon_tracking import carbon_bp  # 碳排放追蹤系統
 
 # 註冊藍圖
 app.register_blueprint(main_bp)
@@ -36,6 +38,14 @@ app.register_blueprint(voice_clone_bp)
 app.register_blueprint(simple_tts_bp)
 app.register_blueprint(voice_chat_bp)
 app.register_blueprint(emotion_bp)
+app.register_blueprint(asr_bp)  # P0-1: ASR API
+app.register_blueprint(carbon_bp)  # 碳排放追蹤系統
+
+# 隱私權政策路由
+@app.route('/privacy')
+def privacy_policy():
+    from flask import render_template
+    return render_template('privacy_policy.html')
 
 # 應用初始化
 def init_app():
@@ -48,6 +58,8 @@ def init_app():
 
 # 應用入口
 if __name__ == "__main__":
+    import os
+    
     print("=== AI 客服語音克隆系統啟動中 ===")
     
     try:
@@ -56,12 +68,16 @@ if __name__ == "__main__":
         init_app()
         print("✅ 應用程序初始化成功")
         
+        # 從環境變數讀取設定
+        port = int(os.environ.get('PORT', 5000))
+        debug = os.environ.get('DEBUG', 'False').lower() == 'true'
+        
         print("正在啟動 Flask 服務器...")
-        print("服務器將在 http://127.0.0.1:5000 上運行")
+        print(f"服務器將在 http://0.0.0.0:{port} 上運行")
         print("按 Ctrl+C 停止服務器")
         print("=" * 50)
         
-        app.run(debug=True, host='0.0.0.0', port=5000)
+        app.run(debug=debug, host='0.0.0.0', port=port)
         
     except KeyboardInterrupt:
         print("\n服務器已停止")

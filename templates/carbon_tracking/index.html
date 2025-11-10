@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>碳排放追蹤系統</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="社工訪視碳排放追蹤與管理系統" />
+    <meta name="theme-color" content="#689F38" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="碳追蹤" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/static/manifest.json" />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/static/icons/icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="/static/icons/icon-512x512.png"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Microsoft JhengHei", Arial, sans-serif;
+        background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+        min-height: 100vh;
+        padding: 10px;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        color: #558b2f;
+        margin-bottom: 15px;
+      }
+
+      .header h1 {
+        font-size: 1.6em;
+        margin-bottom: 3px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .header p {
+        font-size: 0.9em;
+        opacity: 0.85;
+      }
+
+      .eco-banner {
+        background: rgba(139, 195, 74, 0.15);
+        border: 1px solid rgba(139, 195, 74, 0.3);
+        border-radius: 8px;
+        padding: 10px;
+        text-align: center;
+        color: #558b2f;
+        margin-bottom: 15px;
+        font-size: 0.9em;
+      }
+
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .menu-card {
+        background: white;
+        border-radius: 8px;
+        padding: 15px 10px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s, box-shadow 0.2s;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        border-top: 3px solid #8bc34a;
+      }
+
+      .menu-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .menu-card .icon {
+        font-size: 2.2em;
+        margin-bottom: 8px;
+      }
+      .menu-card h3 {
+        font-size: 1em;
+        margin-bottom: 5px;
+        color: #558b2f;
+      }
+      .menu-card p {
+        color: #666;
+        line-height: 1.3;
+        font-size: 0.8em;
+      }
+
+      .stats-bar {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 8px;
+        border-right: 1px solid #f1f8e9;
+      }
+
+      .stat-item:last-child {
+        border-right: none;
+      }
+
+      .stat-item .value {
+        font-size: 1.4em;
+        font-weight: bold;
+        color: #689f38;
+        margin-bottom: 3px;
+      }
+
+      .stat-item .label {
+        color: #666;
+        font-size: 0.8em;
+      }
+
+      @media (max-width: 1200px) {
+        .menu-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .stats-bar {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .stat-item {
+          border-right: none;
+          border-bottom: 1px solid #f1f8e9;
+        }
+        .stat-item:last-child {
+          border-bottom: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .menu-grid,
+        .stats-bar {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🌍 碳排放追蹤系統</h1>
+        <p>AI關懷系統環境效益管理平台</p>
+      </div>
+
+      <div class="eco-banner">
+        🌱 守護地球，從記錄每一次訪視開始 | 讓科技與環保同行 🌿
+      </div>
+
+      <div class="menu-grid">
+        <a href="/carbon/dashboard" class="menu-card">
+          <div class="icon">📊</div>
+          <h3>儀表板</h3>
+          <p>碳排放統計與趨勢</p>
+        </a>
+
+        <a href="/carbon/visit-records" class="menu-card">
+          <div class="icon">📝</div>
+          <h3>訪視記錄</h3>
+          <p>查看訪視記錄</p>
+        </a>
+
+        <a href="/carbon/add-visit" class="menu-card">
+          <div class="icon">➕</div>
+          <h3>新增記錄</h3>
+          <p>新增訪視記錄</p>
+        </a>
+
+        <a href="/carbon/statistics" class="menu-card">
+          <div class="icon">📈</div>
+          <h3>統計報表</h3>
+          <p>詳細統計分析</p>
+        </a>
+      </div>
+
+      <div class="stats-bar" id="statsBar">
+        <div class="stat-item">
+          <div class="value" id="totalVisits">-</div>
+          <div class="label">總訪視次數</div>
+        </div>
+        <div class="stat-item">
+          <div class="value" id="totalDistance">-</div>
+          <div class="label">總里程（公里）</div>
+        </div>
+        <div class="stat-item">
+          <div class="value" id="totalEmission">-</div>
+          <div class="label">碳排放（公噸）</div>
+        </div>
+        <div class="stat-item">
+          <div class="value" id="totalElders">-</div>
+          <div class="label">服務長者</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      fetch(
+        "/carbon/api/statistics-summary?start_date=2024-06-01&end_date=2024-09-30"
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.success) {
+            const data = result.data;
+            document.getElementById("totalVisits").textContent =
+              data.total_visits.toLocaleString();
+            document.getElementById("totalDistance").textContent =
+              data.total_distance.toLocaleString(undefined, {
+                maximumFractionDigits: 0,
+              });
+            document.getElementById("totalEmission").textContent = (
+              data.total_emission / 1000
+            ).toFixed(2);
+            document.getElementById("totalElders").textContent =
+              data.unique_elders.toLocaleString();
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    </script>
+
+    <!-- PWA Service Worker Registration -->
+    <script src="/static/pwa-register.js"></script>
+  </body>
+</html>

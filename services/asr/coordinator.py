@@ -12,8 +12,10 @@ import librosa
 import soundfile as sf
 
 from .whisper_engine import WhisperEngine
-# from .funasr_engine import FunASREngine  # 待啟用
+from .funasr_engine import FunASREngine
 from .fusion import ConfidenceFusion
+from .minnan_detector import MinnanLanguageDetector
+from .elderly_detector import ElderlyVoiceDetector
 
 # 配置日誌
 logging.basicConfig(level=logging.INFO)
@@ -35,6 +37,7 @@ class ASRCoordinator:
     def __init__(self, 
                  whisper_model_size: str = "base",
                  enable_funasr: bool = False,
+                 funasr_model_path: str = None,
                  device: str = "cuda"):
         """
         初始化 ASR Coordinator
@@ -42,6 +45,7 @@ class ASRCoordinator:
         Args:
             whisper_model_size: Whisper 模型大小 (tiny/base/small/medium/large-v3)
             enable_funasr: 是否啟用 FunASR 引擎
+            funasr_model_path: FunASR 本地模型路徑（可選）
             device: 運算設備 (cuda/cpu)
         """
         logger.info("初始化 ASR Coordinator...")
@@ -58,16 +62,26 @@ class ASRCoordinator:
         self.enable_funasr = enable_funasr
         if enable_funasr:
             try:
-                # from .funasr_engine import FunASREngine
-                # self.funasr_engine = FunASREngine(device=device)
-                logger.warning("FunASR 引擎暫時未啟用（模型下載問題）")
-                self.enable_funasr = False
+                self.funasr_engine = FunASREngine(
+                    device=device,
+                    local_model_path=funasr_model_path
+                )
+                logger.info(f"✓ FunASR 引擎已載入 (設備: {device})")
             except Exception as e:
                 logger.warning(f"FunASR 引擎載入失敗: {e}")
+                logger.warning("將使用單引擎模式（僅 Whisper）")
                 self.enable_funasr = False
         
         # 初始化融合算法
         self.fusion_algorithm = ConfidenceFusion()
+        
+        # 初始化閩南語檢測器
+        self.minnan_detector = MinnanLanguageDetector()
+        logger.info("✓ 閩南語檢測器已載入")
+        
+        # 初始化高齡語音檢測器
+        self.elderly_detector = ElderlyVoiceDetector()
+        logger.info("✓ 高齡語音檢測器已載入")
         
         # 配置參數
         self.target_sample_rate = 16000  # 目標採樣率
@@ -241,14 +255,38 @@ class ASRCoordinator:
                 features['is_low_snr'] = True
                 logger.info("  檢測到低 SNR 環境")
             
-            # 語言提示檢測
+            # 閩南語檢測
+            if options.get('enable_minnan_detection', True):
+                # 使用閩南語檢測器
+                minnan_result = self.minnan_detector.detect(
+                    audio=audio,
+                    text_hint=None,  # 第一次檢測沒有文本提示
+                    sample_rate=audio_info['sample_rate']
+                )
+                
+                features['is_minnan'] = minnan_result['is_minnan']
+                features['minnan_confidence'] = minnan_result['confidence']
+                features['minnan_mix_ratio'] = minnan_result['mix_ratio']
+                features['minnan_audio_score'] = minnan_result['audio_score']
+                features['minnan_text_score'] = minnan_result['text_score']
+            
+            # 語言提示優先級更高
             if options.get('language_hint') in ['minnan', 'zh-TW']:
                 features['is_minnan'] = True
-                features['minnan_confidence'] = 0.8
+                features['minnan_confidence'] = max(features['minnan_confidence'], 0.8)
                 logger.info("  根據語言提示，啟用閩南語優化")
             
-            # TODO: 實現更精確的閩南語檢測器（任務 5.1）
-            # TODO: 實現高齡語音檢測器（任務 6.1）
+            # 高齡語音檢測
+            if options.get('enable_elderly_detection', True):
+                # 使用高齡語音檢測器
+                elderly_result = self.elderly_detector.detect(
+                    audio=audio,
+                    sample_rate=audio_info['sample_rate']
+                )
+                
+                features['is_elderly'] = elderly_result['is_elderly']
+                features['elderly_confidence'] = elderly_result['confidence']
+                features['elderly_features'] = elderly_result['features']
             
         except Exception as e:
             logger.warning(f"特徵檢測部分失敗: {e}")

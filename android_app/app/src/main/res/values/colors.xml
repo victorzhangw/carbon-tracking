@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主題色彩 - 與 PWA 一致 -->
+    <color name="primary">#689F38</color>
+    <color name="primary_dark">#558B2F</color>
+    <color name="primary_light">#8BC34A</color>
+    <color name="accent">#7CB342</color>
+    
+    <!-- 背景色 -->
+    <color name="background">#F1F8E9</color>
+    <color name="background_light">#F9FBE7</color>
+    
+    <!-- 文字色 -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#BDBDBD</color>
+    
+    <!-- 系統色 -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    
+    <!-- 狀態色 -->
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+    <color name="error">#F44336</color>
+    <color name="info">#2196F3</color>
+</resources>
