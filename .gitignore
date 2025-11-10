@@ -51,6 +51,9 @@ mockvoice/
 genvoice/
 static/audio/
 
+# FFmpeg (large binary files)
+ffmpeg/
+
 # Logs
 *.log
 logs/
