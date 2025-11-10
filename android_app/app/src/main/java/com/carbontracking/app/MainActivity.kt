@@ -20,13 +20,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     
-    // 後端伺服器網址
-    // 模擬器使用 10.0.2.2 代替 localhost
-    // 實體手機使用電腦的 IP 位址
-    private val SERVER_URL = "http://10.0.2.2:5000/carbon/"
+    // 後端伺服器網址（雲端部署）
+    private val SERVER_URL = "https://carbon-tracking.onrender.com/carbon/"
     
-    // 如果已部署到雲端，使用 HTTPS 網址
-    // private val SERVER_URL = "https://your-domain.com/carbon/"
+    // 本地測試時使用（開發階段）
+    // private val SERVER_URL = "http://10.0.2.2:5000/carbon/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
