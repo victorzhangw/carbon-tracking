@@ -64,8 +64,6 @@ class MainActivity : AppCompatActivity() {
         
         // 快取設定
         webSettings.cacheMode = WebSettings.LOAD_DEFAULT
-        webSettings.setAppCacheEnabled(true)
-        webSettings.setAppCachePath(cacheDir.path)
         
         // 檔案存取
         webSettings.allowFileAccess = true
