@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.carbontracking.app.BuildConfig
 
 class MainActivity : AppCompatActivity() {
 
@@ -170,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         }
         
         // 啟用除錯模式（開發時使用）
-        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
+        WebView.setWebContentsDebuggingEnabled(true)
     }
     
     private fun setupSwipeRefresh() {
