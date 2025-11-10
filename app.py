@@ -1,21 +1,22 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager
-from config import ensure_directories
-from database import init_db
 import datetime
+import os
 
 # 初始化 Flask 應用
 app = Flask(__name__)
 CORS(app)
 
-# JWT 配置
-app.config['JWT_SECRET_KEY'] = 'your-secret-key-change-in-production'  # 生產環境請更換
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(hours=8)
-app.config['JWT_REFRESH_TOKEN_EXPIRES'] = datetime.timedelta(days=30)
-
-# 初始化 JWT
-jwt = JWTManager(app)
+# JWT 配置（條件式）
+try:
+    from flask_jwt_extended import JWTManager
+    app.config['JWT_SECRET_KEY'] = 'your-secret-key-change-in-production'
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(hours=8)
+    app.config['JWT_REFRESH_TOKEN_EXPIRES'] = datetime.timedelta(days=30)
+    jwt = JWTManager(app)
+    print("✅ JWT 認證已啟用")
+except ImportError:
+    print("⚠️ JWT 認證未安裝（僅基礎功能模式）")
 
 # 碳排放追蹤系統（核心功能，必須載入）
 from routes.carbon_tracking import carbon_bp
@@ -101,11 +102,25 @@ def privacy_policy():
 # 應用初始化
 def init_app():
     """初始化應用程序"""
-    # 初始化資料庫
-    init_db()
+    # 初始化資料庫（條件式）
+    try:
+        from database import init_db
+        init_db()
+        print("✅ 資料庫初始化成功")
+    except ImportError:
+        print("⚠️ 資料庫模組未載入")
+    except Exception as e:
+        print(f"⚠️ 資料庫初始化失敗: {e}")
     
-    # 確保必要的目錄存在
-    ensure_directories()
+    # 確保必要的目錄存在（條件式）
+    try:
+        from config import ensure_directories
+        ensure_directories()
+        print("✅ 目錄結構確認完成")
+    except ImportError:
+        print("⚠️ 配置模組未載入")
+    except Exception as e:
+        print(f"⚠️ 目錄初始化失敗: {e}")
 
 # 應用入口
 if __name__ == "__main__":
