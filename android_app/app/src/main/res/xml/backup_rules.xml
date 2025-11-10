@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   備份規則（Android 11 及以下）
+   定義哪些資料可以被備份
+-->
+<full-backup-content>
+    <!-- 包含所有 SharedPreferences -->
+    <include domain="sharedpref" path="."/>
+    
+    <!-- 包含所有資料庫 -->
+    <include domain="database" path="."/>
+    
+    <!-- 包含所有檔案 -->
+    <include domain="file" path="."/>
+    
+    <!-- 排除快取檔案 -->
+    <exclude domain="file" path="cache"/>
+</full-backup-content>
