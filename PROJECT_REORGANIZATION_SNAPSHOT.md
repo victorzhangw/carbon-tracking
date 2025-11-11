@@ -282,7 +282,10 @@ project-root/
 
 ## Git 提交資訊
 
-**Commit Hash**: [待填入]  
+**Commit Hash**: 25333002f0c4b7678aef67cdb11c5686f9745d1b  
 **Commit Message**: "feat: Complete project file reorganization - reduce root files by 90%"  
 **Branch**: main  
-**Date**: 2025-11-11
+**Date**: 2025-11-11  
+**Files Changed**: 264  
+**Insertions**: 9,545  
+**Deletions**: 545
