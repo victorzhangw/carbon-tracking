@@ -6,7 +6,7 @@
 import os
 import time
 from flask import Blueprint, request, jsonify, render_template
-from voice_config import OUTPUT_DIR
+from modules.voice_processing.voice_config import OUTPUT_DIR
 # 注意：此路由使用旧的Gradio客户端方式，已被新的GPT-SoVITS TTS API替代
 
 simple_tts_bp = Blueprint('simple_tts', __name__, url_prefix='/simple_tts')

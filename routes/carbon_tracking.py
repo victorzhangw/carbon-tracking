@@ -3,7 +3,7 @@
 """
 
 from flask import Blueprint, render_template, request, jsonify
-from database_carbon_tracking import CarbonTrackingDB
+from modules.carbon_tracking.database_carbon_tracking import CarbonTrackingDB
 from datetime import datetime, timedelta
 
 carbon_bp = Blueprint('carbon', __name__, url_prefix='/carbon')

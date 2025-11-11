@@ -1,8 +1,8 @@
 import os
 
 # 資料庫設定
-DATABASE = 'customer_service.db'
-AUDIO_UPLOAD_FOLDER = 'audio_uploads'
+DATABASE = 'data/databases/customer_service.db'
+AUDIO_UPLOAD_FOLDER = 'assets/audio/uploads'
 ALLOWED_EXTENSIONS = {'mp3', 'wav', 'ogg'}
 
 # DeepSeek AI API 設定
@@ -13,7 +13,7 @@ MODEL_NAME = "deepseek-ai/DeepSeek-V3"
 
 # 確保必要的目錄存在
 def ensure_directories():
-    directories = ['mockvoice', 'genvoice', 'static/audio', AUDIO_UPLOAD_FOLDER]
+    directories = ['assets/audio/mockvoice', 'assets/audio/genvoice', 'static/audio', AUDIO_UPLOAD_FOLDER]
     for directory in directories:
         if not os.path.exists(directory):
             os.makedirs(directory)

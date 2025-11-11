@@ -8,7 +8,7 @@ import time
 import shutil
 import tempfile
 from gradio_client import Client, handle_file
-from voice_config import GPT_SOVITS_API_URL, UPLOAD_DIR, OUTPUT_DIR, TEMP_DIR
+from modules.voice_processing.voice_config import GPT_SOVITS_API_URL, UPLOAD_DIR, OUTPUT_DIR, TEMP_DIR
 from utils import generate_unique_filename
 
 class GPTSoVITSService:

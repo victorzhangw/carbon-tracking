@@ -45,17 +45,20 @@ customer_service.db
 *.sqlite
 *.sqlite3
 
-# Audio files
-audio_uploads/
-mockvoice/
-genvoice/
+# Audio files (now in assets/)
+assets/audio/uploads/
+assets/audio/mockvoice/
+assets/audio/genvoice/
+assets/audio/tts/
+assets/audio/voice_output/
 static/audio/
 
 # FFmpeg (large binary files)
 ffmpeg/
 
-# Logs
+# Logs (now in data/)
 *.log
+data/logs/
 logs/
 
 # Node modules
@@ -65,6 +68,9 @@ node_modules/
 tmp/
 temp/
 *.tmp
+# Reorganization artifacts
+archive/2025-11/reorganization_artifacts/*.json
+archive/2025-11/reorganization_artifacts/*.py
 
 # Models (large files)
 models/
@@ -74,12 +80,16 @@ models/
 *.bin
 *.safetensors
 
-# Data
-data/
+# Data (keep structure but ignore databases)
+data/databases/*.db
+data/databases/*.sqlite
+data/databases/*.sqlite3
 datasets/
 
-# Backups (except the initial one)
+# Backups
 backups/pre-p0-1-*/
+backups/pre-reorganization-*/
+backups/databases/
 
 # Environment variables
 .env

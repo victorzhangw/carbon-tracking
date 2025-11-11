@@ -1,0 +1,31 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# 安裝系統依賴
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    libsox-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# 複製需求文件
+COPY config/requirements/voice.txt ./requirements-voice.txt
+
+# 安裝 Python 依賴
+RUN pip install --no-cache-dir -r requirements-voice.txt
+
+# 複製應用代碼
+COPY voice_synthesis_service.py .
+
+# 創建必要目錄
+RUN mkdir -p /app/cache /app/samples /tmp
+
+# 設置環境變量
+ENV PYTHONPATH=/app
+ENV FLASK_APP=voice_synthesis_service.py
+
+# 暴露端口
+EXPOSE 5001
+
+# 啟動命令
+CMD ["python", "voice_synthesis_service.py"]
