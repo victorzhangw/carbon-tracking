@@ -62,6 +62,7 @@ def process_audio():
         # 導入服務
         from services.speech import transcribe_audio
         from services.ai import analyze_and_respond
+        from services.tts import f5_tts
         
         # 進行語音轉文字
         transcript = transcribe_audio(audio_data)
@@ -70,19 +71,34 @@ def process_audio():
 
         # 分析並生成回應
         analysis_result = analyze_and_respond(transcript)
+        response_text = analysis_result.get("response", "")
         
-        # 檢查是否有音訊URL
-        audio_url = analysis_result.get("audio_url", None)
+        # 生成 TTS 語音
+        audio_url = None
+        if response_text:
+            try:
+                output_file = f5_tts(response_text)
+                if output_file:
+                    # 獲取文件名用於URL
+                    filename = os.path.basename(output_file)
+                    audio_url = f"/genvoice/{filename}"
+                    print(f"✅ TTS 生成成功: {audio_url}")
+                else:
+                    print("⚠️ TTS 生成失敗")
+            except Exception as tts_error:
+                print(f"❌ TTS 生成錯誤: {tts_error}")
             
         return jsonify({
             "transcript": transcript,
             "sentiment": analysis_result.get("sentiment", "neutral"),
-            "response": analysis_result.get("response", ""),
+            "response": response_text,
             "audio_url": audio_url
         })
         
     except Exception as e:
         print(f"處理音頻錯誤: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": f"處理音頻時發生錯誤: {str(e)}"}), 500
 
 @main.route('/api/weather/by-location', methods=['POST'])
