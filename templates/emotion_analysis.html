@@ -481,6 +481,75 @@
       let weatherData = null;
       let userLocation = null;
 
+      // Auto-stop detection variables
+      const SILENCE_THRESHOLD = 0.01; // 靜音閾值（0-1）
+      const SILENCE_DURATION = 2000; // 靜音持續時間（毫秒）
+      const MIN_RECORDING_TIME = 500; // 最短錄音時間（避免誤觸）
+      const MAX_RECORDING_TIME = 30000; // 最長錄音時間（30秒）
+
+      let silenceStart = null;
+      let recordingStartTime = null;
+      let maxTimeTimer = null;
+      let isAutoStopping = false;
+
+      // Calculate audio volume (RMS)
+      function getAudioVolume() {
+        analyser.getByteTimeDomainData(dataArray);
+        let sum = 0;
+        for (let i = 0; i < dataArray.length; i++) {
+          const normalized = (dataArray[i] - 128) / 128;
+          sum += normalized * normalized;
+        }
+        return Math.sqrt(sum / dataArray.length);
+      }
+
+      // Check for silence
+      function checkSilence() {
+        // 確保已經錄音超過最短時間
+        if (Date.now() - recordingStartTime < MIN_RECORDING_TIME) {
+          return;
+        }
+
+        const volume = getAudioVolume();
+
+        if (volume < SILENCE_THRESHOLD) {
+          // 開始靜音計時
+          if (!silenceStart) {
+            silenceStart = Date.now();
+            updateStatus("🔇 檢測到靜音...", true);
+          }
+
+          // 檢查靜音持續時間
+          const silenceDuration = Date.now() - silenceStart;
+          if (silenceDuration > SILENCE_DURATION) {
+            autoStopRecording("檢測到靜音");
+          }
+        } else {
+          // 有聲音，重置靜音計時
+          if (silenceStart) {
+            silenceStart = null;
+            const elapsed = Math.floor(
+              (Date.now() - recordingStartTime) / 1000
+            );
+            updateStatus(`🎤 錄音中... ${elapsed}秒`, true);
+          }
+        }
+      }
+
+      // Auto stop recording
+      function autoStopRecording(reason) {
+        if (isAutoStopping) return;
+        isAutoStopping = true;
+
+        console.log("自動停止錄音:", reason);
+        updateStatus(`⏹️ ${reason}，正在處理...`, true);
+
+        // 觸發停止錄音
+        setTimeout(() => {
+          stopRecordBtn.click();
+        }, 100);
+      }
+
       // Draw waveform
       function drawWaveform() {
         animationId = requestAnimationFrame(drawWaveform);
@@ -510,6 +579,15 @@
 
         canvasCtx.lineTo(waveformCanvas.width, waveformCanvas.height / 2);
         canvasCtx.stroke();
+
+        // 檢查靜音（僅在錄音時）
+        if (
+          mediaRecorder &&
+          mediaRecorder.state === "recording" &&
+          !isAutoStopping
+        ) {
+          checkSilence();
+        }
       }
 
       // Update status
@@ -854,9 +932,19 @@
 
           mediaRecorder.start();
 
+          // 重置自動停止相關變數
+          recordingStartTime = Date.now();
+          silenceStart = null;
+          isAutoStopping = false;
+
+          // 設定最大錄音時長保護
+          maxTimeTimer = setTimeout(() => {
+            autoStopRecording("已達最大錄音時長 (30秒)");
+          }, MAX_RECORDING_TIME);
+
           startRecordBtn.disabled = true;
           stopRecordBtn.disabled = false;
-          updateStatus("🎤 錄音中...", true);
+          updateStatus("🎤 錄音中... (靜音2秒自動停止)", true);
 
           console.log("錄音開始...");
         } catch (error) {
@@ -867,6 +955,15 @@
 
       // Stop recording
       stopRecordBtn.addEventListener("click", () => {
+        // 清除最大時長計時器
+        if (maxTimeTimer) {
+          clearTimeout(maxTimeTimer);
+          maxTimeTimer = null;
+        }
+
+        // 重置靜音檢測
+        silenceStart = null;
+
         mediaRecorder.stop();
         cancelAnimationFrame(animationId);
 
