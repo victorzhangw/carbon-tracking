@@ -1012,28 +1012,68 @@
                 updateStatus("✅ 分析完成", false);
 
                 // 4. 播放 AI 語音回應
+                console.log("API 回應:", result);
+                console.log("audio_url:", result.audio_url);
+
                 if (result.audio_url) {
                   try {
-                    const audio = new Audio(
-                      window.location.origin + result.audio_url
-                    );
+                    const fullAudioUrl =
+                      window.location.origin + result.audio_url;
+                    console.log("完整音頻 URL:", fullAudioUrl);
+
+                    const audio = new Audio(fullAudioUrl);
                     audio.playbackRate = 0.55;
 
-                    // 添加播放事件監聽
+                    // 添加所有事件監聽
+                    audio.addEventListener("loadstart", () => {
+                      console.log("開始載入音頻");
+                    });
+
+                    audio.addEventListener("loadeddata", () => {
+                      console.log("音頻數據已載入");
+                    });
+
+                    audio.addEventListener("canplay", () => {
+                      console.log("音頻可以播放");
+                    });
+
                     audio.addEventListener("play", () => {
                       console.log("開始播放 AI 語音回應");
+                      updateStatus("🔊 播放語音中...", true);
+                    });
+
+                    audio.addEventListener("ended", () => {
+                      console.log("音頻播放完成");
+                      updateStatus("✅ 分析完成", false);
                     });
 
                     audio.addEventListener("error", (e) => {
                       console.error("音頻播放失敗:", e);
+                      console.error("錯誤詳情:", audio.error);
+                      updateStatus("⚠️ 語音播放失敗", false);
                     });
 
-                    audio.play().catch((error) => {
-                      console.error("播放音頻時發生錯誤:", error);
-                    });
+                    // 嘗試播放
+                    audio
+                      .play()
+                      .then(() => {
+                        console.log("音頻播放成功啟動");
+                      })
+                      .catch((error) => {
+                        console.error("播放音頻時發生錯誤:", error);
+                        console.error("錯誤類型:", error.name);
+                        console.error("錯誤訊息:", error.message);
+
+                        // 如果是自動播放被阻止，提示使用者
+                        if (error.name === "NotAllowedError") {
+                          updateStatus("⚠️ 請點擊頁面以啟用語音播放", false);
+                        }
+                      });
                   } catch (error) {
                     console.error("創建音頻播放器失敗:", error);
                   }
+                } else {
+                  console.warn("API 未返回 audio_url");
                 }
               }, 800); // 800ms 延遲，讓使用者看到打字動畫
             } else {
