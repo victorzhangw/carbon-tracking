@@ -349,6 +349,10 @@
       let dataArray;
       let animationId;
 
+      // Weather and location data
+      let weatherData = null;
+      let userLocation = null;
+
       // Draw waveform
       function drawWaveform() {
         animationId = requestAnimationFrame(drawWaveform);
@@ -408,6 +412,103 @@
           text: emotion,
         };
         return `<span class="emotion-badge ${emotionInfo.class}">${emotionInfo.text}</span>`;
+      }
+
+      // Get user location
+      async function getUserLocation() {
+        return new Promise((resolve, reject) => {
+          if (!navigator.geolocation) {
+            reject(new Error("瀏覽器不支援地理定位"));
+            return;
+          }
+
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              resolve({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              });
+            },
+            (error) => {
+              console.warn("無法取得地理位置:", error);
+              // 使用預設位置（台北市）
+              resolve({ latitude: 25.033, longitude: 121.5654 });
+            }
+          );
+        });
+      }
+
+      // Get weather data
+      async function getWeatherData(location) {
+        try {
+          const response = await fetch("/api/weather/by-location", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(location),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            return data;
+          }
+        } catch (error) {
+          console.error("取得天氣資料失敗:", error);
+        }
+        return null;
+      }
+
+      // Generate weather greeting
+      function generateWeatherGreeting(weather) {
+        if (!weather) {
+          return "您好！很高興為您服務。";
+        }
+
+        const { city, condition, temperature, rain_probability } = weather;
+
+        let greeting = `您好！現在${city}的天氣是${condition}，溫度約${temperature}度。`;
+
+        if (rain_probability > 70) {
+          greeting += "今天降雨機率很高，出門記得帶傘喔！";
+        } else if (rain_probability > 30) {
+          greeting += "今天可能會下雨，建議帶把傘。";
+        } else if (condition.includes("晴")) {
+          greeting += "天氣很好，適合外出活動！";
+        }
+
+        return greeting;
+      }
+
+      // Show weather greeting
+      async function showWeatherGreeting() {
+        try {
+          showStatus("正在取得您的位置資訊...", "info");
+
+          // Get location
+          userLocation = await getUserLocation();
+
+          showStatus("正在取得天氣資訊...", "info");
+
+          // Get weather
+          weatherData = await getWeatherData(userLocation);
+
+          if (weatherData) {
+            const greeting = generateWeatherGreeting(weatherData);
+            responseEl.textContent = greeting;
+            showStatus("天氣資訊已載入", "success");
+
+            // Auto hide status after 2 seconds
+            setTimeout(() => {
+              hideStatus();
+            }, 2000);
+          } else {
+            hideStatus();
+          }
+        } catch (error) {
+          console.error("載入天氣資訊失敗:", error);
+          hideStatus();
+        }
       }
 
       // Start recording
@@ -529,6 +630,11 @@
       window.addEventListener("resize", () => {
         waveformCanvas.width = waveformCanvas.parentElement.offsetWidth;
         waveformCanvas.height = waveformCanvas.parentElement.offsetHeight;
+      });
+
+      // Initialize: Load weather greeting on page load
+      window.addEventListener("DOMContentLoaded", () => {
+        showWeatherGreeting();
       });
     </script>
   </body>

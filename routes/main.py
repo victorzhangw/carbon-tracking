@@ -85,6 +85,53 @@ def process_audio():
         print(f"處理音頻錯誤: {e}")
         return jsonify({"error": f"處理音頻時發生錯誤: {str(e)}"}), 500
 
+@main.route('/api/weather/by-location', methods=['POST'])
+def get_weather_by_location():
+    """根據地理位置取得天氣資訊"""
+    try:
+        data = request.get_json()
+        latitude = data.get('latitude')
+        longitude = data.get('longitude')
+        
+        if not latitude or not longitude:
+            return jsonify({"error": "缺少位置資訊"}), 400
+        
+        # 導入天氣服務
+        from services.weather_service import weather_service
+        
+        # 根據經緯度判斷縣市（簡化版，實際應使用反向地理編碼）
+        # 這裡使用預設台北市，實際專案中應該整合地理編碼服務
+        city = _get_city_from_coordinates(latitude, longitude)
+        
+        # 取得天氣資料
+        weather_data = weather_service.get_weather_by_city(city)
+        
+        return jsonify(weather_data)
+        
+    except Exception as e:
+        print(f"取得天氣資訊錯誤: {e}")
+        return jsonify({"error": f"取得天氣資訊時發生錯誤: {str(e)}"}), 500
+
+def _get_city_from_coordinates(lat, lon):
+    """根據經緯度判斷縣市（簡化版）"""
+    # 台灣主要城市的大致經緯度範圍
+    city_ranges = {
+        '臺北市': {'lat': (24.9, 25.2), 'lon': (121.4, 121.7)},
+        '新北市': {'lat': (24.6, 25.3), 'lon': (121.3, 122.0)},
+        '桃園市': {'lat': (24.8, 25.1), 'lon': (121.0, 121.5)},
+        '臺中市': {'lat': (24.0, 24.3), 'lon': (120.5, 121.0)},
+        '臺南市': {'lat': (22.9, 23.2), 'lon': (120.1, 120.5)},
+        '高雄市': {'lat': (22.5, 22.8), 'lon': (120.2, 120.5)},
+    }
+    
+    for city, ranges in city_ranges.items():
+        if (ranges['lat'][0] <= lat <= ranges['lat'][1] and 
+            ranges['lon'][0] <= lon <= ranges['lon'][1]):
+            return city
+    
+    # 預設返回台北市
+    return '臺北市'
+
 @main.route('/health')
 def health_check():
     """健康檢查端點"""
