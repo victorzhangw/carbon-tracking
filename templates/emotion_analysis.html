@@ -697,23 +697,107 @@
         return null;
       }
 
+      // Get time period greeting
+      function getTimePeriodGreeting() {
+        const now = new Date();
+        const hour = now.getHours();
+
+        if (hour >= 5 && hour < 12) {
+          return { period: "早上", emoji: "🌅" };
+        } else if (hour >= 12 && hour < 14) {
+          return { period: "中午", emoji: "☀️" };
+        } else if (hour >= 14 && hour < 18) {
+          return { period: "下午", emoji: "🌤️" };
+        } else if (hour >= 18 && hour < 22) {
+          return { period: "晚上", emoji: "🌆" };
+        } else {
+          return { period: "深夜", emoji: "🌙" };
+        }
+      }
+
+      // Get time-based weather advice
+      function getTimeBasedAdvice(hour, weather) {
+        const { condition, temperature, rain_probability } = weather;
+
+        // 早上 (5-12)
+        if (hour >= 5 && hour < 12) {
+          if (rain_probability > 70) {
+            return "早上出門記得帶傘，路上小心喔！";
+          } else if (temperature < 18) {
+            return "早上天氣比較涼，記得多穿件外套。";
+          } else if (condition.includes("晴")) {
+            return "早安！今天天氣很好，適合晨間運動。";
+          }
+          return "祝您有個美好的早晨！";
+        }
+
+        // 中午 (12-14)
+        else if (hour >= 12 && hour < 14) {
+          if (temperature > 30) {
+            return "中午陽光強烈，外出記得防曬和多喝水。";
+          } else if (rain_probability > 50) {
+            return "午後可能會下雨，建議帶把傘。";
+          }
+          return "午安！記得吃午餐補充體力喔。";
+        }
+
+        // 下午 (14-18)
+        else if (hour >= 14 && hour < 18) {
+          if (rain_probability > 70) {
+            return "下午降雨機率高，出門記得帶傘。";
+          } else if (temperature > 28) {
+            return "下午還是很熱，注意防曬和補充水分。";
+          } else if (condition.includes("晴")) {
+            return "下午天氣不錯，適合外出散步。";
+          }
+          return "下午好！";
+        }
+
+        // 晚上 (18-22)
+        else if (hour >= 18 && hour < 22) {
+          if (temperature < 20) {
+            return "晚上氣溫較低，外出記得添加衣物。";
+          } else if (rain_probability > 50) {
+            return "晚上可能會下雨，出門記得帶傘。";
+          }
+          return "晚安！祝您有個愉快的夜晚。";
+        }
+
+        // 深夜 (22-5)
+        else {
+          if (temperature < 18) {
+            return "深夜氣溫低，注意保暖。";
+          }
+          return "夜深了，注意安全，早點休息喔。";
+        }
+      }
+
       // Generate weather greeting
       function generateWeatherGreeting(weather) {
+        const now = new Date();
+        const hour = now.getHours();
+        const timeInfo = getTimePeriodGreeting();
+
+        // 格式化時間
+        const timeStr = now.toLocaleTimeString("zh-TW", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: false,
+        });
+
         if (!weather) {
-          return "您好！很高興為您服務。";
+          return `${timeInfo.emoji} ${timeInfo.period}好！現在是${timeStr}，很高興為您服務。`;
         }
 
         const { city, condition, temperature, rain_probability } = weather;
 
-        let greeting = `您好！現在${city}的天氣是${condition}，溫度約${temperature}度。`;
+        // 基本問候
+        let greeting = `${timeInfo.emoji} ${timeInfo.period}好！現在是${timeStr}，`;
+        greeting += `${city}的天氣是${condition}，溫度約${temperature}度。`;
 
-        if (rain_probability > 70) {
-          greeting += "今天降雨機率很高，出門記得帶傘喔！";
-        } else if (rain_probability > 30) {
-          greeting += "今天可能會下雨，建議帶把傘。";
-        } else if (condition.includes("晴")) {
-          greeting += "天氣很好，適合外出活動！";
-        }
+        // 根據時段和天氣給建議
+        const advice = getTimeBasedAdvice(hour, weather);
+        greeting += advice;
 
         return greeting;
       }
