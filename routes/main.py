@@ -39,6 +39,11 @@ def voice_care():
     """智慧語音關懷頁面"""
     return render_template('voice_care_dashboard.html')
 
+@main.route('/voice-testing')
+def voice_testing():
+    """語音測試訓練模組入口頁面"""
+    return render_template('voice_testing_hub.html')
+
 @main.route('/health')
 def health_check():
     """健康檢查端點"""

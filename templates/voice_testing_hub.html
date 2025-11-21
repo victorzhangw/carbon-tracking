@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>語音測試訓練模組</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Microsoft JhengHei", sans-serif;
+        background: #e8e8e8;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #1a1a1a;
+      }
+
+      .header p {
+        font-size: 16px;
+        color: #6c757d;
+        line-height: 1.6;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #0d6efd;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      .modules-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .module-card {
+        background: white;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .module-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      }
+
+      .module-icon {
+        font-size: 32px;
+        margin-bottom: 16px;
+      }
+
+      .module-card h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #212529;
+      }
+
+      .module-card p {
+        font-size: 14px;
+        color: #6c757d;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .module-features {
+        list-style: none;
+        padding: 0;
+      }
+
+      .module-features li {
+        font-size: 13px;
+        color: #495057;
+        padding: 6px 0;
+        padding-left: 20px;
+        position: relative;
+      }
+
+      .module-features li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #28a745;
+        font-weight: bold;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .badge-primary {
+        background: #cfe2ff;
+        color: #084298;
+      }
+
+      .badge-success {
+        background: #d1e7dd;
+        color: #0f5132;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="/portal" class="back-link">← 返回 Portal</a>
+
+      <div class="header">
+        <h1>🔬 語音測試訓練模組</h1>
+        <p>
+          專為語音技術開發和測試設計的工具集，供開發人員和技術人員使用。
+          提供語音分析、聲音模擬、語音克隆等專業工具。
+        </p>
+      </div>
+
+      <div class="modules-grid">
+        <!-- 語音分析 -->
+        <a href="/api/emotion/models/status" class="module-card">
+          <div class="module-icon">📊</div>
+          <span class="badge badge-success">語音分析</span>
+          <h3>情緒識別系統</h3>
+          <p>基於 librosa 和 Wav2Vec2 的雙引擎情緒識別系統</p>
+          <ul class="module-features">
+            <li>基礎情緒識別（快速）</li>
+            <li>進階情緒識別（高精度）</li>
+            <li>批次分析</li>
+            <li>即時上傳分析</li>
+          </ul>
+        </a>
+
+        <!-- 聲音模擬 -->
+        <a href="/simple_tts/demo" class="module-card">
+          <div class="module-icon">🎨</div>
+          <span class="badge badge-success">聲音模擬</span>
+          <h3>TTS 語音合成</h3>
+          <p>基於 GPT-SoVITS 的高品質語音合成系統</p>
+          <ul class="module-features">
+            <li>文字轉語音</li>
+            <li>參考音頻選擇</li>
+            <li>語速控制</li>
+            <li>音色克隆</li>
+          </ul>
+        </a>
+
+        <!-- 語音克隆 -->
+        <a href="/voice_clone/demo" class="module-card">
+          <div class="module-icon">🎤</div>
+          <span class="badge badge-primary">語音克隆</span>
+          <h3>語音克隆演示</h3>
+          <p>完整的語音克隆工作流程，從樣本處理到模型訓練</p>
+          <ul class="module-features">
+            <li>語音樣本上傳</li>
+            <li>自動降噪處理</li>
+            <li>模型訓練</li>
+            <li>品質評估</li>
+          </ul>
+        </a>
+
+        <!-- ASR 測試 -->
+        <a href="/api/asr/test" class="module-card">
+          <div class="module-icon">🗣️</div>
+          <span class="badge badge-primary">語音識別</span>
+          <h3>ASR 測試工具</h3>
+          <p>雙引擎語音識別測試（Whisper + FunASR）</p>
+          <ul class="module-features">
+            <li>Whisper 引擎測試</li>
+            <li>FunASR 引擎測試</li>
+            <li>閩南語識別</li>
+            <li>長者語音優化</li>
+          </ul>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
