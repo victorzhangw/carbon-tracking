@@ -976,8 +976,6 @@
           const formData = new FormData();
           formData.append("file", audioBlob, "recording.wav");
 
-          addTypingIndicator();
-
           try {
             const response = await fetch("/process_audio", {
               method: "POST",
@@ -986,32 +984,58 @@
 
             const result = await response.json();
 
-            removeTypingIndicator();
-
             if (response.ok) {
-              // Add user message (transcript)
+              // 1. 先顯示使用者訊息（語音轉文字結果）
               if (result.transcript) {
                 addUserMessage(result.transcript);
+              } else {
+                addUserMessage("（無法識別語音內容）");
               }
 
-              // Add AI response with emotion
-              if (result.response) {
-                const emotionInfo = result.sentiment
-                  ? getEmotionInfo(result.sentiment)
-                  : null;
-                addAIMessage(result.response, emotionInfo);
-              }
+              // 2. 顯示 AI 正在思考
+              addTypingIndicator();
 
-              updateStatus("✅ 分析完成", false);
+              // 3. 短暫延遲後顯示 AI 回應（模擬思考時間）
+              setTimeout(() => {
+                removeTypingIndicator();
 
-              // Play audio if available
-              if (result.audio_url) {
-                const audio = new Audio(
-                  window.location.origin + result.audio_url
-                );
-                audio.playbackRate = 0.55;
-                audio.play();
-              }
+                // 顯示 AI 回應和情緒
+                if (result.response) {
+                  const emotionInfo = result.sentiment
+                    ? getEmotionInfo(result.sentiment)
+                    : null;
+                  addAIMessage(result.response, emotionInfo);
+                } else {
+                  addAIMessage("抱歉，我現在無法回應。");
+                }
+
+                updateStatus("✅ 分析完成", false);
+
+                // 4. 播放 AI 語音回應
+                if (result.audio_url) {
+                  try {
+                    const audio = new Audio(
+                      window.location.origin + result.audio_url
+                    );
+                    audio.playbackRate = 0.55;
+
+                    // 添加播放事件監聽
+                    audio.addEventListener("play", () => {
+                      console.log("開始播放 AI 語音回應");
+                    });
+
+                    audio.addEventListener("error", (e) => {
+                      console.error("音頻播放失敗:", e);
+                    });
+
+                    audio.play().catch((error) => {
+                      console.error("播放音頻時發生錯誤:", error);
+                    });
+                  } catch (error) {
+                    console.error("創建音頻播放器失敗:", error);
+                  }
+                }
+              }, 800); // 800ms 延遲，讓使用者看到打字動畫
             } else {
               throw new Error(result.error || "處理音頻時發生錯誤");
             }
