@@ -34,14 +34,22 @@ echo    ✅ 完成
 echo.
 
 echo [2/4] 啟動 GPT-SoVITS TTS 服務（端口 9880）...
-REM 檢查 GPT-SoVITS 是否存在
-if exist "..\GPT-SoVITS\api_v2.py" (
+REM 檢查 GPT-SoVITS 是否存在（新版本）
+if exist "GPT-SoVITS-v2pro-20250604\api_v2.py" (
+    if exist "GPT-SoVITS-v2pro-20250604\runtime\python.exe" (
+        start "GPT-SoVITS TTS" cmd /k "cd GPT-SoVITS-v2pro-20250604 && runtime\python.exe api_v2.py -a 127.0.0.1 -p 9880 -c GPT_SoVITS\configs\tts_infer.yaml"
+        timeout /t 8 /nobreak >nul
+        echo    ✅ GPT-SoVITS TTS 服務已啟動（使用內建 Python 環境）
+    ) else (
+        echo    ⚠️  未找到 GPT-SoVITS runtime 環境
+    )
+) else if exist "..\GPT-SoVITS\api_v2.py" (
     start "GPT-SoVITS TTS" cmd /k "cd ..\GPT-SoVITS && conda activate GPTSoVits && python api_v2.py -a 127.0.0.1 -p 9880 -c GPT_SoVITS\configs\tts_infer.yaml"
-    timeout /t 3 /nobreak >nul
-    echo    ✅ GPT-SoVITS TTS 服務已啟動
+    timeout /t 8 /nobreak >nul
+    echo    ✅ GPT-SoVITS TTS 服務已啟動（使用 conda 環境）
 ) else (
     echo    ⚠️  未找到 GPT-SoVITS，將以純文字模式運行
-    echo    💡 如需語音功能，請安裝 GPT-SoVITS 到上層目錄
+    echo    💡 如需語音功能，請將 GPT-SoVITS 放在專案目錄
 )
 echo.
 
