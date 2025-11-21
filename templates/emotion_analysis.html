@@ -921,12 +921,13 @@
 
           // 顯示問候訊息
           addAIMessage(greeting);
+
+          // 嘗試生成並播放問候語音（不阻塞主流程）
           updateStatus("正在生成語音...", true);
 
-          // 生成並播放問候語音
-          const audioUrl = await generateGreetingTTS(greeting);
-          if (audioUrl) {
-            try {
+          try {
+            const audioUrl = await generateGreetingTTS(greeting);
+            if (audioUrl) {
               const fullAudioUrl = window.location.origin + audioUrl;
               console.log("問候語音 URL:", fullAudioUrl);
 
@@ -949,12 +950,19 @@
               });
 
               await audio.play();
-            } catch (error) {
-              console.error("播放問候語音失敗:", error);
-              updateStatus("就緒，可以開始錄音", false);
+            } else {
+              console.warn("⚠️ TTS 服務不可用，僅顯示文字");
+              updateStatus("⚠️ TTS 服務未啟動，僅文字模式", false);
+              setTimeout(() => {
+                updateStatus("就緒，可以開始錄音", false);
+              }, 2000);
             }
-          } else {
-            updateStatus("就緒，可以開始錄音", false);
+          } catch (ttsError) {
+            console.error("TTS 生成失敗:", ttsError);
+            updateStatus("⚠️ TTS 服務未啟動，僅文字模式", false);
+            setTimeout(() => {
+              updateStatus("就緒，可以開始錄音", false);
+            }, 2000);
           }
         } catch (error) {
           console.error("載入天氣資訊失敗:", error);
