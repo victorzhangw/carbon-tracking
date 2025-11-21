@@ -101,6 +101,36 @@ def process_audio():
         traceback.print_exc()
         return jsonify({"error": f"處理音頻時發生錯誤: {str(e)}"}), 500
 
+@main.route('/api/generate-tts', methods=['POST'])
+def generate_tts():
+    """生成 TTS 語音"""
+    try:
+        data = request.get_json()
+        text = data.get('text', '')
+        
+        if not text:
+            return jsonify({"error": "缺少文字內容"}), 400
+        
+        # 導入 TTS 服務
+        from services.tts import f5_tts
+        
+        # 生成語音
+        output_file = f5_tts(text)
+        if output_file:
+            filename = os.path.basename(output_file)
+            audio_url = f"/genvoice/{filename}"
+            print(f"✅ TTS 生成成功: {audio_url}")
+            return jsonify({"audio_url": audio_url})
+        else:
+            print("⚠️ TTS 生成失敗")
+            return jsonify({"error": "TTS 生成失敗"}), 500
+            
+    except Exception as e:
+        print(f"❌ TTS 生成錯誤: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": f"TTS 生成錯誤: {str(e)}"}), 500
+
 @main.route('/api/weather/by-location', methods=['POST'])
 def get_weather_by_location():
     """根據地理位置取得天氣資訊"""

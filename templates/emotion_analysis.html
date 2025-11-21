@@ -880,6 +880,27 @@
         return greeting;
       }
 
+      // Generate TTS for greeting
+      async function generateGreetingTTS(text) {
+        try {
+          const response = await fetch("/api/generate-tts", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ text: text }),
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            return result.audio_url;
+          }
+        } catch (error) {
+          console.error("生成問候語音失敗:", error);
+        }
+        return null;
+      }
+
       // Show weather greeting
       async function showWeatherGreeting() {
         try {
@@ -891,12 +912,48 @@
 
           weatherData = await getWeatherData(userLocation);
 
+          let greeting;
           if (weatherData) {
-            const greeting = generateWeatherGreeting(weatherData);
-            addAIMessage(greeting);
-            updateStatus("就緒，可以開始錄音", false);
+            greeting = generateWeatherGreeting(weatherData);
           } else {
-            addAIMessage("您好！很高興為您服務。");
+            greeting = "您好！很高興為您服務。";
+          }
+
+          // 顯示問候訊息
+          addAIMessage(greeting);
+          updateStatus("正在生成語音...", true);
+
+          // 生成並播放問候語音
+          const audioUrl = await generateGreetingTTS(greeting);
+          if (audioUrl) {
+            try {
+              const fullAudioUrl = window.location.origin + audioUrl;
+              console.log("問候語音 URL:", fullAudioUrl);
+
+              const audio = new Audio(fullAudioUrl);
+              audio.playbackRate = 0.55;
+
+              audio.addEventListener("play", () => {
+                console.log("開始播放問候語音");
+                updateStatus("🔊 播放問候語音...", true);
+              });
+
+              audio.addEventListener("ended", () => {
+                console.log("問候語音播放完成");
+                updateStatus("就緒，可以開始錄音", false);
+              });
+
+              audio.addEventListener("error", (e) => {
+                console.error("問候語音播放失敗:", e);
+                updateStatus("就緒，可以開始錄音", false);
+              });
+
+              await audio.play();
+            } catch (error) {
+              console.error("播放問候語音失敗:", error);
+              updateStatus("就緒，可以開始錄音", false);
+            }
+          } else {
             updateStatus("就緒，可以開始錄音", false);
           }
         } catch (error) {
