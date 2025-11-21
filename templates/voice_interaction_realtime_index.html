@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>即時語音互動系統 - 選擇語言</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Microsoft JhengHei", Arial, sans-serif;
+        background: #e8e8e8;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        max-width: 900px;
+        width: 100%;
+        padding: 50px;
+        text-align: center;
+      }
+
+      .header {
+        margin-bottom: 40px;
+      }
+
+      .header h1 {
+        color: #333;
+        font-size: 36px;
+        margin-bottom: 15px;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+
+      .version-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .version-card {
+        background: white;
+        border-radius: 8px;
+        padding: 40px 30px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .version-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      }
+
+      .version-card.roy {
+        background: white;
+        border: 2px solid #ff6b35;
+        color: #333;
+      }
+
+      .version-card.nofish {
+        background: white;
+        border: 2px solid #667eea;
+        color: #333;
+      }
+
+      .version-card .icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+      }
+
+      .version-card h2 {
+        font-size: 28px;
+        margin-bottom: 15px;
+      }
+
+      .version-card .description {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        opacity: 0.9;
+      }
+
+      .version-card .features {
+        text-align: left;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .version-card .features li {
+        margin-bottom: 10px;
+        font-size: 14px;
+        list-style: none;
+        padding-left: 25px;
+        position: relative;
+      }
+
+      .version-card .features li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+      }
+
+      .info-section {
+        margin-top: 50px;
+        padding: 30px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .info-section h3 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      .info-section .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        text-align: left;
+      }
+
+      .info-section .feature-item {
+        display: flex;
+        align-items: start;
+        gap: 10px;
+      }
+
+      .info-section .feature-item .icon {
+        font-size: 24px;
+        flex-shrink: 0;
+      }
+
+      .info-section .feature-item .text {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .footer {
+        margin-top: 30px;
+        color: #999;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🎤 即時語音互動系統</h1>
+        <p>選擇您偏好的語言版本，開始智能語音對話體驗</p>
+      </div>
+
+      <div class="version-cards">
+        <a href="/voice_interaction_realtime/roy" class="version-card roy">
+          <div class="icon">🎙️</div>
+          <h2>閩南語版</h2>
+          <div class="description">
+            使用 Roy 語音角色，提供親切的閩南語互動體驗
+          </div>
+          <ul class="features">
+            <li>閩南語語音辨識</li>
+            <li>Roy 語音角色</li>
+            <li>適合閩南語使用者</li>
+            <li>橙色主題介面</li>
+          </ul>
+        </a>
+
+        <a
+          href="/voice_interaction_realtime/nofish"
+          class="version-card nofish"
+        >
+          <div class="icon">🎤</div>
+          <h2>國語版</h2>
+          <div class="description">
+            使用 Nofish 語音角色，提供標準的國語互動體驗
+          </div>
+          <ul class="features">
+            <li>國語語音辨識</li>
+            <li>Nofish 語音角色</li>
+            <li>適合國語使用者</li>
+            <li>藍色主題介面</li>
+          </ul>
+        </a>
+      </div>
+
+      <div class="info-section">
+        <h3>✨ 系統特色</h3>
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="icon">⚡</div>
+            <div class="text">
+              <strong>即時辨識</strong><br />
+              語音即時轉文字，延遲小於 500ms
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="icon">🤖</div>
+            <div class="text">
+              <strong>智能回應</strong><br />
+              AI 理解對話內容，生成自然回應
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="icon">🔊</div>
+            <div class="text">
+              <strong>流式語音</strong><br />
+              即時語音合成，自然流暢播放
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="icon">💬</div>
+            <div class="text">
+              <strong>多輪對話</strong><br />
+              記住對話上下文，連貫交流
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>💡 提示：首次使用需要允許瀏覽器訪問麥克風</p>
+        <p>建議使用 Chrome、Edge 或 Firefox 瀏覽器</p>
+      </div>
+    </div>
+  </body>
+</html>
