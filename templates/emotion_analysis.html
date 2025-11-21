@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>情緒識別系統 - AI 語音分析</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Microsoft JhengHei", Arial, sans-serif;
+        background: #e8e8e8;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      /* Header */
+      .header {
+        background: white;
+        border-radius: 8px;
+        padding: 24px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .back-btn {
+        padding: 8px 16px;
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        color: #666;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+
+      .back-btn:hover {
+        background: #e9ecef;
+        color: #333;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      /* Card */
+      .card {
+        background: white;
+        border-radius: 8px;
+        padding: 24px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .card-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #f1f3f5;
+      }
+
+      /* Buttons */
+      .button-group {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: #4361ee;
+        color: white;
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        background: #3a0ca3;
+      }
+
+      .btn-success {
+        background: #2ec4b6;
+        color: white;
+      }
+
+      .btn-success:hover:not(:disabled) {
+        background: #20a799;
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* Waveform */
+      .waveform-container {
+        width: 100%;
+        height: 150px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        margin: 20px 0;
+        overflow: hidden;
+      }
+
+      canvas {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Audio Player */
+      .audio-player {
+        margin-top: 20px;
+        display: none;
+      }
+
+      audio {
+        width: 100%;
+        height: 40px;
+      }
+
+      /* Results */
+      .result-box {
+        padding: 16px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+
+      .result-label {
+        font-weight: 600;
+        color: #666;
+        font-size: 13px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .result-value {
+        color: #333;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      /* Status */
+      .status-message {
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-top: 16px;
+        font-size: 14px;
+        display: none;
+      }
+
+      .status-info {
+        background: #e7f1ff;
+        color: #0d6efd;
+      }
+
+      .status-success {
+        background: #d1e7dd;
+        color: #0f5132;
+      }
+
+      .status-error {
+        background: #f8d7da;
+        color: #842029;
+      }
+
+      /* Emotion Badge */
+      .emotion-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .emotion-happy {
+        background: #d1e7dd;
+        color: #0f5132;
+      }
+
+      .emotion-sad {
+        background: #cfe2ff;
+        color: #084298;
+      }
+
+      .emotion-angry {
+        background: #f8d7da;
+        color: #842029;
+      }
+
+      .emotion-neutral {
+        background: #e2e3e5;
+        color: #41464b;
+      }
+
+      .emotion-fear {
+        background: #fff3cd;
+        color: #664d03;
+      }
+
+      .emotion-surprise {
+        background: #d3d3f5;
+        color: #4a148c;
+      }
+
+      /* Loading */
+      .loading {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #4361ee;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <div class="header-top">
+          <h1>
+            <span>📊</span>
+            情緒識別系統
+          </h1>
+          <a href="/voice_testing_hub" class="back-btn">← 返回</a>
+        </div>
+        <p>
+          使用您的聲音進行即時分析，獲取情緒評估和智能回應。支援基礎和進階兩種分析模式。
+        </p>
+      </div>
+
+      <!-- Main Card -->
+      <div class="card">
+        <div class="card-title">語音情緒分析</div>
+
+        <div class="button-group">
+          <button id="startRecord" class="btn btn-primary">🎤 開始錄音</button>
+          <button id="stopRecord" class="btn btn-success" disabled>
+            ⏹️ 停止錄音
+          </button>
+        </div>
+
+        <div class="waveform-container">
+          <canvas id="waveform"></canvas>
+        </div>
+
+        <div class="audio-player" id="audioPlayerContainer">
+          <audio id="audioPlayer" controls></audio>
+        </div>
+
+        <div class="status-message" id="statusMessage"></div>
+      </div>
+
+      <!-- Results Card -->
+      <div class="card">
+        <div class="card-title">分析結果</div>
+
+        <div class="result-box">
+          <div class="result-label">💬 語音轉文字</div>
+          <div class="result-value" id="transcript">暫無資料</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label">😊 情緒分析</div>
+          <div class="result-value" id="sentiment">暫無資料</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label">🤖 AI 回應</div>
+          <div class="result-value" id="response">暫無資料</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // DOM Elements
+      const startRecordBtn = document.getElementById("startRecord");
+      const stopRecordBtn = document.getElementById("stopRecord");
+      const waveformCanvas = document.getElementById("waveform");
+      const audioPlayerContainer = document.getElementById(
+        "audioPlayerContainer"
+      );
+      const audioPlayer = document.getElementById("audioPlayer");
+      const statusMessage = document.getElementById("statusMessage");
+      const transcriptEl = document.getElementById("transcript");
+      const sentimentEl = document.getElementById("sentiment");
+      const responseEl = document.getElementById("response");
+
+      // Setup canvas
+      waveformCanvas.width = waveformCanvas.parentElement.offsetWidth;
+      waveformCanvas.height = waveformCanvas.parentElement.offsetHeight;
+      const canvasCtx = waveformCanvas.getContext("2d");
+
+      // Recording variables
+      let mediaRecorder;
+      let audioChunks = [];
+      let analyser;
+      let dataArray;
+      let animationId;
+
+      // Draw waveform
+      function drawWaveform() {
+        animationId = requestAnimationFrame(drawWaveform);
+        analyser.getByteTimeDomainData(dataArray);
+
+        canvasCtx.fillStyle = "#f8f9fa";
+        canvasCtx.fillRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+        canvasCtx.lineWidth = 2;
+        canvasCtx.strokeStyle = "#4361ee";
+        canvasCtx.beginPath();
+
+        const sliceWidth = waveformCanvas.width / dataArray.length;
+        let x = 0;
+
+        for (let i = 0; i < dataArray.length; i++) {
+          const v = dataArray[i] / 128.0;
+          const y = (v * waveformCanvas.height) / 2;
+
+          if (i === 0) {
+            canvasCtx.moveTo(x, y);
+          } else {
+            canvasCtx.lineTo(x, y);
+          }
+
+          x += sliceWidth;
+        }
+
+        canvasCtx.lineTo(waveformCanvas.width, waveformCanvas.height / 2);
+        canvasCtx.stroke();
+      }
+
+      // Show status message
+      function showStatus(message, type = "info") {
+        statusMessage.textContent = message;
+        statusMessage.className = `status-message status-${type}`;
+        statusMessage.style.display = "block";
+      }
+
+      // Hide status message
+      function hideStatus() {
+        statusMessage.style.display = "none";
+      }
+
+      // Get emotion badge HTML
+      function getEmotionBadge(emotion) {
+        const emotionMap = {
+          happy: { class: "emotion-happy", text: "開心" },
+          sad: { class: "emotion-sad", text: "悲傷" },
+          angry: { class: "emotion-angry", text: "憤怒" },
+          neutral: { class: "emotion-neutral", text: "中性" },
+          fear: { class: "emotion-fear", text: "恐懼" },
+          surprise: { class: "emotion-surprise", text: "驚訝" },
+        };
+
+        const emotionInfo = emotionMap[emotion] || {
+          class: "emotion-neutral",
+          text: emotion,
+        };
+        return `<span class="emotion-badge ${emotionInfo.class}">${emotionInfo.text}</span>`;
+      }
+
+      // Start recording
+      startRecordBtn.addEventListener("click", async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+          });
+
+          // Setup audio context
+          const audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)();
+          const source = audioContext.createMediaStreamSource(stream);
+          analyser = audioContext.createAnalyser();
+          analyser.fftSize = 2048;
+          dataArray = new Uint8Array(analyser.frequencyBinCount);
+          source.connect(analyser);
+
+          // Start drawing waveform
+          drawWaveform();
+
+          // Setup media recorder
+          mediaRecorder = new MediaRecorder(stream);
+          audioChunks = [];
+
+          mediaRecorder.ondataavailable = (event) => {
+            audioChunks.push(event.data);
+          };
+
+          mediaRecorder.start();
+
+          // Update UI
+          startRecordBtn.disabled = true;
+          stopRecordBtn.disabled = false;
+          startRecordBtn.innerHTML = '<span class="loading"></span> 錄音中...';
+
+          // Reset results
+          transcriptEl.textContent = "錄音中...";
+          sentimentEl.textContent = "等待分析...";
+          responseEl.textContent = "等待回應...";
+          audioPlayerContainer.style.display = "none";
+          hideStatus();
+
+          console.log("錄音開始...");
+        } catch (error) {
+          console.error("錄音失敗：", error);
+          showStatus("無法開始錄音，請檢查麥克風權限設定", "error");
+        }
+      });
+
+      // Stop recording
+      stopRecordBtn.addEventListener("click", () => {
+        mediaRecorder.stop();
+        cancelAnimationFrame(animationId);
+
+        // Update UI
+        startRecordBtn.disabled = false;
+        stopRecordBtn.disabled = true;
+        startRecordBtn.innerHTML = "🎤 開始錄音";
+        stopRecordBtn.innerHTML = '<span class="loading"></span> 處理中...';
+
+        showStatus("正在處理音頻...", "info");
+
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+          const formData = new FormData();
+          formData.append("file", audioBlob, "recording.wav");
+
+          try {
+            const response = await fetch("/process_audio", {
+              method: "POST",
+              body: formData,
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              // Update results
+              transcriptEl.textContent = result.transcript || "無法識別";
+
+              // Display emotion with badge
+              if (result.sentiment) {
+                sentimentEl.innerHTML = getEmotionBadge(result.sentiment);
+              } else {
+                sentimentEl.textContent = "無法分析";
+              }
+
+              responseEl.textContent = result.response || "無回應";
+
+              // Setup audio player
+              if (result.audio_url) {
+                const fullAudioUrl = window.location.origin + result.audio_url;
+                audioPlayer.src = fullAudioUrl;
+                audioPlayer.playbackRate = 0.55;
+                audioPlayerContainer.style.display = "block";
+                audioPlayer.play();
+              }
+
+              showStatus("分析完成！", "success");
+            } else {
+              throw new Error(result.error || "處理音頻時發生錯誤");
+            }
+          } catch (error) {
+            console.error("音頻處理失敗：", error);
+            showStatus("音頻處理失敗，請稍後重試", "error");
+
+            transcriptEl.textContent = "處理失敗";
+            sentimentEl.textContent = "處理失敗";
+            responseEl.textContent = "處理失敗";
+          } finally {
+            stopRecordBtn.innerHTML = "⏹️ 停止錄音";
+          }
+        };
+
+        console.log("錄音停止...");
+      });
+
+      // Resize canvas on window resize
+      window.addEventListener("resize", () => {
+        waveformCanvas.width = waveformCanvas.parentElement.offsetWidth;
+        waveformCanvas.height = waveformCanvas.parentElement.offsetHeight;
+      });
+    </script>
+  </body>
+</html>
