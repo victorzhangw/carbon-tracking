@@ -54,7 +54,7 @@
 }
 
 .score-modal-header {
-  padding: 16px 20px;
+  padding: 12px 16px;
   border-bottom: 1px solid #e9ecef;
   display: flex;
   justify-content: space-between;
@@ -64,15 +64,15 @@
 
 .score-modal-header h2 {
   margin: 0;
-  font-size: 20px;
+  font-size: 18px;
   color: #333;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .score-modal-header h2 .material-icons {
-  font-size: 24px;
+  font-size: 22px;
   color: #5b5bd6;
 }
 
@@ -98,7 +98,7 @@
 }
 
 .score-modal-body {
-  padding: 20px;
+  padding: 10px;
   overflow-y: auto;
   flex: 1;
 }
@@ -269,11 +269,11 @@
 }
 
 .score-modal-footer {
-  padding: 16px 20px;
+  padding: 8px 12px;
   border-top: 1px solid #e9ecef;
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
   background: #f8f9fa;
 }

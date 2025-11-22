@@ -48,82 +48,75 @@
         <span class="score-overall-grade" id="overallGrade">C - 尚可</span>
       </div>
 
-      <!-- 評分輸入區塊 -->
+      <!-- 評分輸入區塊 - 水平佈局 -->
       <div class="score-input-section">
         <h3><span class="material-icons">star</span> 請為本次對話評分</h3>
         <p class="score-input-hint">
           請根據您的實際體驗，為以下三個維度評分（1-100分）
         </p>
 
-        <!-- 情緒表達評分 -->
-        <div class="score-input-group">
-          <div class="score-input-header">
-            <label class="score-input-label">
-              <span class="score-input-icon"
-                ><span class="material-icons">sentiment_satisfied</span></span
-              >
-              <span class="score-input-title">情緒表達</span>
-            </label>
-            <span class="score-input-value" id="emotionScoreDisplay">50</span>
+        <div class="score-input-grid">
+          <!-- 情緒表達評分 -->
+          <div class="score-input-group">
+            <div class="score-input-header">
+              <label class="score-input-label">
+                <span class="score-input-icon"
+                  ><span class="material-icons">sentiment_satisfied</span></span
+                >
+                <span class="score-input-title">情緒表達</span>
+              </label>
+              <span class="score-input-value" id="emotionScoreDisplay">50</span>
+            </div>
+            <input
+              type="range"
+              class="score-slider"
+              id="emotionScoreSlider"
+              min="1"
+              max="100"
+              value="50"
+            />
           </div>
-          <input
-            type="range"
-            class="score-slider"
-            id="emotionScoreSlider"
-            min="1"
-            max="100"
-            value="50"
-          />
-          <div class="score-input-description">
-            AI 是否能準確識別並回應您的情緒？語氣是否自然親切？
-          </div>
-        </div>
 
-        <!-- 語音品質評分 -->
-        <div class="score-input-group">
-          <div class="score-input-header">
-            <label class="score-input-label">
-              <span class="score-input-icon"
-                ><span class="material-icons">mic</span></span
-              >
-              <span class="score-input-title">語音品質</span>
-            </label>
-            <span class="score-input-value" id="voiceScoreDisplay">50</span>
+          <!-- 語音品質評分 -->
+          <div class="score-input-group">
+            <div class="score-input-header">
+              <label class="score-input-label">
+                <span class="score-input-icon"
+                  ><span class="material-icons">mic</span></span
+                >
+                <span class="score-input-title">語音品質</span>
+              </label>
+              <span class="score-input-value" id="voiceScoreDisplay">50</span>
+            </div>
+            <input
+              type="range"
+              class="score-slider"
+              id="voiceScoreSlider"
+              min="1"
+              max="100"
+              value="50"
+            />
           </div>
-          <input
-            type="range"
-            class="score-slider"
-            id="voiceScoreSlider"
-            min="1"
-            max="100"
-            value="50"
-          />
-          <div class="score-input-description">
-            語音識別是否準確？TTS 語音是否清晰自然？
-          </div>
-        </div>
 
-        <!-- 文字內容評分 -->
-        <div class="score-input-group">
-          <div class="score-input-header">
-            <label class="score-input-label">
-              <span class="score-input-icon"
-                ><span class="material-icons">edit_note</span></span
-              >
-              <span class="score-input-title">文字內容</span>
-            </label>
-            <span class="score-input-value" id="contentScoreDisplay">50</span>
-          </div>
-          <input
-            type="range"
-            class="score-slider"
-            id="contentScoreSlider"
-            min="1"
-            max="100"
-            value="50"
-          />
-          <div class="score-input-description">
-            AI 回應是否切題？內容是否有幫助？是否提供了有價值的建議？
+          <!-- 文字內容評分 -->
+          <div class="score-input-group">
+            <div class="score-input-header">
+              <label class="score-input-label">
+                <span class="score-input-icon"
+                  ><span class="material-icons">edit_note</span></span
+                >
+                <span class="score-input-title">文字內容</span>
+              </label>
+              <span class="score-input-value" id="contentScoreDisplay">50</span>
+            </div>
+            <input
+              type="range"
+              class="score-slider"
+              id="contentScoreSlider"
+              min="1"
+              max="100"
+              value="50"
+            />
           </div>
         </div>
       </div>
@@ -153,17 +146,17 @@
 </div>
 
 <style>
-  /* 統計資訊區塊（頂部） - 緊湊版 */
+  /* 統計資訊區塊（頂部） - 超緊湊版 */
   .score-statistics-top {
     background: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
+    padding: 8px;
+    margin-bottom: 8px;
   }
 
   .score-statistics-top h3 {
-    margin: 0 0 12px 0;
+    margin: 0 0 6px 0;
     font-size: 16px;
     font-weight: 600;
     color: #333;
@@ -180,21 +173,21 @@
   .score-stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 6px;
   }
 
   .score-stat-card {
     background: white;
     border: 1px solid #e9ecef;
     border-radius: 6px;
-    padding: 12px;
+    padding: 6px 8px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
 
   .score-stat-icon {
-    font-size: 24px;
+    font-size: 22px;
     color: #5b5bd6;
   }
 
@@ -205,26 +198,26 @@
   .score-stat-label {
     font-size: 11px;
     color: #666;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
   }
 
   .score-stat-value {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     color: #333;
   }
 
-  /* 評分輸入區塊 - 緊湊版 */
+  /* 評分輸入區塊 - 超緊湊版 + 水平佈局 */
   .score-input-section {
     background: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
+    padding: 8px;
+    margin-bottom: 8px;
   }
 
   .score-input-section h3 {
-    margin: 0 0 6px 0;
+    margin: 0 0 3px 0;
     font-size: 16px;
     font-weight: 600;
     color: #333;
@@ -239,14 +232,20 @@
   }
 
   .score-input-hint {
-    margin: 0 0 12px 0;
+    margin: 0 0 6px 0;
     font-size: 13px;
     color: #666;
   }
 
+  /* 水平佈局容器 */
+  .score-input-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
   .score-input-group {
-    margin-bottom: 16px;
-    padding: 14px;
+    padding: 8px;
     background: white;
     border-radius: 6px;
     border: 1px solid #e9ecef;
@@ -257,37 +256,37 @@
     border-color: #5b5bd6;
   }
 
-  .score-input-group:last-of-type {
-    margin-bottom: 0;
-  }
-
   .score-input-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
 
   .score-input-label {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 14px;
+    gap: 4px;
+    font-size: 13px;
     font-weight: 600;
     color: #333;
     cursor: pointer;
   }
 
   .score-input-icon {
-    font-size: 20px;
+    font-size: 18px;
     color: #5b5bd6;
   }
 
+  .score-input-title {
+    white-space: nowrap;
+  }
+
   .score-input-value {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: #5b5bd6;
-    min-width: 50px;
+    min-width: 40px;
     text-align: right;
   }
 
@@ -298,14 +297,14 @@
     background: #e9ecef;
     outline: none;
     -webkit-appearance: none;
-    margin: 8px 0;
+    margin: 4px 0 0 0;
   }
 
   .score-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: #5b5bd6;
     cursor: pointer;
@@ -319,8 +318,8 @@
   }
 
   .score-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: #5b5bd6;
     cursor: pointer;
@@ -329,24 +328,17 @@
     transition: all 0.2s ease;
   }
 
-  .score-input-description {
-    font-size: 12px;
-    color: #666;
-    line-height: 1.4;
-    margin-top: 6px;
-  }
-
-  /* 綜合評分顯示 - 一行版型 */
+  /* 綜合評分顯示 - 一行版型超緊湊 */
   .score-overall-display {
     background: #5b5bd6;
     border-radius: 8px;
-    padding: 12px 16px;
+    padding: 6px 12px;
     color: white;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
   }
 
   .score-overall-label {
@@ -356,7 +348,7 @@
   }
 
   .score-overall-value {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
     flex-shrink: 0;
   }
@@ -369,16 +361,16 @@
     flex: 1;
   }
 
-  /* 改進建議區塊 - 緊湊版 */
+  /* 改進建議區塊 - 超緊湊版 */
   .score-feedback-section {
     background: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
-    padding: 16px;
+    padding: 8px;
   }
 
   .score-feedback-section h3 {
-    margin: 0 0 6px 0;
+    margin: 0 0 3px 0;
     font-size: 16px;
     font-weight: 600;
     color: #333;
@@ -393,14 +385,14 @@
   }
 
   .score-feedback-hint {
-    margin: 0 0 12px 0;
+    margin: 0 0 6px 0;
     font-size: 13px;
     color: #666;
   }
 
   .score-feedback-textarea {
     width: 100%;
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #e9ecef;
     border-radius: 6px;
     font-size: 13px;
