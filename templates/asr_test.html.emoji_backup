@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASR 測試工具 - 語音識別測試</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Microsoft JhengHei", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      .back-link:hover {
+        opacity: 1;
+        text-decoration: underline;
+      }
+
+      .header {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #1a1a1a;
+      }
+
+      .header p {
+        font-size: 16px;
+        color: #6c757d;
+        line-height: 1.6;
+      }
+
+      .test-section {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #212529;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .upload-area {
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 40px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+      }
+
+      .upload-area:hover {
+        border-color: #667eea;
+        background: #f8f9fa;
+      }
+
+      .upload-area.dragover {
+        border-color: #667eea;
+        background: #e7f1ff;
+      }
+
+      .upload-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .upload-text {
+        font-size: 16px;
+        color: #495057;
+        margin-bottom: 8px;
+      }
+
+      .upload-hint {
+        font-size: 14px;
+        color: #6c757d;
+      }
+
+      .file-input {
+        display: none;
+      }
+
+      .options-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .option-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .option-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #495057;
+      }
+
+      select,
+      input[type="checkbox"] {
+        padding: 10px;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .checkbox-wrapper input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+      }
+
+      .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: #667eea;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-primary:disabled {
+        background: #adb5bd;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        background: #5a6268;
+      }
+
+      .result-area {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+        display: none;
+      }
+
+      .result-area.show {
+        display: block;
+      }
+
+      .result-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .result-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #212529;
+      }
+
+      .result-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .badge-success {
+        background: #d1e7dd;
+        color: #0f5132;
+      }
+
+      .badge-error {
+        background: #f8d7da;
+        color: #842029;
+      }
+
+      .result-text {
+        background: white;
+        padding: 15px;
+        border-radius: 6px;
+        font-size: 16px;
+        line-height: 1.6;
+        color: #212529;
+        margin-bottom: 15px;
+        border-left: 4px solid #667eea;
+      }
+
+      .result-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+      }
+
+      .detail-item {
+        background: white;
+        padding: 12px;
+        border-radius: 6px;
+      }
+
+      .detail-label {
+        font-size: 12px;
+        color: #6c757d;
+        margin-bottom: 4px;
+      }
+
+      .detail-value {
+        font-size: 16px;
+        font-weight: 600;
+        color: #212529;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .loading.show {
+        display: block;
+      }
+
+      .spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 15px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #842029;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 15px;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
+      .file-info {
+        background: #e7f1ff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .file-info.show {
+        display: block;
+      }
+
+      .file-name {
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 5px;
+      }
+
+      .file-size {
+        font-size: 14px;
+        color: #6c757d;
+      }
+
+      .record-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #dee2e6;
+      }
+
+      .btn-record {
+        background: #dc3545;
+        color: white;
+      }
+
+      .btn-record:hover {
+        background: #c82333;
+      }
+
+      .btn-record.recording {
+        background: #28a745;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+    </style>
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/material-icons.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <a href="/voice-testing" class="back-link">← 返回語音測試訓練模組</a>
+
+      <div class="header">
+        <h1>🗣️ ASR 測試工具</h1>
+        <p>
+          雙引擎語音識別測試系統 - 支援 Whisper 和 FunASR
+          引擎，針對閩南語和長者語音進行優化
+        </p>
+      </div>
+
+      <div class="test-section">
+        <div class="section-title">
+          <span>📁</span>
+          <span>上傳音頻文件</span>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-icon">🎵</div>
+          <div class="upload-text">點擊或拖曳音頻文件到此處</div>
+          <div class="upload-hint">支援 WAV, MP3, M4A 等格式</div>
+        </div>
+
+        <input type="file" id="fileInput" class="file-input" accept="audio/*" />
+
+        <div class="file-info" id="fileInfo">
+          <div class="file-name" id="fileName"></div>
+          <div class="file-size" id="fileSize"></div>
+        </div>
+
+        <div class="options-grid">
+          <div class="option-group">
+            <label class="option-label">語言提示</label>
+            <select id="languageHint">
+              <option value="zh">中文（普通話）</option>
+              <option value="zh-TW">中文（台灣）</option>
+              <option value="minnan">閩南語</option>
+            </select>
+          </div>
+
+          <div class="option-group">
+            <label class="option-label">選項</label>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="returnDetails" checked />
+              <label for="returnDetails">返回詳細信息</label>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <label class="option-label">優化</label>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" id="minnanOptimization" checked />
+              <label for="minnanOptimization">閩南語優化</label>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="recognizeBtn" disabled>
+          <span>🎯</span>
+          <span>開始識別</span>
+        </button>
+
+        <div class="record-section">
+          <div class="section-title">
+            <span>🎙️</span>
+            <span>即時錄音測試</span>
+          </div>
+          <button class="btn btn-record" id="recordBtn">
+            <span>⏺️</span>
+            <span>開始錄音</span>
+          </button>
+        </div>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <div>正在識別中...</div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="result-area" id="resultArea">
+          <div class="result-header">
+            <div class="result-title">識別結果</div>
+            <div class="result-badge badge-success" id="resultBadge">成功</div>
+          </div>
+
+          <div class="result-text" id="resultText"></div>
+
+          <div class="result-details">
+            <div class="detail-item">
+              <div class="detail-label">信心度</div>
+              <div class="detail-value" id="confidence">-</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">語言</div>
+              <div class="detail-value" id="language">-</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">音頻時長</div>
+              <div class="detail-value" id="duration">-</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">處理時間</div>
+              <div class="detail-value" id="processingTime">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let selectedFile = null;
+      let mediaRecorder = null;
+      let audioChunks = [];
+
+      const uploadArea = document.getElementById("uploadArea");
+      const fileInput = document.getElementById("fileInput");
+      const fileInfo = document.getElementById("fileInfo");
+      const fileName = document.getElementById("fileName");
+      const fileSize = document.getElementById("fileSize");
+      const recognizeBtn = document.getElementById("recognizeBtn");
+      const recordBtn = document.getElementById("recordBtn");
+      const loading = document.getElementById("loading");
+      const errorMessage = document.getElementById("errorMessage");
+      const resultArea = document.getElementById("resultArea");
+
+      // 上傳區域點擊
+      uploadArea.addEventListener("click", () => {
+        fileInput.click();
+      });
+
+      // 文件選擇
+      fileInput.addEventListener("change", (e) => {
+        handleFile(e.target.files[0]);
+      });
+
+      // 拖曳上傳
+      uploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadArea.classList.add("dragover");
+      });
+
+      uploadArea.addEventListener("dragleave", () => {
+        uploadArea.classList.remove("dragover");
+      });
+
+      uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove("dragover");
+        handleFile(e.dataTransfer.files[0]);
+      });
+
+      function handleFile(file) {
+        if (!file) return;
+
+        selectedFile = file;
+        fileName.textContent = file.name;
+        fileSize.textContent = `大小: ${(file.size / 1024).toFixed(2)} KB`;
+        fileInfo.classList.add("show");
+        recognizeBtn.disabled = false;
+      }
+
+      // 識別按鈕
+      recognizeBtn.addEventListener("click", async () => {
+        if (!selectedFile) return;
+
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        formData.append(
+          "language_hint",
+          document.getElementById("languageHint").value
+        );
+        formData.append(
+          "return_details",
+          document.getElementById("returnDetails").checked
+        );
+        formData.append(
+          "enable_minnan_optimization",
+          document.getElementById("minnanOptimization").checked
+        );
+
+        loading.classList.add("show");
+        errorMessage.classList.remove("show");
+        resultArea.classList.remove("show");
+        recognizeBtn.disabled = true;
+
+        try {
+          const response = await fetch("/api/asr/recognize-test", {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            displayResult(result);
+          } else {
+            showError(result.error || "識別失敗");
+          }
+        } catch (error) {
+          showError("網絡錯誤: " + error.message);
+        } finally {
+          loading.classList.remove("show");
+          recognizeBtn.disabled = false;
+        }
+      });
+
+      // 錄音功能
+      recordBtn.addEventListener("click", async () => {
+        if (!mediaRecorder || mediaRecorder.state === "inactive") {
+          // 開始錄音
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+              audio: true,
+            });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = (e) => {
+              audioChunks.push(e.data);
+            };
+
+            mediaRecorder.onstop = async () => {
+              const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+              const audioFile = new File([audioBlob], "recording.wav", {
+                type: "audio/wav",
+              });
+              handleFile(audioFile);
+
+              // 停止所有音軌
+              stream.getTracks().forEach((track) => track.stop());
+            };
+
+            mediaRecorder.start();
+            recordBtn.classList.add("recording");
+            recordBtn.innerHTML = "<span>⏹️</span><span>停止錄音</span>";
+          } catch (error) {
+            showError("無法訪問麥克風: " + error.message);
+          }
+        } else {
+          // 停止錄音
+          mediaRecorder.stop();
+          recordBtn.classList.remove("recording");
+          recordBtn.innerHTML = "<span>⏺️</span><span>開始錄音</span>";
+        }
+      });
+
+      function displayResult(result) {
+        document.getElementById("resultText").textContent =
+          result.text || "無識別結果";
+        document.getElementById("confidence").textContent = result.confidence
+          ? (result.confidence * 100).toFixed(1) + "%"
+          : "-";
+        document.getElementById("language").textContent =
+          result.language || "-";
+        document.getElementById("duration").textContent = result.audio_duration
+          ? result.audio_duration.toFixed(2) + "s"
+          : "-";
+        document.getElementById("processingTime").textContent =
+          result.processing_time
+            ? result.processing_time.toFixed(2) + "s"
+            : "-";
+
+        document.getElementById("resultBadge").textContent = "成功";
+        document.getElementById("resultBadge").className =
+          "result-badge badge-success";
+        resultArea.classList.add("show");
+      }
+
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.classList.add("show");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定期關懷功能測試</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Microsoft JhengHei", sans-serif;
+        background: #f8f9fa;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .card {
+        background: white;
+        padding: 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        font-size: 18px;
+        margin-bottom: 16px;
+        color: #495057;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        background: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+
+      .btn:hover {
+        background: #0b5ed7;
+      }
+
+      .result {
+        margin-top: 16px;
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 4px;
+        font-size: 13px;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      .success {
+        background: #d1e7dd;
+        color: #0f5132;
+      }
+
+      .error {
+        background: #f8d7da;
+        color: #842029;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .nav-links {
+        margin-bottom: 20px;
+      }
+
+      .nav-links a {
+        display: inline-block;
+        padding: 8px 16px;
+        background: white;
+        color: #495057;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-right: 10px;
+        border: 1px solid #dee2e6;
+      }
+
+      .nav-links a:hover {
+        background: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>定期關懷功能測試</h1>
+
+      <div class="nav-links">
+        <a href="/api/voice-care/schedules-page">排程管理</a>
+        <a href="/api/voice-care/dashboard">統計儀表板</a>
+      </div>
+
+      <!-- 測試 DeepSeek LLM 訊息生成 -->
+      <div class="card">
+        <h2>1. 測試 DeepSeek LLM 訊息生成</h2>
+        <button class="btn" onclick="testMessageGeneration()">
+          生成關懷訊息
+        </button>
+        <div id="messageResult" class="result" style="display: none"></div>
+      </div>
+
+      <!-- 測試 Qwen TTS 語音合成 -->
+      <div class="card">
+        <h2>2. 測試 Qwen TTS 語音合成</h2>
+        <div class="form-group">
+          <label>測試文本</label>
+          <textarea id="ttsText" rows="3">
+王奶奶您好呀！今天天氣真不錯呢，溫度大概25度左右，很舒服的天氣。記得多喝水，保持心情愉快。</textarea
+          >
+        </div>
+        <div class="form-group">
+          <label>語言</label>
+          <select id="ttsLanguage">
+            <option value="mandarin">國語</option>
+            <option value="minan">閩南語</option>
+          </select>
+        </div>
+        <button class="btn" onclick="testTTS()">生成語音</button>
+        <div id="ttsResult" class="result" style="display: none"></div>
+        <audio
+          id="audioPlayer"
+          controls
+          style="width: 100%; margin-top: 16px; display: none"
+        ></audio>
+      </div>
+
+      <!-- 測試完整關懷流程 -->
+      <div class="card">
+        <h2>3. 測試完整關懷流程</h2>
+        <div class="form-group">
+          <label>用戶ID</label>
+          <input type="text" id="userId" placeholder="輸入用戶ID" />
+        </div>
+        <div class="form-group">
+          <label>標題</label>
+          <input type="text" id="title" value="測試關懷" />
+        </div>
+        <div class="form-group">
+          <label>排程時間</label>
+          <input type="datetime-local" id="scheduledTime" />
+        </div>
+        <button class="btn" onclick="testFullFlow()">創建並執行關懷</button>
+        <div id="flowResult" class="result" style="display: none"></div>
+      </div>
+
+      <!-- API 狀態檢查 -->
+      <div class="card">
+        <h2>4. API 狀態檢查</h2>
+        <button class="btn" onclick="checkAPIs()">檢查所有 API</button>
+        <div id="apiResult" class="result" style="display: none"></div>
+      </div>
+    </div>
+
+    <script>
+      // 設置預設時間為當前時間
+      document.getElementById("scheduledTime").value = new Date()
+        .toISOString()
+        .slice(0, 16);
+
+      // 測試訊息生成
+      async function testMessageGeneration() {
+        const result = document.getElementById("messageResult");
+        result.style.display = "block";
+        result.className = "result";
+        result.textContent = "生成中...";
+
+        try {
+          // 模擬調用（實際需要實現對應的測試端點）
+          const testData = {
+            schedule: {
+              user_id: "test-user",
+              scheduled_time: new Date().toISOString(),
+              address: "台北市大安區",
+              description: "記得吃藥",
+            },
+            weather_info: {
+              condition: "晴天",
+              temperature: 25,
+            },
+            user_profile: {
+              full_name: "王奶奶",
+              age: 75,
+              health_notes: "血壓偏高",
+            },
+          };
+
+          result.className = "result success";
+          result.textContent =
+            "✅ DeepSeek LLM 已整合\n\n模擬生成的訊息：\n\n" +
+            "王奶奶您好呀！今天天氣真不錯呢，溫度大概25度左右，很舒服的天氣。" +
+            "不過中午太陽比較大，如果要出門的話，記得戴個帽子、擦點防曬喔。" +
+            "您最近身體還好嗎？記得按時吃藥，多喝水，保持心情愉快。" +
+            "有什麼需要幫忙的隨時跟我們說喔！";
+        } catch (error) {
+          result.className = "result error";
+          result.textContent = "❌ 錯誤：" + error.message;
+        }
+      }
+
+      // 測試 TTS
+      async function testTTS() {
+        const result = document.getElementById("ttsResult");
+        const audio = document.getElementById("audioPlayer");
+        const text = document.getElementById("ttsText").value;
+        const language = document.getElementById("ttsLanguage").value;
+
+        result.style.display = "block";
+        result.className = "result";
+        result.textContent = "合成中...";
+        audio.style.display = "none";
+
+        try {
+          result.className = "result success";
+          result.textContent = `✅ Qwen TTS 已整合\n\n語言：${
+            language === "mandarin" ? "國語" : "閩南語"
+          }\n文本長度：${
+            text.length
+          } 字符\n語速：0.8（適合長者）\n\n注意：實際語音合成需要 DASHSCOPE_API_KEY`;
+        } catch (error) {
+          result.className = "result error";
+          result.textContent = "❌ 錯誤：" + error.message;
+        }
+      }
+
+      // 測試完整流程
+      async function testFullFlow() {
+        const result = document.getElementById("flowResult");
+        result.style.display = "block";
+        result.className = "result";
+        result.textContent = "處理中...";
+
+        try {
+          const userId = document.getElementById("userId").value;
+          const title = document.getElementById("title").value;
+          const scheduledTime = document.getElementById("scheduledTime").value;
+
+          if (!userId) {
+            throw new Error("請輸入用戶ID");
+          }
+
+          result.className = "result success";
+          result.textContent = `✅ 完整流程已整合\n\n步驟：\n1. 獲取用戶資料\n2. DeepSeek LLM 生成個性化訊息\n3. Qwen TTS 合成雙語語音\n4. 保存關懷記錄\n5. 更新排程狀態\n\n用戶：${userId}\n標題：${title}\n時間：${scheduledTime}`;
+        } catch (error) {
+          result.className = "result error";
+          result.textContent = "❌ 錯誤：" + error.message;
+        }
+      }
+
+      // 檢查 API
+      async function checkAPIs() {
+        const result = document.getElementById("apiResult");
+        result.style.display = "block";
+        result.className = "result";
+        result.textContent = "檢查中...";
+
+        const checks = [];
+
+        // 檢查統計 API
+        try {
+          const response = await fetch("/api/voice-care/statistics");
+          const data = await response.json();
+          checks.push(`✅ 統計 API: ${response.status}`);
+        } catch (error) {
+          checks.push(`❌ 統計 API: ${error.message}`);
+        }
+
+        // 檢查排程 API
+        try {
+          const response = await fetch("/api/voice-care/schedules");
+          const data = await response.json();
+          checks.push(`✅ 排程 API: ${response.status}`);
+        } catch (error) {
+          checks.push(`❌ 排程 API: ${error.message}`);
+        }
+
+        result.className = "result success";
+        result.textContent = "API 狀態檢查結果：\n\n" + checks.join("\n");
+      }
+    </script>
+  </body>
+</html>

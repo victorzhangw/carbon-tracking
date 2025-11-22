@@ -1,0 +1,4 @@
+# AI廣播劇模組依賴
+EbookLib==0.18
+beautifulsoup4==4.12.2
+pydub==0.25.1

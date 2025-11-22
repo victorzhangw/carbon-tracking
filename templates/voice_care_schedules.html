@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>定期關懷排程管理</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Microsoft JhengHei", sans-serif;
+        background: #f8f9fa;
+        color: #212529;
+        line-height: 1.5;
+      }
+
+      /* 導航欄 */
+      .navbar {
+        background: white;
+        border-bottom: 1px solid #dee2e6;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .nav-brand {
+        font-size: 18px;
+        font-weight: 600;
+        color: #212529;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 8px;
+      }
+
+      .nav-link {
+        padding: 8px 16px;
+        color: #6c757d;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+
+      .nav-link:hover {
+        background: #f8f9fa;
+        color: #212529;
+      }
+
+      .nav-link.active {
+        background: #e7f1ff;
+        color: #0d6efd;
+        font-weight: 500;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* 頂部工具欄 */
+      .toolbar {
+        background: white;
+        padding: 16px 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+
+      .toolbar h1 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #212529;
+      }
+
+      .toolbar-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      /* 按鈕樣式 */
+      .btn {
+        padding: 8px 16px;
+        border: 1px solid #dee2e6;
+        background: white;
+        color: #495057;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn:hover {
+        background: #f8f9fa;
+        border-color: #adb5bd;
+      }
+
+      .btn-primary {
+        background: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+      }
+
+      .btn-primary:hover {
+        background: #0b5ed7;
+        border-color: #0a58ca;
+      }
+
+      /* 篩選欄 */
+      .filters {
+        background: white;
+        padding: 16px 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+
+      .filter-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .filter-group label {
+        font-size: 14px;
+        color: #6c757d;
+        white-space: nowrap;
+      }
+
+      .filter-group select,
+      .filter-group input {
+        padding: 6px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 14px;
+        background: white;
+      }
+
+      /* 表格容器 */
+      .table-container {
+        background: white;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+
+      /* 表格樣式 */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+      }
+
+      th {
+        padding: 12px 16px;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+        color: #495057;
+        white-space: nowrap;
+      }
+
+      td {
+        padding: 12px 16px;
+        font-size: 14px;
+        border-bottom: 1px solid #f1f3f5;
+      }
+
+      tbody tr:hover {
+        background: #f8f9fa;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      /* 狀態標籤 */
+      .status-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .status-pending {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .status-completed {
+        background: #d1e7dd;
+        color: #0f5132;
+      }
+
+      .status-failed {
+        background: #f8d7da;
+        color: #842029;
+      }
+
+      /* 語言標籤 */
+      .lang-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-size: 12px;
+        background: #e7f1ff;
+        color: #004085;
+      }
+
+      /* 操作按鈕 */
+      .action-btns {
+        display: flex;
+        gap: 6px;
+      }
+
+      .action-btn {
+        padding: 4px 10px;
+        border: 1px solid #dee2e6;
+        background: white;
+        color: #495057;
+        border-radius: 3px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .action-btn:hover {
+        background: #f8f9fa;
+      }
+
+      .action-btn-danger {
+        color: #dc3545;
+        border-color: #dc3545;
+      }
+
+      .action-btn-danger:hover {
+        background: #dc3545;
+        color: white;
+      }
+
+      /* 分頁 */
+      .pagination {
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        border-top: 1px solid #dee2e6;
+      }
+
+      .pagination-info {
+        font-size: 14px;
+        color: #6c757d;
+      }
+
+      .pagination-btns {
+        display: flex;
+        gap: 6px;
+      }
+
+      .page-btn {
+        padding: 6px 12px;
+        border: 1px solid #dee2e6;
+        background: white;
+        color: #495057;
+        border-radius: 3px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .page-btn:hover:not(:disabled) {
+        background: #f8f9fa;
+      }
+
+      .page-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .page-btn.active {
+        background: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+      }
+
+      /* 空狀態 */
+      .empty-state {
+        padding: 60px 20px;
+        text-align: center;
+        color: #6c757d;
+      }
+
+      .empty-state-text {
+        font-size: 15px;
+        margin-top: 12px;
+      }
+
+      /* 載入中 */
+      .loading {
+        padding: 40px;
+        text-align: center;
+        color: #6c757d;
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 4px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid #dee2e6;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #6c757d;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #495057;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .modal-footer {
+        padding: 16px 20px;
+        border-top: 1px solid #dee2e6;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- 導航欄 -->
+      <div class="navbar">
+        <div class="nav-brand">智慧語音關懷系統</div>
+        <div class="nav-links">
+          <a href="/api/voice-care/schedules-page" class="nav-link active"
+            >排程管理</a
+          >
+          <a href="/api/voice-care/dashboard" class="nav-link">效果統計</a>
+          <a href="/portal" class="nav-link">返回首頁</a>
+        </div>
+      </div>
+
+      <!-- 頂部工具欄 -->
+      <div class="toolbar">
+        <h1>定期關懷排程管理</h1>
+        <div class="toolbar-actions">
+          <button class="btn" onclick="refreshData()">重新整理</button>
+          <button class="btn btn-primary" onclick="showCreateModal()">
+            新增排程
+          </button>
+        </div>
+      </div>
+
+      <!-- 篩選欄 -->
+      <div class="filters">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label>狀態</label>
+            <select id="filterStatus" onchange="applyFilters()">
+              <option value="">全部</option>
+              <option value="pending">待處理</option>
+              <option value="completed">已完成</option>
+              <option value="failed">失敗</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>語言</label>
+            <select id="filterLanguage" onchange="applyFilters()">
+              <option value="">全部</option>
+              <option value="mandarin">國語</option>
+              <option value="minan">閩南語</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>搜尋</label>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="用戶姓名或標題"
+              onkeyup="applyFilters()"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 表格 -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>用戶</th>
+              <th>標題</th>
+              <th>排程時間</th>
+              <th>語言</th>
+              <th>狀態</th>
+              <th>建立時間</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleTableBody">
+            <tr>
+              <td colspan="7" class="loading">載入中...</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 分頁 -->
+        <div class="pagination">
+          <div class="pagination-info">
+            顯示 <span id="pageInfo">0-0</span> 筆，共
+            <span id="totalCount">0</span> 筆
+          </div>
+          <div class="pagination-btns">
+            <button class="page-btn" onclick="prevPage()" id="prevBtn">
+              上一頁
+            </button>
+            <button class="page-btn" onclick="nextPage()" id="nextBtn">
+              下一頁
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 新增/編輯 Modal -->
+    <div class="modal" id="scheduleModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modalTitle">新增排程</h2>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="scheduleForm">
+            <div class="form-group">
+              <label>用戶 *</label>
+              <select id="userId" required>
+                <option value="">請選擇用戶</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>標題 *</label>
+              <input
+                type="text"
+                id="title"
+                required
+                placeholder="例：每日早安問候"
+              />
+            </div>
+            <div class="form-group">
+              <label>排程時間 *</label>
+              <input type="datetime-local" id="scheduledTime" required />
+            </div>
+            <div class="form-group">
+              <label>語言</label>
+              <select id="language">
+                <option value="mandarin">國語</option>
+                <option value="minan">閩南語</option>
+                <option value="both">雙語</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>地址</label>
+              <input type="text" id="address" placeholder="選填" />
+            </div>
+            <div class="form-group">
+              <label>特別提醒</label>
+              <textarea id="description" placeholder="選填"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" onclick="closeModal()">取消</button>
+          <button class="btn btn-primary" onclick="saveSchedule()">儲存</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let schedules = [];
+      let filteredSchedules = [];
+      let currentPage = 1;
+      const pageSize = 20;
+
+      // 初始化
+      async function init() {
+        await loadUsers();
+        await loadSchedules();
+      }
+
+      // 載入用戶列表
+      async function loadUsers() {
+        try {
+          const response = await fetch("/api/users");
+          const data = await response.json();
+          const select = document.getElementById("userId");
+          select.innerHTML = '<option value="">請選擇用戶</option>';
+          data.users.forEach((user) => {
+            select.innerHTML += `<option value="${user.id}">${user.full_name}</option>`;
+          });
+        } catch (error) {
+          console.error("載入用戶失敗:", error);
+        }
+      }
+
+      // 載入排程列表
+      async function loadSchedules() {
+        try {
+          const response = await fetch("/api/voice-care/schedules");
+          const data = await response.json();
+          schedules = data.schedules || [];
+          applyFilters();
+        } catch (error) {
+          console.error("載入排程失敗:", error);
+          document.getElementById("scheduleTableBody").innerHTML =
+            '<tr><td colspan="7" class="empty-state"><div class="empty-state-text">載入失敗</div></td></tr>';
+        }
+      }
+
+      // 應用篩選
+      function applyFilters() {
+        const status = document.getElementById("filterStatus").value;
+        const language = document.getElementById("filterLanguage").value;
+        const search = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+
+        filteredSchedules = schedules.filter((s) => {
+          if (status && s.status !== status) return false;
+          if (language && s.language !== language) return false;
+          if (
+            search &&
+            !s.user_name.toLowerCase().includes(search) &&
+            !s.title.toLowerCase().includes(search)
+          )
+            return false;
+          return true;
+        });
+
+        currentPage = 1;
+        renderTable();
+      }
+
+      // 渲染表格
+      function renderTable() {
+        const tbody = document.getElementById("scheduleTableBody");
+        const start = (currentPage - 1) * pageSize;
+        const end = start + pageSize;
+        const pageData = filteredSchedules.slice(start, end);
+
+        if (pageData.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="7" class="empty-state"><div class="empty-state-text">暫無數據</div></td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = pageData
+          .map(
+            (s) => `
+                <tr>
+                    <td>${s.user_name || "-"}</td>
+                    <td>${s.title}</td>
+                    <td>${formatDateTime(s.scheduled_time)}</td>
+                    <td><span class="lang-badge">${getLanguageName(
+                      s.language
+                    )}</span></td>
+                    <td><span class="status-badge status-${
+                      s.status
+                    }">${getStatusName(s.status)}</span></td>
+                    <td>${formatDateTime(s.created_at)}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn" onclick="viewSchedule('${
+                              s.id
+                            }')">查看</button>
+                            <button class="action-btn" onclick="editSchedule('${
+                              s.id
+                            }')">編輯</button>
+                            <button class="action-btn action-btn-danger" onclick="deleteSchedule('${
+                              s.id
+                            }')">刪除</button>
+                        </div>
+                    </td>
+                </tr>
+            `
+          )
+          .join("");
+
+        // 更新分頁資訊
+        document.getElementById("pageInfo").textContent = `${
+          start + 1
+        }-${Math.min(end, filteredSchedules.length)}`;
+        document.getElementById("totalCount").textContent =
+          filteredSchedules.length;
+        document.getElementById("prevBtn").disabled = currentPage === 1;
+        document.getElementById("nextBtn").disabled =
+          end >= filteredSchedules.length;
+      }
+
+      // 工具函數
+      function formatDateTime(dateStr) {
+        if (!dateStr) return "-";
+        const date = new Date(dateStr);
+        return date.toLocaleString("zh-TW", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      }
+
+      function getStatusName(status) {
+        const map = {
+          pending: "待處理",
+          completed: "已完成",
+          failed: "失敗",
+        };
+        return map[status] || status;
+      }
+
+      function getLanguageName(lang) {
+        const map = {
+          mandarin: "國語",
+          minan: "閩南語",
+          both: "雙語",
+        };
+        return map[lang] || lang;
+      }
+
+      // Modal 操作
+      function showCreateModal() {
+        document.getElementById("modalTitle").textContent = "新增排程";
+        document.getElementById("scheduleForm").reset();
+        document.getElementById("scheduleModal").classList.add("active");
+      }
+
+      function closeModal() {
+        document.getElementById("scheduleModal").classList.remove("active");
+      }
+
+      async function saveSchedule() {
+        const formData = {
+          user_id: document.getElementById("userId").value,
+          title: document.getElementById("title").value,
+          scheduled_time: document.getElementById("scheduledTime").value,
+          language: document.getElementById("language").value,
+          address: document.getElementById("address").value,
+          description: document.getElementById("description").value,
+        };
+
+        try {
+          const response = await fetch("/api/voice-care/schedules", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+          });
+
+          if (response.ok) {
+            closeModal();
+            await loadSchedules();
+            alert("排程已建立");
+          } else {
+            alert("建立失敗");
+          }
+        } catch (error) {
+          console.error("儲存失敗:", error);
+          alert("儲存失敗");
+        }
+      }
+
+      // 分頁
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          renderTable();
+        }
+      }
+
+      function nextPage() {
+        if (currentPage * pageSize < filteredSchedules.length) {
+          currentPage++;
+          renderTable();
+        }
+      }
+
+      function refreshData() {
+        loadSchedules();
+      }
+
+      // 初始化
+      init();
+    </script>
+  </body>
+</html>

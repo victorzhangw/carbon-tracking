@@ -1,0 +1,204 @@
+实时语音识别（Qwen-ASR-Realtime）客户端事件
+更新时间：2025-10-29 11:27
+产品详情
+社区
+本文档介绍在与 Qwen-ASR Realtime API 的 WebSocket 会话中，客户端向服务端发送的事件。
+
+用户指南：模型介绍、功能特性和示例代码请参见实时语音识别-通义千问
+
+session.update
+用于更新会话配置，建议在 WebSocket 连接建立后首先发送该事件。建议在WebSocket连接建立成功后，立即发送此事件作为交互的第一步。如果未发送，系统将使用默认配置。
+
+服务端成功处理此事件后，会发送session.updated事件作为确认。
+
+参数
+
+类型
+
+说明
+
+type
+
+string
+
+必选。事件类型。固定为session.update。
+
+event_id
+
+string
+
+必选。事件ID。
+
+session
+
+object
+
+必选。包含会话配置的对象。
+
+session.input_audio_format
+
+string
+
+可选。音频格式。支持pcm和opus。
+
+默认值：pcm。
+
+session.sample_rate
+
+integer
+
+可选。音频采样率（Hz）。支持16000和8000。
+
+默认值：16000。
+
+设置为 8000 时，服务端会先升采样到16000Hz再进行识别，可能引入微小延迟。建议仅在源音频为8000Hz（如电话线路）时使用。
+
+session.input_audio_transcription
+
+object
+
+可选。语音识别相关配置。
+
+session.input_audio_transcription.language
+
+string
+
+可选。音频源语言。
+
+取值范围参见ISO 639-1标准。
+
+session.input_audio_transcription.corpus.text
+
+string
+
+可选。ASR 语料文本。提供与业务场景强相关的专有词汇（如产品名、人名），可以提升模型对这些词汇的识别准确度。
+
+session.turn_detection
+
+object
+
+可选。VAD（Voice Activity Detection，语音活动检测）配置。
+
+它是启用/关闭VAD模式的开关：若将它设为null，则将关闭VAD 模式，启用Manual 模式；反之则相反。
+
+session.turn_detection.type
+
+string
+
+若turn_dection存在， 必选。固定为 server_vad。
+
+session.turn_detection.threshold
+
+float
+
+可选。VAD检测阈值。
+
+默认值：0.2。
+
+取值范围：[-1, 1]。
+
+较低的阈值会提高 VAD 的灵敏度，可能将背景噪音误判为语音。较高的阈值则降低灵敏度，有助于在嘈杂环境中减少误触发。
+
+session.turn_detection.silence_duration_ms
+
+integer
+
+可选。VAD断句检测阈值（ms）。静音持续时长超过该阈值将被认为是语句结束。
+
+默认值：800。
+
+取值范围：[200, 6000]。
+
+较低的值（如 300ms）可使模型更快响应，但可能导致在自然停顿处发生不合理的断句。较高的值（如 1200ms）可更好地处理长句内的停顿，但会增加整体响应延迟。
+
+ 
+{
+    "event_id": "event_123",
+    "type": "session.update",
+    "session": {
+        "input_audio_format": "pcm",
+        "sample_rate": 16000,
+        "input_audio_transcription": {
+            "language": "zh",
+            "corpus": {
+              "text": "ASR语料，用以改进模型识别效果"
+            }
+        },
+        "turn_detection": {
+            "type": "server_vad",
+            "threshold": 0.5,
+            "silence_duration_ms": 800
+        }
+    }
+}
+input_audio_buffer.append
+用于将音频数据块追加到服务端的输入缓冲区。这是流式发送音频的核心事件。
+
+不同场景下的区别：
+
+VAD 模式：音频缓冲区用于语音活动检测，服务端会自动决定何时提交音频进行识别。
+
+非VAD模式：客户端可以控制每个事件中的音频数据量，单个 input_audio_buffer.append 事件中的 audio 字段内容最大为 15 MiB。建议流式发送较小的音频块以获得更快的响应。
+
+重要提示：服务端不会对input_audio_buffer.append事件发送任何确认响应。
+
+参数
+
+类型
+
+说明
+
+type
+
+string
+
+必选。事件类型。固定为input_audio_buffer.append。
+
+event_id
+
+string
+
+必选。事件ID。
+
+audio
+
+string
+
+必选。Base64编码的音频数据。
+
+ 
+{
+  "event_id": "event_2728",
+  "type": "input_audio_buffer.append",
+  "audio": "<audio> by base64"
+}
+input_audio_buffer.commit
+非VAD模式下，用于手动触发识别。此事件通知服务端，客户端已发送完一段完整的语音，将当前缓冲区内的所有音频数据作为一个整体进行识别。
+
+禁用场景：VAD模式。
+
+服务端成功处理后，会发送input_audio_buffer.committed事件作为确认响应。
+
+参数
+
+类型
+
+说明
+
+type
+
+string
+
+必选。事件类型。固定为input_audio_buffer.commit。
+
+event_id
+
+string
+
+必选。事件ID。
+
+ 
+{
+  "event_id": "event_789",
+   "type": "input_audio_buffer.commit"
+}

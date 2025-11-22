@@ -101,6 +101,42 @@ def init_db():
     )
     ''')
     
+    # 建立智慧語音關懷排程表
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS voice_care_schedules (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        staff_id TEXT,
+        title TEXT NOT NULL,
+        description TEXT,
+        scheduled_time TEXT NOT NULL,
+        address TEXT,
+        latitude REAL,
+        longitude REAL,
+        weather_info TEXT,
+        status TEXT DEFAULT 'pending',
+        created_at TEXT,
+        updated_at TEXT,
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+        FOREIGN KEY (staff_id) REFERENCES staff (id) ON DELETE SET NULL
+    )
+    ''')
+    
+    # 建立智慧語音關懷記錄表
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS voice_care_records (
+        id TEXT PRIMARY KEY,
+        schedule_id TEXT NOT NULL,
+        audio_file_path TEXT,
+        message TEXT,
+        weather_info TEXT,
+        sent_at TEXT,
+        status TEXT DEFAULT 'sent',
+        created_at TEXT,
+        FOREIGN KEY (schedule_id) REFERENCES voice_care_schedules (id) ON DELETE CASCADE
+    )
+    ''')
+    
     conn.commit()
     
     # 初始化基本角色和權限

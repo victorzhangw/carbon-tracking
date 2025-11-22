@@ -1,0 +1,808 @@
+
+      <html xmlns:o='urn:schemas-microsoft-com:office:office'
+            xmlns:w='urn:schemas-microsoft-com:office:word'
+            xmlns='http://www.w3.org/TR/REC-html40'>
+      <head>
+          <meta charset="utf-8">
+          <title>Exported Document</title>
+          <style>
+              body { font-family: Arial, sans-serif; }
+          </style>
+      </head>
+      <body>
+          <h1 id="ai">AI 廣播劇系統文檔</h1>
+<h2 id="">文檔資訊</h2>
+<ul>
+<li><strong>系統名稱</strong>: AI 廣播劇生成系統</li>
+<li><strong>版本</strong>: 1.0</li>
+<li><strong>最後更新</strong>: 2025-11-13</li>
+<li><strong>狀態</strong>: 正常運行</li>
+</ul>
+<hr />
+<h2 id="-1">系統概述</h2>
+<p>AI 廣播劇系統是一個將 EPUB 電子書自動轉換為有聲廣播劇的智慧系統。系統支援兩種實現方式：</p>
+<ol>
+<li><strong>基礎版本</strong>: 使用 GPT-SoVITS 進行語音合成</li>
+<li><strong>Qwen 版本</strong>: 使用阿里雲 Qwen TTS API，支援普通話和閩南語雙語生成</li>
+</ol>
+<hr />
+<h2 id="-2">系統架構</h2>
+<h3 id="-3">核心組件</h3>
+<pre><code>AI 廣播劇系統
+├── 路由層 (Routes)
+│   └── routes/audiobook.py          # 基礎版本 API 路由
+│
+├── 服務層 (Services)
+│   ├── audiobook_service.py         # 基礎廣播劇服務
+│   ├── qwen_audiobook_service.py    # Qwen TTS 廣播劇服務
+│   ├── voice_synthesis_service.py   # GPT-SoVITS 語音合成
+│   └── voice_config.py              # 語音配置
+│
+├── 處理流程
+│   ├── EPUB 解析
+│   ├── 文字提取與清理
+│   ├── 章節分段
+│   ├── 語音合成
+│   └── 音頻檔案管理
+│
+└── 輸出目錄
+    ├── audiobooks/                  # 基礎版本輸出
+    └── static/audiobooks/           # Qwen 版本輸出
+</code></pre>
+<hr />
+<h2 id="-4">功能特點</h2>
+<h3 id="1epub">1. EPUB 處理</h3>
+<ul>
+<li>✅ 自動解析 EPUB 電子書</li>
+<li>✅ 提取章節標題和內容</li>
+<li>✅ HTML 標籤清理</li>
+<li>✅ 文字正規化處理</li>
+<li>✅ 特殊字符過濾</li>
+</ul>
+<h3 id="2">2. 語音合成</h3>
+<ul>
+<li>✅ 多語言支援（中文、英文、日文、韓文、粵語）</li>
+<li>✅ 長文本自動分段</li>
+<li>✅ 章節音頻生成</li>
+<li>⚠️ 音頻合併（需要額外實現）</li>
+</ul>
+<h3 id="3qwentts">3. Qwen TTS 特色功能</h3>
+<ul>
+<li>✅ 普通話語音生成</li>
+<li>✅ 閩南語語音生成</li>
+<li>✅ 雙語版本同時生成</li>
+<li>✅ 高品質語音輸出</li>
+<li>✅ 多角色語音支援</li>
+</ul>
+<h3 id="4">4. 內容管理</h3>
+<ul>
+<li>✅ 廣播劇列表查詢</li>
+<li>✅ 章節資訊管理</li>
+<li>✅ 音頻檔案下載</li>
+<li>✅ 廣播劇刪除</li>
+</ul>
+<hr />
+<h2 id="-5">🔧 技術實現</h2>
+<h3 id="-6">依賴套件</h3>
+<h4 id="-7">基礎版本</h4>
+<pre><code class="txt language-txt">Flask&gt;=3.1.0
+ebooklib&gt;=0.18          # EPUB 解析
+beautifulsoup4&gt;=4.12.2  # HTML 解析
+</code></pre>
+<h4 id="qwen">Qwen 版本（額外需求）</h4>
+<pre><code class="txt language-txt">dashscope&gt;=1.24.6       # 阿里雲 Qwen TTS API
+ebooklib&gt;=0.18
+beautifulsoup4&gt;=4.12.2
+</code></pre>
+<h4 id="-8">音頻處理（可選）</h4>
+<pre><code class="txt language-txt">pydub&gt;=0.25.1           # 音頻合併與處理
+ffmpeg                  # 音頻格式轉換（系統級依賴）
+</code></pre>
+<h3 id="-9">當前套件狀態</h3>
+<p><strong>✅ 已安裝</strong></p>
+<ul>
+<li>Flask 核心套件</li>
+<li>基礎 HTTP 請求套件</li>
+</ul>
+<p><strong>❌ 未安裝（需要補充）</strong></p>
+<ul>
+<li><code>ebooklib</code> - EPUB 解析庫</li>
+<li><code>beautifulsoup4</code> - HTML 解析庫</li>
+<li><code>dashscope</code> - Qwen TTS API（Qwen 版本需要）</li>
+<li><code>pydub</code> - 音頻處理（可選）</li>
+</ul>
+<hr />
+<h2 id="api">📡 API 端點</h2>
+<h3 id="api-1">基礎版本 API</h3>
+<p><strong>基礎路徑</strong>: <code>/api/audiobook</code></p>
+<h4 id="1epub-1">1. 上傳 EPUB 並生成廣播劇</h4>
+<pre><code class="http language-http">POST /api/audiobook/upload
+Content-Type: multipart/form-data
+
+參數:
+  - file: EPUB 檔案
+
+回應:
+{
+  "success": true,
+  "message": "EPUB文件上傳並處理成功",
+  "book_id": "uuid",
+  "book_title": "書名",
+  "chapter_count": 10
+}
+</code></pre>
+<h4 id="2-1">2. 獲取廣播劇列表</h4>
+<pre><code class="http language-http">GET /api/audiobook/books
+
+回應:
+{
+  "success": true,
+  "books": [
+    {
+      "id": "book_id",
+      "title": "書名",
+      "created_at": 1699999999
+    }
+  ]
+}
+</code></pre>
+<h4 id="3">3. 獲取書籍詳情</h4>
+<pre><code class="http language-http">GET /api/audiobook/book/{book_id}
+
+回應:
+{
+  "success": true,
+  "book": {
+    "id": "book_id",
+    "title": "書名",
+    "chapters": [
+      {
+        "id": "chapter_001",
+        "title": "第一章",
+        "audio_url": "/api/audiobook/book/{book_id}/chapter/{chapter_id}/audio"
+      }
+    ]
+  }
+}
+</code></pre>
+<h4 id="4-1">4. 下載章節音頻</h4>
+<pre><code class="http language-http">GET /api/audiobook/book/{book_id}/chapter/{chapter_id}/audio
+
+回應: 音頻檔案 (MP3/WAV)
+</code></pre>
+<h4 id="5">5. 刪除廣播劇</h4>
+<pre><code class="http language-http">DELETE /api/audiobook/book/{book_id}
+
+回應:
+{
+  "success": true,
+  "message": "廣播劇已成功刪除"
+}
+</code></pre>
+<hr />
+<h3 id="qwenapi">Qwen 版本 API</h3>
+<p><strong>基礎路徑</strong>: <code>/api/qwen-audiobook</code></p>
+<h4 id="1">1. 生成單語廣播劇</h4>
+<pre><code class="http language-http">POST /api/qwen-audiobook/generate
+Content-Type: application/json
+
+Body:
+{
+  "epub_file": "book.epub",
+  "dialect": "mandarin",  // 或 "minan"
+  "api_key": "your_api_key"  // 可選，可從環境變數讀取
+}
+
+回應:
+{
+  "success": true,
+  "message": "AI廣播劇生成成功",
+  "book_id": "uuid",
+  "title": "書名",
+  "dialect": "mandarin",
+  "chapter_count": 10,
+  "output_dir": "path/to/output"
+}
+</code></pre>
+<h4 id="2-2">2. 生成雙語廣播劇</h4>
+<pre><code class="http language-http">POST /api/qwen-audiobook/generate-bilingual
+Content-Type: application/json
+
+Body:
+{
+  "epub_file": "book.epub",
+  "api_key": "your_api_key"
+}
+
+回應:
+{
+  "success": true,
+  "message": "雙語AI廣播劇生成成功",
+  "book_id": "uuid",
+  "title": "書名",
+  "chapter_count": 10,
+  "mandarin_output_dir": "path/to/mandarin",
+  "minan_output_dir": "path/to/minan"
+}
+</code></pre>
+<h4 id="3-1">3. 獲取雙語章節資訊</h4>
+<pre><code class="http language-http">GET /api/qwen-audiobook/book/{book_id}/bilingual-chapters
+
+回應:
+{
+  "success": true,
+  "book": {
+    "id": "book_id",
+    "title": "書名",
+    "mandarin_chapters": [...],
+    "minan_chapters": [...]
+  }
+}
+</code></pre>
+<h4 id="4-2">4. 下載指定語言的章節音頻</h4>
+<pre><code class="http language-http">GET /api/qwen-audiobook/book/{book_id}/chapter/{chapter_id}/audio/{dialect}
+
+參數:
+  - dialect: "mandarin" 或 "minan"
+
+回應: 音頻檔案 (WAV)
+</code></pre>
+<hr />
+<h2 id="-10">💻 代碼實現</h2>
+<h3 id="-11">核心類別</h3>
+<h4 id="1audiobookservice">1. AudiobookService (基礎版本)</h4>
+<pre><code class="python language-python">class AudiobookService:
+    """AI廣播劇服務類"""
+
+    def __init__(self, output_dir: str = "audiobooks"):
+        self.output_dir = output_dir
+        self.voice_service = VoiceSynthesisService()
+        self.voice_config = VoiceConfig()
+
+    def extract_text_from_epub(self, epub_path: str) -&gt; List[Dict[str, str]]:
+        """從EPUB文件中提取文本內容"""
+        # 使用 ebooklib 解析 EPUB
+        # 使用 BeautifulSoup 清理 HTML
+        # 返回章節列表
+
+    def generate_audiobook(self, epub_path: str, book_id: Optional[str] = None) -&gt; Dict:
+        """生成AI廣播劇音頻"""
+        # 1. 提取 EPUB 內容
+        # 2. 創建輸出目錄
+        # 3. 逐章節生成音頻
+        # 4. 返回書籍資訊
+
+    def _generate_chapter_audio(self, text: str, chapter_id: str, output_dir: str, title: str) -&gt; str:
+        """生成單個章節的音頻文件"""
+        # 1. 分段處理長文本
+        # 2. 生成各段落音頻
+        # 3. 合併音頻文件
+        # 4. 返回最終音頻路徑
+</code></pre>
+<h4 id="2qwenaudiobookserviceqwen">2. QwenAudiobookService (Qwen 版本)</h4>
+<pre><code class="python language-python">class QwenAudiobookService:
+    """Qwen AI廣播劇服務類"""
+
+    def __init__(self, api_key: Optional[str] = None):
+        self.api_key = api_key or os.getenv("DASHSCOPE_API_KEY")
+        self.output_dir = os.path.join("static", "audiobooks")
+
+    def is_available(self) -&gt; bool:
+        """檢查服務是否可用"""
+        return DASHSCOPE_AVAILABLE and EPUB_AVAILABLE and self.api_key is not None
+
+    def generate_audiobook_mandarin(self, epub_path: str, book_id: Optional[str] = None) -&gt; Dict:
+        """生成普通話版本的AI廣播劇"""
+        return self._generate_audiobook(epub_path, book_id, "Ethan", "Chinese", "mandarin")
+
+    def generate_audiobook_minan(self, epub_path: str, book_id: Optional[str] = None) -&gt; Dict:
+        """生成閩南語版本的AI廣播劇"""
+        return self._generate_audiobook(epub_path, book_id, "Roy", "Chinese", "minan")
+
+    def generate_bilingual_audiobook(self, epub_path: str, book_id: Optional[str] = None) -&gt; Dict:
+        """生成雙語版本的AI廣播劇"""
+        # 同時生成普通話和閩南語版本
+
+    def _tts_synthesize(self, text: str, output_file: str, voice: str, language_type: str):
+        """使用Qwen TTS API合成語音"""
+        response = dashscope.MultiModalConversation.call(
+            api_key=self.api_key,
+            model="qwen3-tts-flash",
+            text=text,
+            voice=voice,
+            language_type=language_type,
+            stream=False
+        )
+</code></pre>
+<hr />
+<h2 id="-12">🔄 處理流程</h2>
+<h3 id="epub">EPUB 轉廣播劇流程</h3>
+<pre><code>1. 上傳 EPUB 檔案
+   ↓
+2. 解析 EPUB 結構
+   ├── 提取書籍元數據（書名、作者等）
+   ├── 提取章節列表
+   └── 提取章節內容
+   ↓
+3. 文字處理
+   ├── 移除 HTML 標籤
+   ├── 清理特殊字符
+   ├── 正規化空白字符
+   └── 分段處理（每段 ≤ 1000 字）
+   ↓
+4. 語音合成
+   ├── 選擇語音角色
+   ├── 設定語言參數
+   ├── 逐段生成音頻
+   └── 合併段落音頻
+   ↓
+5. 檔案管理
+   ├── 保存章節音頻
+   ├── 生成元數據
+   └── 建立索引
+   ↓
+6. 返回結果
+   └── 書籍 ID、章節列表、音頻 URL
+</code></pre>
+<hr />
+<h2 id="-13">📁 檔案結構</h2>
+<h3 id="-14">輸出目錄結構</h3>
+<pre><code>audiobooks/                          # 基礎版本輸出
+├── {book_id}/
+│   ├── chapter_001.mp3
+│   ├── chapter_002.mp3
+│   └── ...
+
+static/audiobooks/                   # Qwen 版本輸出
+├── {book_id}_mandarin/              # 普通話版本
+│   ├── chapter_001.wav
+│   ├── chapter_002.wav
+│   └── ...
+└── {book_id}_minan/                 # 閩南語版本
+    ├── chapter_001.wav
+    ├── chapter_002.wav
+    └── ...
+
+uploads/audiobooks/                  # 上傳的 EPUB 檔案
+└── {uuid}_{filename}.epub
+</code></pre>
+<hr />
+<h2 id="-15">⚙️ 配置說明</h2>
+<h3 id="-16">環境變數</h3>
+<pre><code class="bash language-bash"># Qwen TTS API 密鑰（Qwen 版本需要）
+DASHSCOPE_API_KEY=your_api_key_here
+
+# GPT-SoVITS 配置（基礎版本需要）
+GPT_SOVITS_API_URL=http://localhost:9874
+</code></pre>
+<h3 id="-17">配置文件</h3>
+<p><strong>voice_config.py</strong></p>
+<pre><code class="python language-python"># GPT-SoVITS 配置
+GPT_SOVITS_PATH = "./GPT-SoVITS-v4-20250422fix"
+GPT_SOVITS_API_URL = "http://localhost:9874"
+
+# 目錄配置
+UPLOAD_DIR = "./assets/audio/uploads"
+OUTPUT_DIR = "./assets/audio/genvoice"
+
+# 音頻配置
+SUPPORTED_FORMATS = ['.wav', '.mp3', '.flac', '.m4a', '.ogg']
+MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB
+
+# 語言支持
+SUPPORTED_LANGUAGES = {
+    'zh': '中文',
+    'en': 'English',
+    'ja': '日本語',
+    'ko': '한국어',
+    'yue': '粵語'
+}
+</code></pre>
+<hr />
+<h2 id="-18">🚀 部署指南</h2>
+<h3 id="1-1">1. 安裝依賴套件</h3>
+<h4 id="-19">基礎版本</h4>
+<pre><code class="bash language-bash">pip install ebooklib beautifulsoup4
+</code></pre>
+<h4 id="qwen-1">Qwen 版本</h4>
+<pre><code class="bash language-bash">pip install ebooklib beautifulsoup4 dashscope
+</code></pre>
+<h4 id="-20">音頻處理（可選）</h4>
+<pre><code class="bash language-bash">pip install pydub
+
+# Windows
+# 下載 ffmpeg 並添加到 PATH
+
+# Linux
+sudo apt-get install ffmpeg
+
+# macOS
+brew install ffmpeg
+</code></pre>
+<h3 id="2apiqwen">2. 配置 API 密鑰（Qwen 版本）</h3>
+<pre><code class="bash language-bash"># 設定環境變數
+export DASHSCOPE_API_KEY="your_api_key_here"
+
+# 或在 .env 檔案中設定
+echo "DASHSCOPE_API_KEY=your_api_key_here" &gt; .env
+</code></pre>
+<h3 id="3-2">3. 啟動服務</h3>
+<pre><code class="bash language-bash"># 啟動 Flask 應用
+python app.py
+
+# 服務將在 http://localhost:5000 運行
+</code></pre>
+<h3 id="4api">4. 測試 API</h3>
+<pre><code class="bash language-bash"># 測試基礎版本
+curl -X POST http://localhost:5000/api/audiobook/upload \
+  -F "file=@test.epub"
+
+# 測試 Qwen 版本
+curl -X POST http://localhost:5000/api/qwen-audiobook/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "epub_file": "test.epub",
+    "dialect": "mandarin",
+    "api_key": "your_api_key"
+  }'
+</code></pre>
+<hr />
+<h2 id="-21">⚠️ 已知問題與限制</h2>
+<h3 id="-22">當前狀態</h3>
+<h4 id="-23">✅ 已實現</h4>
+<ul>
+<li>EPUB 解析邏輯</li>
+<li>文字清理與處理</li>
+<li>API 路由定義</li>
+<li>雙語支援架構</li>
+<li>檔案管理系統</li>
+</ul>
+<h4 id="-24">⚠️ 需要補充</h4>
+<ol>
+<li><strong>依賴套件未安裝</strong></li>
+</ol>
+<ul>
+<li><code>ebooklib</code> - EPUB 解析</li>
+<li><code>beautifulsoup4</code> - HTML 清理</li>
+<li><code>dashscope</code> - Qwen TTS API</li>
+</ul>
+<ol>
+<li><strong>音頻合併功能</strong></li>
+</ol>
+<ul>
+<li>目前只保留第一段音頻</li>
+<li>需要實現完整的音頻合併邏輯</li>
+<li>建議使用 <code>pydub</code> 或 <code>ffmpeg</code></li>
+</ul>
+<ol>
+<li><strong>元數據管理</strong></li>
+</ol>
+<ul>
+<li>書籍標題從檔名讀取</li>
+<li>章節標題需要從 EPUB 元數據提取</li>
+<li>需要建立完整的元數據索引</li>
+</ul>
+<ol>
+<li><strong>錯誤處理</strong></li>
+</ol>
+<ul>
+<li>需要更完善的異常處理</li>
+<li>需要添加重試機制</li>
+<li>需要添加進度追蹤</li>
+</ul>
+<h4 id="-25">❌ 未實現</h4>
+<ul>
+<li>音頻品質評估</li>
+<li>多角色配音</li>
+<li>背景音樂整合</li>
+<li>音效添加</li>
+<li>批次處理</li>
+<li>進度通知</li>
+</ul>
+<hr />
+<h2 id="-26">🔧 修復建議</h2>
+<h3 id="1-2">1. 安裝缺失的套件</h3>
+<p>創建完整的 <code>requirements.txt</code>:</p>
+<pre><code class="txt language-txt"># AI 廣播劇系統依賴
+ebooklib&gt;=0.18
+beautifulsoup4&gt;=4.12.2
+dashscope&gt;=1.24.6
+pydub&gt;=0.25.1
+lxml&gt;=4.9.0
+</code></pre>
+<p>安裝命令:</p>
+<pre><code class="bash language-bash">pip install -r requirements.txt
+</code></pre>
+<h3 id="2-3">2. 實現音頻合併功能</h3>
+<pre><code class="python language-python">from pydub import AudioSegment
+
+def _merge_audio_files(self, audio_files: List[str], output_file: str):
+    """合併多個音頻文件"""
+    try:
+        # 載入第一個音頻
+        combined = AudioSegment.from_wav(audio_files[0])
+
+        # 逐個合併其他音頻
+        for audio_file in audio_files[1:]:
+            audio = AudioSegment.from_wav(audio_file)
+            combined += audio
+
+        # 匯出合併後的音頻
+        combined.export(output_file, format="mp3")
+
+        # 清理臨時文件
+        for audio_file in audio_files:
+            if os.path.exists(audio_file):
+                os.remove(audio_file)
+
+    except Exception as e:
+        logger.error(f"合併音頻文件時出錯: {str(e)}")
+        raise
+</code></pre>
+<h3 id="3-3">3. 改進元數據提取</h3>
+<pre><code class="python language-python">def _extract_book_metadata(self, epub_path: str) -&gt; Dict[str, str]:
+    """提取完整的書籍元數據"""
+    try:
+        book = epub.read_epub(epub_path)
+
+        metadata = {
+            'title': self._get_metadata(book, 'DC', 'title'),
+            'author': self._get_metadata(book, 'DC', 'creator'),
+            'publisher': self._get_metadata(book, 'DC', 'publisher'),
+            'language': self._get_metadata(book, 'DC', 'language'),
+            'date': self._get_metadata(book, 'DC', 'date'),
+            'description': self._get_metadata(book, 'DC', 'description')
+        }
+
+        return metadata
+    except Exception as e:
+        logger.error(f"提取元數據失敗: {str(e)}")
+        return {'title': '未知書名'}
+
+def _get_metadata(self, book, namespace: str, name: str) -&gt; str:
+    """安全地獲取元數據"""
+    try:
+        data = book.get_metadata(namespace, name)
+        return data[0][0] if data else ''
+    except:
+        return ''
+</code></pre>
+<h3 id="4-3">4. 添加進度追蹤</h3>
+<pre><code class="python language-python">from typing import Callable
+
+def generate_audiobook(
+    self,
+    epub_path: str,
+    book_id: Optional[str] = None,
+    progress_callback: Optional[Callable[[int, int], None]] = None
+) -&gt; Dict[str, Any]:
+    """
+    生成AI廣播劇音頻（帶進度回調）
+
+    Args:
+        epub_path: EPUB文件路徑
+        book_id: 書籍ID
+        progress_callback: 進度回調函數 (current, total)
+    """
+    chapters = self.extract_text_from_epub(epub_path)
+    total_chapters = len(chapters)
+
+    for i, chapter in enumerate(chapters):
+        # 生成章節音頻
+        self._generate_chapter_audio(...)
+
+        # 回調進度
+        if progress_callback:
+            progress_callback(i + 1, total_chapters)
+</code></pre>
+<hr />
+<h2 id="-27">📊 效能考量</h2>
+<h3 id="-28">處理時間估算</h3>
+<table>
+<thead>
+<tr>
+<th>書籍大小</th>
+<th>章節數</th>
+<th>預估時間（普通話）</th>
+<th>預估時間（雙語）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>小型 (&lt; 100KB)</td>
+<td>5-10</td>
+<td>2-5 分鐘</td>
+<td>4-10 分鐘</td>
+</tr>
+<tr>
+<td>中型 (100-500KB)</td>
+<td>10-30</td>
+<td>5-15 分鐘</td>
+<td>10-30 分鐘</td>
+</tr>
+<tr>
+<td>大型 (&gt; 500KB)</td>
+<td>30+</td>
+<td>15+ 分鐘</td>
+<td>30+ 分鐘</td>
+</tr>
+</tbody>
+</table>
+<h3 id="-29">資源需求</h3>
+<ul>
+<li><strong>CPU</strong>: 中等負載（文字處理）</li>
+<li><strong>記憶體</strong>: 512MB - 2GB（取決於書籍大小）</li>
+<li><strong>磁碟空間</strong>: 每本書約 50-200MB</li>
+<li><strong>網路</strong>: Qwen API 需要穩定網路連線</li>
+</ul>
+<h3 id="-30">優化建議</h3>
+<ol>
+<li><strong>批次處理</strong>: 實現非同步批次處理</li>
+<li><strong>快取機制</strong>: 快取已處理的章節</li>
+<li><strong>分散式處理</strong>: 使用 Celery 等任務佇列</li>
+<li><strong>CDN 整合</strong>: 音頻檔案使用 CDN 加速</li>
+</ol>
+<hr />
+<h2 id="-31">🔐 安全考量</h2>
+<h3 id="api-2">API 密鑰管理</h3>
+<ul>
+<li>✅ 支援環境變數</li>
+<li>✅ 支援請求參數傳遞</li>
+<li>⚠️ 建議使用密鑰管理服務</li>
+</ul>
+<h3 id="-32">檔案上傳安全</h3>
+<ul>
+<li>✅ 檔案類型驗證（只允許 EPUB）</li>
+<li>✅ 檔案名稱安全化</li>
+<li>⚠️ 需要添加檔案大小限制</li>
+<li>⚠️ 需要添加病毒掃描</li>
+</ul>
+<h3 id="-33">存取控制</h3>
+<ul>
+<li>⚠️ 目前無認證機制</li>
+<li>建議整合 JWT 認證</li>
+<li>建議添加使用配額限制</li>
+</ul>
+<hr />
+<h2 id="-34">📈 未來規劃</h2>
+<h3 id="-35">短期目標</h3>
+<ul>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 安裝並測試所有依賴套件</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 實現完整的音頻合併功能</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 改進元數據提取</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 添加進度追蹤</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 完善錯誤處理</li>
+</ul>
+<h3 id="-36">中期目標</h3>
+<ul>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 多角色配音支援</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 背景音樂整合</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 音效添加</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 批次處理功能</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> Web UI 介面</li>
+</ul>
+<h3 id="-37">長期目標</h3>
+<ul>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> AI 自動配音優化</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 情緒語調控制</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 多語言自動翻譯</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 社群分享功能</li>
+<li class="task-list-item" style="list-style-type: none;"><input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"> 行動 APP 開發</li>
+</ul>
+<hr />
+<h2 id="-38">🧪 測試指南</h2>
+<h3 id="-39">單元測試</h3>
+<pre><code class="python language-python">import unittest
+from modules.voice_processing.audiobook_service import AudiobookService
+
+class TestAudiobookService(unittest.TestCase):
+    def setUp(self):
+        self.service = AudiobookService()
+
+    def test_extract_text_from_epub(self):
+        """測試 EPUB 文字提取"""
+        chapters = self.service.extract_text_from_epub('test.epub')
+        self.assertIsInstance(chapters, list)
+        self.assertGreater(len(chapters), 0)
+
+    def test_clean_text(self):
+        """測試文字清理"""
+        text = "  這是  測試   文字  "
+        cleaned = self.service._clean_text(text)
+        self.assertEqual(cleaned, "這是 測試 文字")
+
+    def test_split_text_into_segments(self):
+        """測試文字分段"""
+        text = "第一句。" * 100
+        segments = self.service._split_text_into_segments(text, max_length=100)
+        self.assertGreater(len(segments), 1)
+</code></pre>
+<h3 id="-40">整合測試</h3>
+<pre><code class="bash language-bash"># 測試 EPUB 上傳
+curl -X POST http://localhost:5000/api/audiobook/upload \
+  -F "file=@test.epub"
+
+# 測試書籍列表
+curl http://localhost:5000/api/audiobook/books
+
+# 測試 Qwen 生成
+curl -X POST http://localhost:5000/api/qwen-audiobook/generate \
+  -H "Content-Type: application/json" \
+  -d '{"epub_file": "test.epub", "dialect": "mandarin"}'
+</code></pre>
+<hr />
+<h2 id="-41">📞 技術支援</h2>
+<h3 id="-42">常見問題</h3>
+<p><strong>Q: 為什麼無法解析 EPUB 檔案？</strong>
+A: 請確認已安裝 <code>ebooklib</code> 套件：<code>pip install ebooklib</code></p>
+<p><strong>Q: Qwen TTS API 返回錯誤？</strong>
+A: 請檢查：</p>
+<ol>
+<li>API 密鑰是否正確</li>
+<li>網路連線是否正常</li>
+<li>API 配額是否充足</li>
+</ol>
+<p><strong>Q: 音頻檔案無法播放？</strong>
+A: 請確認：</p>
+<ol>
+<li>音頻格式是否支援</li>
+<li>檔案是否完整生成</li>
+<li>瀏覽器是否支援該格式</li>
+</ol>
+<p><strong>Q: 生成速度太慢？</strong>
+A: 建議：</p>
+<ol>
+<li>使用更快的 TTS 模型</li>
+<li>實現批次處理</li>
+<li>使用快取機制</li>
+</ol>
+<h3 id="-43">錯誤代碼</h3>
+<table>
+<thead>
+<tr>
+<th>代碼</th>
+<th>說明</th>
+<th>解決方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>400</td>
+<td>請求參數錯誤</td>
+<td>檢查請求格式和參數</td>
+</tr>
+<tr>
+<td>404</td>
+<td>資源不存在</td>
+<td>確認書籍 ID 或章節 ID</td>
+</tr>
+<tr>
+<td>500</td>
+<td>伺服器錯誤</td>
+<td>查看日誌檔案</td>
+</tr>
+<tr>
+<td>503</td>
+<td>服務不可用</td>
+<td>檢查依賴服務狀態</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="-44">參考資源</h2>
+<h3 id="-45">相關文件</h3>
+<ul>
+<li><a href="https://github.com/aerkalov/ebooklib">ebooklib 文檔</a></li>
+<li><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup 文檔</a></li>
+<li><a href="https://help.aliyun.com/zh/dashscope/">Qwen TTS API 文檔</a></li>
+<li><a href="https://github.com/jiaaro/pydub">pydub 文檔</a></li>
+</ul>
+<h3 id="-46">相關專案</h3>
+<ul>
+<li>GPT-SoVITS: <a href="https://github.com/RVC-Boss/GPT-SoVITS">https://github.com/RVC-Boss/GPT-SoVITS</a></li>
+<li>Flask: <a href="https://flask.palletsprojects.com/">https://flask.palletsprojects.com/</a></li>
+</ul>
+<hr />
+      </body>
+      </html>
+    

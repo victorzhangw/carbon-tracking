@@ -14,7 +14,8 @@ class GPTSoVITSTTSService:
         #self.api_url = "http://104.155.214.241:9880/tts"  # 外部服務器備用
         #self.api_url = "https://557584af9714.ngrok-free.app/tts"  # 外部服務器備用
        
-        self.default_ref_audio = "./mockvoice/vc.wav"  # 使用项目中的参考音频
+        # 使用 GPT-SoVITS 目錄中的參考音頻（相對於 GPT-SoVITS 運行目錄）
+        self.default_ref_audio = "TTS/vc.wav"
         self.output_dir = "genvoice"
         ensure_directories()
         
@@ -39,23 +40,8 @@ class GPTSoVITSTTSService:
         """
         try:
             # 使用預設參考音頻如果沒有提供
-            if not ref_audio_path or not os.path.exists(ref_audio_path):
-                # 尝试使用mockvoice中的音频文件
-                if os.path.exists(self.default_ref_audio):
-                    ref_audio_path = self.default_ref_audio
-                else:
-                    # 查找mockvoice目录中的任何wav文件
-                    mockvoice_dir = "./mockvoice"
-                    if os.path.exists(mockvoice_dir):
-                        wav_files = [f for f in os.listdir(mockvoice_dir) if f.endswith('.wav')]
-                        if wav_files:
-                            ref_audio_path = os.path.join(mockvoice_dir, wav_files[0])
-                        else:
-                            print("❌ 沒有找到可用的參考音頻檔案")
-                            return None
-                    else:
-                        print("❌ mockvoice目錄不存在")
-                        return None
+            if not ref_audio_path:
+                ref_audio_path = self.default_ref_audio
             # 使用預設提示文字如果沒有提供
             if not prompt_text:
                 prompt_text = "使用軟件者、傳播軟件導出的聲音者自負全責。如不認可該條款，則不能使用或引用軟件"

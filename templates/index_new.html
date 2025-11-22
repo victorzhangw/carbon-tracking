@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 語音互動平台</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Microsoft JhengHei", sans-serif;
+        background: #f8f9fa;
+        color: #212529;
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* 頂部工具欄 */
+      .toolbar {
+        background: white;
+        padding: 16px 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+
+      .toolbar h1 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 4px;
+      }
+
+      .toolbar p {
+        font-size: 14px;
+        color: #6c757d;
+      }
+
+      /* 導航標籤 */
+      .nav-tabs {
+        background: white;
+        padding: 12px 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        display: flex;
+        gap: 8px;
+      }
+
+      .nav-tab {
+        padding: 8px 16px;
+        border: 1px solid #dee2e6;
+        background: white;
+        color: #495057;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .nav-tab:hover {
+        background: #f8f9fa;
+      }
+
+      .nav-tab.active {
+        background: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+      }
+
+      /* 內容區 */
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* 卡片 */
+      .card {
+        background: white;
+        padding: 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+
+      .card-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #f1f3f5;
+      }
+
+      /* 按鈕 */
+      .btn {
+        padding: 8px 16px;
+        border: 1px solid #dee2e6;
+        background: white;
+        color: #495057;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
+
+      .btn:hover {
+        background: #f8f9fa;
+        border-color: #adb5bd;
+      }
+
+      .btn-primary {
+        background: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+      }
+
+      .btn-primary:hover {
+        background: #0b5ed7;
+        border-color: #0a58ca;
+      }
+
+      .btn-success {
+        background: #28a745;
+        color: white;
+        border-color: #28a745;
+      }
+
+      .btn-success:hover {
+        background: #218838;
+        border-color: #1e7e34;
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* 輸入框 */
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #495057;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+      }
+
+      /* 結果顯示 */
+      .result-box {
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 4px;
+        margin-bottom: 12px;
+        font-size: 14px;
+      }
+
+      .result-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 4px;
+      }
+
+      .result-value {
+        color: #212529;
+      }
+
+      /* 波形容器 */
+      .waveform-container {
+        width: 100%;
+        height: 120px;
+        background: #f8f9fa;
+        border-radius: 4px;
+        margin: 16px 0;
+        overflow: hidden;
+      }
+
+      canvas {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 音頻播放器 */
+      .audio-player {
+        margin-top: 16px;
+      }
+
+      audio {
+        width: 100%;
+        height: 40px;
+      }
+
+      /* 狀態提示 */
+      .status-message {
+        padding: 12px;
+        border-radius: 4px;
+        margin-top: 16px;
+        font-size: 14px;
+      }
+
+      .status-info {
+        background: #cfe2ff;
+        color: #084298;
+      }
+
+      .status-success {
+        background: #d1e7dd;
+        color: #0f5132;
+      }
+
+      .status-error {
+        background: #f8d7da;
+        color: #842029;
+      }
+
+      /* 功能網格 */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .feature-card {
+        background: white;
+        padding: 20px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+
+      .feature-card h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #212529;
+      }
+
+      .feature-card p {
+        font-size: 14px;
+        color: #6c757d;
+        margin-bottom: 16px;
+      }
+
+      .feature-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .feature-list li {
+        padding: 6px 0;
+        font-size: 14px;
+        color: #495057;
+        border-bottom: 1px solid #f1f3f5;
+      }
+
+      .feature-list li:last-child {
+        border-bottom: none;
+      }
+
+      /* 範例文字 */
+      .example-text {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 4px;
+        border-left: 3px solid #0d6efd;
+        margin-bottom: 16px;
+      }
+
+      .example-text h4 {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #495057;
+      }
+
+      .example-text p {
+        font-size: 14px;
+        color: #212529;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- 頂部工具欄 -->
+      <div class="toolbar">
+        <h1>AI 語音互動平台</h1>
+        <p>智能語音分析與互動系統</p>
+      </div>
+
+      <!-- 導航標籤 -->
+      <div class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab('analysis')">
+          語音分析
+        </button>
+        <button class="nav-tab" onclick="switchTab('interaction')">
+          語音互動
+        </button>
+        <button class="nav-tab" onclick="switchTab('simulation')">
+          聲音模擬
+        </button>
+        <button class="nav-tab" onclick="switchTab('care')">定期關懷</button>
+      </div>
+
+      <!-- 語音分析 -->
+      <div id="analysis-content" class="tab-content active">
+        <div class="card">
+          <div class="card-title">AI 語音分析系統</div>
+          <p style="margin-bottom: 16px; color: #6c757d; font-size: 14px">
+            使用您的聲音進行即時分析，獲取情緒評估和智能回應
+          </p>
+
+          <div>
+            <button id="startRecord" class="btn btn-primary">開始錄音</button>
+            <button id="stopRecord" class="btn btn-success" disabled>
+              停止錄音
+            </button>
+          </div>
+
+          <div class="waveform-container">
+            <canvas id="waveform-analysis"></canvas>
+          </div>
+
+          <div
+            class="audio-player"
+            id="audio-player-container"
+            style="display: none"
+          >
+            <audio id="audio-player" controls></audio>
+          </div>
+
+          <div class="result-box">
+            <div class="result-label">語音轉文字</div>
+            <div class="result-value" id="transcript">暫無資料</div>
+          </div>
+
+          <div class="result-box">
+            <div class="result-label">情緒分析</div>
+            <div class="result-value" id="sentiment">暫無資料</div>
+          </div>
+
+          <div class="result-box">
+            <div class="result-label">AI 回應</div>
+            <div class="result-value" id="response">暫無資料</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 語音互動 -->
+      <div id="interaction-content" class="tab-content">
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>語音互動（增強版）</h3>
+            <p>手動控制錄音，分步驟處理，適合學習使用</p>
+            <ul class="feature-list">
+              <li>手動控制錄音</li>
+              <li>分步驟處理</li>
+              <li>詳細狀態顯示</li>
+            </ul>
+            <a
+              href="/voice_interaction"
+              class="btn btn-primary"
+              style="margin-top: 16px"
+              >進入系統</a
+            >
+          </div>
+
+          <div class="feature-card">
+            <h3>語音互動（即時版）</h3>
+            <p>一鍵錄音，自動斷句分析，流暢對話體驗</p>
+            <ul class="feature-list">
+              <li>一鍵錄音</li>
+              <li>自動斷句分析</li>
+              <li>即時回覆</li>
+            </ul>
+            <a
+              href="/voice_interaction_realtime"
+              class="btn btn-success"
+              style="margin-top: 16px"
+              >進入系統</a
+            >
+          </div>
+
+          <div class="feature-card">
+            <h3>語音克隆演示</h3>
+            <p>個人化語音，聲音模型訓練，專業應用</p>
+            <ul class="feature-list">
+              <li>個人化語音</li>
+              <li>聲音模型訓練</li>
+              <li>高品質合成</li>
+            </ul>
+            <a
+              href="/voice_clone/demo"
+              class="btn btn-primary"
+              style="margin-top: 16px"
+              >進入系統</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- 聲音模擬 -->
+      <div id="simulation-content" class="tab-content">
+        <div class="card">
+          <div class="card-title">服務聲音模擬</div>
+          <p style="margin-bottom: 16px; color: #6c757d; font-size: 14px">
+            錄製標準化服務聲音樣本，協助提升客戶服務品質
+          </p>
+
+          <div class="example-text">
+            <h4>範例文字</h4>
+            <p>
+              有看過圓形的臭豆腐嗎，有一間素食小吃店業者，為了做出跟一般臭豆腐不一樣的味道，發揮創意研發春捲臭豆腐，用豆皮當外皮包進臭豆腐渣，加入杏包菇等食材，獨特的外型、口味吸引許多顧客上門。
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label>人員代號</label>
+            <input
+              type="text"
+              id="personnelCode"
+              class="form-control"
+              placeholder="請輸入您的人員代號"
+            />
+          </div>
+
+          <button id="startSimulation" class="btn btn-primary">
+            開始錄音（15秒）
+          </button>
+
+          <div id="simulationStatus" style="display: none"></div>
+
+          <div class="waveform-container">
+            <canvas id="waveform-simulation"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 定期關懷 -->
+      <div id="care-content" class="tab-content">
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>排程管理</h3>
+            <p>管理定期關懷排程，支援國語和閩南語雙語服務</p>
+            <ul class="feature-list">
+              <li>創建關懷排程</li>
+              <li>雙語語音合成</li>
+              <li>自動執行關懷</li>
+            </ul>
+            <a
+              href="/api/voice-care/schedules-page"
+              class="btn btn-primary"
+              style="margin-top: 16px"
+              >排程管理</a
+            >
+          </div>
+
+          <div class="feature-card">
+            <h3>統計儀表板</h3>
+            <p>查看關懷服務執行統計，分析服務效果</p>
+            <ul class="feature-list">
+              <li>關懷次數統計</li>
+              <li>接聽率分析</li>
+              <li>滿意度評估</li>
+            </ul>
+            <a
+              href="/api/voice-care/dashboard"
+              class="btn btn-primary"
+              style="margin-top: 16px"
+              >統計儀表板</a
+            >
+          </div>
+
+          <div class="feature-card">
+            <h3>功能測試</h3>
+            <p>測試 AI 訊息生成和語音合成功能</p>
+            <ul class="feature-list">
+              <li>訊息生成測試</li>
+              <li>語音合成測試</li>
+              <li>完整流程測試</li>
+            </ul>
+            <a
+              href="/api/voice-care/test"
+              class="btn btn-primary"
+              style="margin-top: 16px"
+              >功能測試</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/static/js/voice_analysis.js"></script>
+    <script>
+      // 標籤切換
+      function switchTab(tabName) {
+        // 移除所有 active
+        document
+          .querySelectorAll(".nav-tab")
+          .forEach((tab) => tab.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((content) => content.classList.remove("active"));
+
+        // 添加 active
+        event.target.classList.add("active");
+        document.getElementById(tabName + "-content").classList.add("active");
+      }
+    </script>
+  </body>
+</html>

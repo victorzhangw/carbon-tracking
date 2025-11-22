@@ -1,4 +1,8 @@
 import os
+from dotenv import load_dotenv
+
+# 載入環境變數
+load_dotenv()
 
 # 資料庫設定
 DATABASE = 'data/databases/customer_service.db'
@@ -11,12 +15,23 @@ BASE_URL = "https://api.siliconflow.cn"
 #MODEL_NAME = "deepseek-ai/DeepSeek-V3"
 MODEL_NAME = "deepseek-ai/DeepSeek-V3"
 
+# 中央氣象署 API 設定
+CWA_API_KEY = os.getenv('CWA_API_KEY', '')
+CWA_API_ENABLED = bool(CWA_API_KEY)
+
 # 確保必要的目錄存在
 def ensure_directories():
-    directories = ['assets/audio/mockvoice', 'assets/audio/genvoice', 'static/audio', AUDIO_UPLOAD_FOLDER]
+    directories = [
+        'assets/audio/mockvoice', 
+        'assets/audio/genvoice', 
+        'static/audio', 
+        AUDIO_UPLOAD_FOLDER,
+        'genvoice'  # TTS 輸出目錄
+    ]
     for directory in directories:
         if not os.path.exists(directory):
             os.makedirs(directory)
+            print(f"✅ 已創建目錄: {directory}")
 
 # 檢查檔案副檔名是否允許
 def allowed_file(filename):

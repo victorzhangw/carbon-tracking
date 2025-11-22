@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI廣播劇 - 上傳測試</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Microsoft JhengHei", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .upload-form {
+        margin: 20px 0;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 10px;
+        color: #666;
+        font-weight: bold;
+      }
+      input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+      }
+      button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-2px);
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .status {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 5px;
+        display: none;
+      }
+      .status.success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        display: block;
+      }
+      .status.error {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        display: block;
+      }
+      .status.info {
+        background: #d1ecf1;
+        border: 1px solid #bee5eb;
+        color: #0c5460;
+        display: block;
+      }
+      .details {
+        margin-top: 10px;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        font-family: monospace;
+        font-size: 0.9rem;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+      }
+      .loading.show {
+        display: block;
+      }
+      .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .check-status {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 5px;
+      }
+      .check-item {
+        margin: 5px 0;
+        padding: 5px;
+      }
+      .check-item.ok {
+        color: #28a745;
+      }
+      .check-item.error {
+        color: #dc3545;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎧 AI廣播劇 - 上傳測試</h1>
+
+      <div class="check-status" id="checkStatus">
+        <h3>系統狀態檢查</h3>
+        <div id="statusList">檢查中...</div>
+      </div>
+
+      <div class="upload-form">
+        <h3>上傳 EPUB 檔案</h3>
+        <form id="uploadForm">
+          <div class="form-group">
+            <label for="fileInput">選擇 EPUB 檔案:</label>
+            <input type="file" id="fileInput" accept=".epub" required />
+          </div>
+          <button type="submit" id="uploadBtn">上傳並處理</button>
+        </form>
+      </div>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>處理中，請稍候...</p>
+      </div>
+
+      <div class="status" id="status"></div>
+    </div>
+
+    <script>
+      // 檢查系統狀態
+      async function checkSystemStatus() {
+        const statusList = document.getElementById("statusList");
+        statusList.innerHTML = "正在檢查...";
+
+        const checks = [];
+
+        // 檢查套件狀態
+        try {
+          const response = await fetch("/api/audiobook/books");
+          if (response.ok) {
+            checks.push('<div class="check-item ok">✅ API 端點可訪問</div>');
+          } else {
+            checks.push('<div class="check-item error">❌ API 端點錯誤</div>');
+          }
+        } catch (e) {
+          checks.push('<div class="check-item error">❌ 無法連接到 API</div>');
+        }
+
+        statusList.innerHTML = checks.join("");
+      }
+
+      // 頁面載入時檢查
+      checkSystemStatus();
+
+      // 處理表單提交
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const fileInput = document.getElementById("fileInput");
+          const uploadBtn = document.getElementById("uploadBtn");
+          const loading = document.getElementById("loading");
+          const status = document.getElementById("status");
+
+          if (!fileInput.files[0]) {
+            showStatus("error", "請選擇檔案");
+            return;
+          }
+
+          // 顯示載入中
+          uploadBtn.disabled = true;
+          loading.classList.add("show");
+          status.style.display = "none";
+
+          const formData = new FormData();
+          formData.append("file", fileInput.files[0]);
+
+          try {
+            const response = await fetch("/api/audiobook/upload", {
+              method: "POST",
+              body: formData,
+            });
+
+            const result = await response.json();
+
+            loading.classList.remove("show");
+            uploadBtn.disabled = false;
+
+            if (result.success) {
+              showStatus("success", result.message, result);
+            } else {
+              showStatus("error", result.error || "上傳失敗", result);
+            }
+          } catch (error) {
+            loading.classList.remove("show");
+            uploadBtn.disabled = false;
+            showStatus("error", "上傳過程發生錯誤", {
+              error: error.message,
+              type: error.name,
+            });
+          }
+        });
+
+      function showStatus(type, message, details = null) {
+        const status = document.getElementById("status");
+        status.className = `status ${type}`;
+
+        let html = `<strong>${message}</strong>`;
+
+        if (details) {
+          html +=
+            '<div class="details">' +
+            JSON.stringify(details, null, 2) +
+            "</div>";
+        }
+
+        status.innerHTML = html;
+      }
+    </script>
+  </body>
+</html>

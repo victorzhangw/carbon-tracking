@@ -146,3 +146,83 @@ def get_temperature_by_style(response_style):
         'detailed': 0.6
     }
     return temperature_map.get(response_style, 0.7)
+
+def generate_care_message(schedule, weather_info, user_profile):
+    """
+    生成定期關懷訊息（使用 DeepSeek LLM）
+    
+    Args:
+        schedule (dict): 排程資訊
+        weather_info (dict): 天氣資訊
+        user_profile (dict): 用戶資料
+    
+    Returns:
+        str: 關懷訊息文本
+    """
+    try:
+        # 構建系統提示詞
+        system_prompt = """你是一位溫暖關懷的社工人員，專門為長者提供定期關懷服務。
+你的任務是生成一段溫馨、自然的關懷訊息。
+
+要求：
+1. 語氣親切溫暖，像家人般關心
+2. 使用台灣當地口語，自然流暢
+3. 根據天氣提供實用建議
+4. 關注長者的健康和安全
+5. 字數控制在 150-200 字
+6. 不要使用過於正式的敬語
+7. 可以適當使用語助詞（喔、呢、啦等）
+8. 不要中英文夾雜"""
+        
+        # 構建用戶訊息
+        user_name = user_profile.get('full_name', '長者')
+        user_age = user_profile.get('age', '70')
+        health_notes = user_profile.get('health_notes', '良好')
+        
+        scheduled_time = schedule.get('scheduled_time', '')
+        address = schedule.get('address', '家中')
+        description = schedule.get('description', '')
+        
+        condition = weather_info.get('condition', '晴朗')
+        temperature = weather_info.get('temperature', 25)
+        
+        user_message = f"""請為以下長者生成一段關懷訊息：
+
+長者資訊：
+- 姓名：{user_name}
+- 年齡：{user_age}歲
+- 健康狀況：{health_notes}
+
+當前情境：
+- 時間：{scheduled_time}
+- 地點：{address}
+- 天氣：{condition}
+- 溫度：{temperature}度
+- 特別提醒：{description if description else '無'}
+
+請生成一段溫馨的關懷訊息。"""
+        
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_message}
+        ]
+        
+        completion = client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=messages,
+            max_tokens=400,
+            temperature=0.8
+        )
+        
+        message = completion.choices[0].message.content.strip()
+        
+        # 確保訊息長度適中（Qwen TTS 限制 200 字符）
+        if len(message) > 200:
+            message = message[:200]
+        
+        return message
+        
+    except Exception as e:
+        print(f"生成關懷訊息失敗: {e}")
+        # 返回預設訊息
+        return f"{user_profile.get('full_name', '長者')}您好，這是一則溫馨的關懷提醒。今天天氣{weather_info.get('condition', '不錯')}，溫度約{weather_info.get('temperature', 25)}度，請注意保重身體。祝您有美好的一天！"

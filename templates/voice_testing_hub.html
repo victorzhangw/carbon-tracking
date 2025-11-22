@@ -77,6 +77,7 @@
       .module-card:hover {
         transform: translateY(-4px);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
       }
 
       .module-icon {
@@ -138,13 +139,15 @@
         color: #0f5132;
       }
     </style>
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/material-icons.css') }}">
   </head>
   <body>
     <div class="container">
       <a href="/portal" class="back-link">← 返回 Portal</a>
 
       <div class="header">
-        <h1>🔬 語音測試訓練模組</h1>
+        <h1><span class="material-icons">science</span> 語音測試訓練模組</h1>
         <p>
           專為語音技術開發和測試設計的工具集，供開發人員和技術人員使用。
           提供語音分析、聲音模擬、語音克隆等專業工具。
@@ -154,7 +157,7 @@
       <div class="modules-grid">
         <!-- 語音分析 -->
         <a href="/emotion-analysis" class="module-card">
-          <div class="module-icon">📊</div>
+          <div class="module-icon"><span class="material-icons">bar_chart</span></div>
           <span class="badge badge-success">語音分析</span>
           <h3>情緒識別系統</h3>
           <p>基於 librosa 和 Wav2Vec2 的雙引擎情緒識別系統</p>
@@ -166,23 +169,9 @@
           </ul>
         </a>
 
-        <!-- 聲音模擬 -->
-        <a href="/simple_tts/demo" class="module-card">
-          <div class="module-icon">🎨</div>
-          <span class="badge badge-success">聲音模擬</span>
-          <h3>TTS 語音合成</h3>
-          <p>基於 GPT-SoVITS 的高品質語音合成系統</p>
-          <ul class="module-features">
-            <li>文字轉語音</li>
-            <li>參考音頻選擇</li>
-            <li>語速控制</li>
-            <li>音色克隆</li>
-          </ul>
-        </a>
-
         <!-- 語音克隆 -->
         <a href="/voice_clone/demo" class="module-card">
-          <div class="module-icon">🎤</div>
+          <div class="module-icon"><span class="material-icons">mic</span></div>
           <span class="badge badge-primary">語音克隆</span>
           <h3>語音克隆演示</h3>
           <p>完整的語音克隆工作流程，從樣本處理到模型訓練</p>
@@ -196,7 +185,7 @@
 
         <!-- ASR 測試 -->
         <a href="/api/asr/test" class="module-card">
-          <div class="module-icon">🗣️</div>
+          <div class="module-icon"><span class="material-icons">hearing</span></div>
           <span class="badge badge-primary">語音識別</span>
           <h3>ASR 測試工具</h3>
           <p>雙引擎語音識別測試（Whisper + FunASR）</p>
@@ -205,6 +194,34 @@
             <li>FunASR 引擎測試</li>
             <li>閩南語識別</li>
             <li>長者語音優化</li>
+          </ul>
+        </a>
+
+        <!-- 評分分析 -->
+        <a href="/score-analysis" class="module-card">
+          <div class="module-icon"><span class="material-icons">bar_chart</span></div>
+          <span class="badge badge-success">評分分析</span>
+          <h3>對話評分分析</h3>
+          <p>多維度對話品質評分與歷史趨勢分析</p>
+          <ul class="module-features">
+            <li>情緒表達評分</li>
+            <li>語音品質評分</li>
+            <li>文字內容評分</li>
+            <li>歷史趨勢圖表</li>
+          </ul>
+        </a>
+
+        <!-- TTS 語音合成訓練 -->
+        <a href="/tts-training" target="_blank" class="module-card">
+          <div class="module-icon"><span class="material-icons">record_voice_over</span></div>
+          <span class="badge badge-primary">TTS 訓練</span>
+          <h3>TTS 語音合成訓練</h3>
+          <p>GPT-SoVITS 語音合成模型訓練與推理</p>
+          <ul class="module-features">
+            <li>音頻數據預處理</li>
+            <li>模型訓練與微調</li>
+            <li>語音合成推理</li>
+            <li>聲音克隆訓練</li>
           </ul>
         </a>
       </div>

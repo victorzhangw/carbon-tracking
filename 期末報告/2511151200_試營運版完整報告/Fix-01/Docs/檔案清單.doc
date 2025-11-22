@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>AI 關懷系統試營運期末報告 - 檔案清單（修正版 Fix-01）</title>
+
+<style>
+  @page { margin: 2cm; }
+  body { font-family: 'DFKai-SB','BiauKai','PMingLiU','KaiTi',serif; line-height: 1.6; font-size: 12pt; color: #000; }
+  h1, h2, h3, h4 { margin: 0.8em 0 0.4em; }
+  h1 { font-size: 22pt; text-align: center; }
+  h2 { font-size: 18pt; border-bottom: 1px solid #000; padding-bottom: 4px; }
+  h3 { font-size: 16pt; }
+  p { margin: 0.6em 0; }
+  ul, ol { margin: 0.4em 0 0.6em 1.6em; }
+  table { width: 100%; border-collapse: collapse; margin: 0.8em 0; }
+  table, th, td { border: 1px solid #000; }
+  th, td { padding: 6px 8px; vertical-align: top; }
+  thead th { background: #f2f2f2; }
+  .meta { text-align: right; white-space: pre-line; }
+</style>
+
+</head>
+<body>
+<h1>AI 關懷系統試營運期末報告 - 檔案清單（修正版 Fix-01）</h1>
+<p>資料夾編號: 2511151200  
+建立日期: 2025 年 11 月 15 日  
+報告期間: 2025 年 2 月 1 日至 2025 年 10 月 31 日（9 個月；2-3 月為測試期，正式執行 4-10 月）</p>
+<hr/>
+<p>目錄結構:</p>
+<ul>
+<li>README.md</li>
+<li>0_數據基礎說明.md</li>
+<li>1_系統成效驗證報告_試營運版.md</li>
+<li>2_成本前後對照表_試營運版.md</li>
+<li>3_車資與AI系統說明_試營運版.md</li>
+<li>碳排放減少效益分析期末報告_試營運版.md</li>
+<li>佐證資料（附件 1-4）</li>
+</ul>
+<hr/>
+<p>試營運規模（與總結試營運報告一致）:</p>
+<ul>
+<li>服務長者: 80 人</li>
+<li>參與社工: 15 人</li>
+<li>服務據點: 3 個（2 個行政區）</li>
+<li>試營運期間: 9 個月（含測試 2-3 月；正式 4-10 月）</li>
+</ul>
+<hr/>
+<p>主要數據摘要（與核心報告一致）:</p>
+<ul>
+<li>語音關懷互動完成: 4,800 次（完成率 85.7%）</li>
+<li>實體訪視次數: 1,440 次（160 次/月 × 9 個月）</li>
+<li>長者滿意度: 82.5%</li>
+<li>偏鄉覆蓋率: 40% → 75%（+35 個百分點）</li>
+<li>減少碳排放: 78 kg CO₂e；節省里程: 1,231 公里</li>
+<li>成本節省（9 個月）: 202,470 元；扣除系統費用後淨節省: 176,970 元</li>
+</ul>
+<hr/>
+<p>備註: 本清單內容已移除所有圖示與表情符號，以符合正式對外公文格式需求。</p>
+</body>
+</html>

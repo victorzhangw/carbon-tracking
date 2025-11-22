@@ -1,0 +1,283 @@
+{
+  "id": "db3a5327-3339-4d87-9b65-28db4a99eb1b",
+  "title": "日月當空一",
+  "chapter_count": 55,
+  "created_at": "a506b3e6-5f4a-456a-a60b-52cd030af9d0",
+  "chapters": [
+    {
+      "id": "chapter_001",
+      "title": "目錄",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_001.txt"
+    },
+    {
+      "id": "chapter_002",
+      "title": "《日月當空一》黃易",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_002.txt"
+    },
+    {
+      "id": "chapter_003",
+      "title": "第二章　種魔大法",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_003.txt"
+    },
+    {
+      "id": "chapter_004",
+      "title": "第三章　魔門元老",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_004.txt"
+    },
+    {
+      "id": "chapter_005",
+      "title": "第四章　超級刺客",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_005.txt"
+    },
+    {
+      "id": "chapter_006",
+      "title": "第五章　神都洛陽",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_006.txt"
+    },
+    {
+      "id": "chapter_007",
+      "title": "第六章　神池殺機",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_007.txt"
+    },
+    {
+      "id": "chapter_008",
+      "title": "第七章　今夕何夕",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_008.txt"
+    },
+    {
+      "id": "chapter_009",
+      "title": "第八章　天之驕女",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_009.txt"
+    },
+    {
+      "id": "chapter_010",
+      "title": "第九章　牛刀小試",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_010.txt"
+    },
+    {
+      "id": "chapter_011",
+      "title": "第十章　天生媚骨",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_011.txt"
+    },
+    {
+      "id": "chapter_012",
+      "title": "第十一章　前因後果",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_012.txt"
+    },
+    {
+      "id": "chapter_013",
+      "title": "第十二章　八方風雲",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_013.txt"
+    },
+    {
+      "id": "chapter_014",
+      "title": "第十三章　決戰皇城",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_014.txt"
+    },
+    {
+      "id": "chapter_015",
+      "title": "第十四章　恐嚇勒索",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_015.txt"
+    },
+    {
+      "id": "chapter_016",
+      "title": "第十五章　許君為妾",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_016.txt"
+    },
+    {
+      "id": "chapter_017",
+      "title": "第十六章　遊龍戲鳳",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_017.txt"
+    },
+    {
+      "id": "chapter_018",
+      "title": "第十七章　三真合一",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_018.txt"
+    },
+    {
+      "id": "chapter_019",
+      "title": "第十八章　兩女之間",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_019.txt"
+    },
+    {
+      "id": "chapter_020",
+      "title": "第二卷　第一章　以武會友",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_020.txt"
+    },
+    {
+      "id": "chapter_021",
+      "title": "第二章　溫柔之鄉",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_021.txt"
+    },
+    {
+      "id": "chapter_022",
+      "title": "第三章　邊荒傳奇",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_022.txt"
+    },
+    {
+      "id": "chapter_023",
+      "title": "第四章　神都大雪",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_023.txt"
+    },
+    {
+      "id": "chapter_024",
+      "title": "第五章　女帝出巡",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_024.txt"
+    },
+    {
+      "id": "chapter_025",
+      "title": "第六章　義贈靈刀",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_025.txt"
+    },
+    {
+      "id": "chapter_026",
+      "title": "第七章　僧王法明",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_026.txt"
+    },
+    {
+      "id": "chapter_027",
+      "title": "第八章　大周國宴",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_027.txt"
+    },
+    {
+      "id": "chapter_028",
+      "title": "第九章　金髮美女",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_028.txt"
+    },
+    {
+      "id": "chapter_029",
+      "title": "第十章　不碎金剛",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_029.txt"
+    },
+    {
+      "id": "chapter_030",
+      "title": "第十一章　投石問路",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_030.txt"
+    },
+    {
+      "id": "chapter_031",
+      "title": "第十二章　以棋會友",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_031.txt"
+    },
+    {
+      "id": "chapter_032",
+      "title": "第十三章　娶卿為妻",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_032.txt"
+    },
+    {
+      "id": "chapter_033",
+      "title": "第十四章　良緣天定",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_033.txt"
+    },
+    {
+      "id": "chapter_034",
+      "title": "第十五章　危機四伏",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_034.txt"
+    },
+    {
+      "id": "chapter_035",
+      "title": "第十六章　甕中捉鼈",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_035.txt"
+    },
+    {
+      "id": "chapter_036",
+      "title": "第十七章　大發天威",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_036.txt"
+    },
+    {
+      "id": "chapter_037",
+      "title": "第十八章　天作之合",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_037.txt"
+    },
+    {
+      "id": "chapter_038",
+      "title": "第三卷　第一章　愛情賭約",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_038.txt"
+    },
+    {
+      "id": "chapter_039",
+      "title": "第二章　仙魔之戰",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_039.txt"
+    },
+    {
+      "id": "chapter_040",
+      "title": "第三章　因緣巧合",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_040.txt"
+    },
+    {
+      "id": "chapter_041",
+      "title": "第四章　投石遊戲",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_041.txt"
+    },
+    {
+      "id": "chapter_042",
+      "title": "第五章　播種收割",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_042.txt"
+    },
+    {
+      "id": "chapter_043",
+      "title": "第六章　一個身分",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_043.txt"
+    },
+    {
+      "id": "chapter_044",
+      "title": "第七章　陰謀詭計",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_044.txt"
+    },
+    {
+      "id": "chapter_045",
+      "title": "第八章　無上智經",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_045.txt"
+    },
+    {
+      "id": "chapter_046",
+      "title": "第九章　行動時刻",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_046.txt"
+    },
+    {
+      "id": "chapter_047",
+      "title": "第十章　任重道遠",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_047.txt"
+    },
+    {
+      "id": "chapter_048",
+      "title": "第十一章　全力緝凶",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_048.txt"
+    },
+    {
+      "id": "chapter_049",
+      "title": "第十二章　巧擒大盜",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_049.txt"
+    },
+    {
+      "id": "chapter_050",
+      "title": "第十三章　追求妙著",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_050.txt"
+    },
+    {
+      "id": "chapter_051",
+      "title": "第十四章　力退強敵",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_051.txt"
+    },
+    {
+      "id": "chapter_052",
+      "title": "第十五章　江上逞威",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_052.txt"
+    },
+    {
+      "id": "chapter_053",
+      "title": "第十六章　禍福無門",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_053.txt"
+    },
+    {
+      "id": "chapter_054",
+      "title": "第十七章　擊東逃西",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_054.txt"
+    },
+    {
+      "id": "chapter_055",
+      "title": "第十八章　攜美遨遊",
+      "text_file": "static\\audiobooks\\db3a5327-3339-4d87-9b65-28db4a99eb1b\\chapter_055.txt"
+    }
+  ]
+}

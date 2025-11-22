@@ -223,6 +223,8 @@
         animation-delay: 0.5s;
       }
     </style>
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/material-icons.css') }}">
   </head>
   <body>
     <div class="container">
@@ -235,7 +237,7 @@
         <a href="/voice-testing" class="module-card">
           <div class="module-content">
             <div class="module-header">
-              <div class="module-icon">🔬</div>
+              <div class="module-icon"><span class="material-icons">science</span></div>
               <h3>語音測試訓練模組</h3>
             </div>
             <div class="module-body">
@@ -300,7 +302,7 @@
         <a href="/voice_interaction_realtime/" class="module-card">
           <div class="module-content">
             <div class="module-header">
-              <div class="module-icon">🎙️</div>
+              <div class="module-icon"><span class="material-icons">record_voice_over</span></div>
               <h3>即時語音互動</h3>
             </div>
             <div class="module-body">
@@ -321,7 +323,7 @@
         <a href="/api/audiobook/library" class="module-card">
           <div class="module-content">
             <div class="module-header">
-              <div class="module-icon">📚</div>
+              <div class="module-icon"><span class="material-icons">library_books</span></div>
               <h3>AI 廣播劇系統</h3>
             </div>
             <div class="module-body">
@@ -343,5 +345,89 @@
         <p>© 2024 AI 智慧服務平台 | 提供創新的 AI 解決方案</p>
       </div>
     </div>
+
+    <!-- 用戶資訊顯示 -->
+    <div
+      id="userInfo"
+      style="
+        display: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        font-size: 14px;
+      "
+    >
+      <span style="color: #666" id="userNameDisplay"></span>
+      <button
+        onclick="logout()"
+        style="
+          margin-left: 12px;
+          padding: 4px 12px;
+          border: 1px solid #e9ecef;
+          border-radius: 4px;
+          background: white;
+          cursor: pointer;
+          font-size: 12px;
+        "
+      >
+        登出
+      </button>
+    </div>
+
+    <script>
+      // 檢查登入狀態
+      function checkLoginStatus() {
+        const currentUser = localStorage.getItem("currentUser");
+        if (!currentUser) {
+          // 未登入，跳轉到登入頁面
+          window.location.href =
+            "/login?return=" + encodeURIComponent(window.location.pathname);
+          return false;
+        }
+
+        try {
+          const userData = JSON.parse(currentUser);
+          console.log(
+            "<span class="material-icons">check_circle</span> 用戶已登入:",
+            userData.full_name || userData.username
+          );
+
+          // 顯示用戶資訊
+          const userInfo = document.getElementById("userInfo");
+          const userNameDisplay = document.getElementById("userNameDisplay");
+
+          if (userInfo && userNameDisplay) {
+            userNameDisplay.textContent =
+              "<span class="material-icons">person</span> " + (userData.full_name || userData.username);
+            userInfo.style.display = "block";
+          }
+
+          return true;
+        } catch (error) {
+          console.error("解析用戶資訊失敗:", error);
+          localStorage.removeItem("currentUser");
+          window.location.href = "/login";
+          return false;
+        }
+      }
+
+      // 登出功能
+      function logout() {
+        if (confirm("確定要登出嗎？")) {
+          localStorage.removeItem("currentUser");
+          window.location.href = "/login";
+        }
+      }
+
+      // 頁面載入時檢查登入狀態
+      window.addEventListener("DOMContentLoaded", function () {
+        checkLoginStatus();
+      });
+    </script>
   </body>
 </html>

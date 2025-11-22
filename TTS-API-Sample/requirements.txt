@@ -1,0 +1,6 @@
+# Qwen AI廣播劇模組依賴
+dashscope>=1.24.6
+ebooklib>=0.18
+beautifulsoup4>=4.12.2
+pyaudio>=0.2.11
+numpy>=1.24.3

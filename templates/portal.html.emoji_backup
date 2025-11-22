@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 智慧服務平台 - 系統入口</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Microsoft JhengHei", sans-serif;
+        background: #e8e8e8;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        width: 100%;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #1a1a1a;
+      }
+
+      .header h1 {
+        font-size: 42px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .header p {
+        font-size: 18px;
+        color: #4a4a4a;
+      }
+
+      .modules-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px;
+        margin-bottom: 30px;
+      }
+
+      .module-card {
+        background: white;
+        border-radius: 12px;
+        padding: 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        border: 2px solid transparent;
+        overflow: hidden;
+      }
+
+      .module-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        border-color: #ddd;
+      }
+
+      .module-content {
+        flex: 1;
+        padding: 24px 28px;
+      }
+
+      .module-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .module-icon {
+        font-size: 22px;
+        line-height: 1;
+      }
+
+      .module-card h3 {
+        font-size: 19px;
+        font-weight: 600;
+        margin: 0;
+        color: #212529;
+      }
+
+      .module-body {
+        padding-top: 0;
+      }
+
+      .module-card p {
+        font-size: 14px;
+        color: #6c757d;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .module-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      .module-features li {
+        font-size: 13px;
+        color: #495057;
+        padding: 6px 0;
+        padding-left: 20px;
+        position: relative;
+      }
+
+      .module-features li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #28a745;
+        font-weight: bold;
+      }
+
+      .module-status {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .status-active {
+        background: #d1e7dd;
+        color: #0f5132;
+      }
+
+      .status-new {
+        background: #cfe2ff;
+        color: #084298;
+      }
+
+      /* 長條狀按鈕 */
+      .module-button {
+        display: block;
+        width: 100%;
+        padding: 14px 24px;
+        background: #955f27;
+        color: white;
+        text-align: center;
+        border-radius: 0;
+        font-size: 15px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+        margin-top: auto;
+      }
+
+      .module-button:hover {
+        background: #7a4d1f;
+        transform: translateY(-2px);
+      }
+
+      .footer {
+        text-align: center;
+        color: #4a4a4a;
+        margin-top: 40px;
+      }
+
+      .footer p {
+        font-size: 14px;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 32px;
+        }
+
+        .modules-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* 動畫效果 */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .module-card {
+        animation: fadeInUp 0.6s ease forwards;
+      }
+
+      .module-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .module-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .module-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .module-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .module-card:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+    </style>
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/material-icons.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>智慧服務平台</h1>
+      </div>
+
+      <div class="modules-grid">
+        <!-- 語音測試訓練模組 -->
+        <a href="/voice-testing" class="module-card">
+          <div class="module-content">
+            <div class="module-header">
+              <div class="module-icon">🔬</div>
+              <h3>語音測試訓練模組</h3>
+            </div>
+            <div class="module-body">
+              <span class="module-status status-active">運行中</span>
+              <p>
+                專為語音技術開發和測試設計的工具集，供開發人員和技術人員使用
+              </p>
+              <ul class="module-features">
+                <li>語音分析（基礎/進階情緒識別）</li>
+                <li>聲音模擬（TTS 生成）</li>
+                <li>語音克隆與品質評估</li>
+                <li>批次分析與即時測試</li>
+              </ul>
+            </div>
+          </div>
+          <div class="module-button">進入系統 →</div>
+        </a>
+
+        <!-- 碳排放追蹤系統 -->
+        <a href="/carbon" class="module-card">
+          <div class="module-content">
+            <div class="module-header">
+              <div class="module-icon">🌱</div>
+              <h3>碳排放追蹤系統</h3>
+            </div>
+            <div class="module-body">
+              <span class="module-status status-active">運行中</span>
+              <p>社工訪視碳排放管理系統，追蹤交通碳足跡，推動環保服務</p>
+              <ul class="module-features">
+                <li>訪視記錄管理</li>
+                <li>碳排放自動計算</li>
+                <li>統計報表分析</li>
+                <li>環保效益評估</li>
+              </ul>
+            </div>
+          </div>
+          <div class="module-button">進入系統 →</div>
+        </a>
+
+        <!-- 定期關懷系統 -->
+        <a href="/api/voice-care/schedules-page" class="module-card">
+          <div class="module-content">
+            <div class="module-header">
+              <div class="module-icon">💝</div>
+              <h3>智慧語音關懷系統</h3>
+            </div>
+            <div class="module-body">
+              <span class="module-status status-new">最新</span>
+              <p>AI 驅動的定期關懷服務，支援雙語語音合成與自動化排程</p>
+              <ul class="module-features">
+                <li>定期關懷排程管理</li>
+                <li>國語/閩南語雙語支援</li>
+                <li>AI 訊息智能生成</li>
+                <li>關懷效果統計分析</li>
+              </ul>
+            </div>
+          </div>
+          <div class="module-button">進入系統 →</div>
+        </a>
+
+        <!-- 即時語音互動 -->
+        <a href="/voice_interaction_realtime/" class="module-card">
+          <div class="module-content">
+            <div class="module-header">
+              <div class="module-icon">🎙️</div>
+              <h3>即時語音互動</h3>
+            </div>
+            <div class="module-body">
+              <span class="module-status status-new">最新</span>
+              <p>即時語音識別與 AI 對話系統，支援國語和閩南語雙語互動</p>
+              <ul class="module-features">
+                <li>即時語音識別（Qwen ASR）</li>
+                <li>智能對話回應（DeepSeek）</li>
+                <li>流式語音合成（Qwen TTS）</li>
+                <li>雙語支援（國語/閩南語）</li>
+              </ul>
+            </div>
+          </div>
+          <div class="module-button">進入系統 →</div>
+        </a>
+
+        <!-- AI 廣播劇系統 -->
+        <a href="/api/audiobook/library" class="module-card">
+          <div class="module-content">
+            <div class="module-header">
+              <div class="module-icon">📚</div>
+              <h3>AI 廣播劇系統</h3>
+            </div>
+            <div class="module-body">
+              <span class="module-status status-new">最新</span>
+              <p>智能廣播劇創作平台，自動生成劇本並合成多角色語音</p>
+              <ul class="module-features">
+                <li>AI 劇本自動生成</li>
+                <li>多角色語音合成</li>
+                <li>雙語內容支援</li>
+                <li>作品庫管理</li>
+              </ul>
+            </div>
+          </div>
+          <div class="module-button">進入系統 →</div>
+        </a>
+      </div>
+
+      <div class="footer">
+        <p>© 2024 AI 智慧服務平台 | 提供創新的 AI 解決方案</p>
+      </div>
+    </div>
+
+    <!-- 用戶資訊顯示 -->
+    <div
+      id="userInfo"
+      style="
+        display: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        font-size: 14px;
+      "
+    >
+      <span style="color: #666" id="userNameDisplay"></span>
+      <button
+        onclick="logout()"
+        style="
+          margin-left: 12px;
+          padding: 4px 12px;
+          border: 1px solid #e9ecef;
+          border-radius: 4px;
+          background: white;
+          cursor: pointer;
+          font-size: 12px;
+        "
+      >
+        登出
+      </button>
+    </div>
+
+    <script>
+      // 檢查登入狀態
+      function checkLoginStatus() {
+        const currentUser = localStorage.getItem("currentUser");
+        if (!currentUser) {
+          // 未登入，跳轉到登入頁面
+          window.location.href =
+            "/login?return=" + encodeURIComponent(window.location.pathname);
+          return false;
+        }
+
+        try {
+          const userData = JSON.parse(currentUser);
+          console.log(
+            "✅ 用戶已登入:",
+            userData.full_name || userData.username
+          );
+
+          // 顯示用戶資訊
+          const userInfo = document.getElementById("userInfo");
+          const userNameDisplay = document.getElementById("userNameDisplay");
+
+          if (userInfo && userNameDisplay) {
+            userNameDisplay.textContent =
+              "👤 " + (userData.full_name || userData.username);
+            userInfo.style.display = "block";
+          }
+
+          return true;
+        } catch (error) {
+          console.error("解析用戶資訊失敗:", error);
+          localStorage.removeItem("currentUser");
+          window.location.href = "/login";
+          return false;
+        }
+      }
+
+      // 登出功能
+      function logout() {
+        if (confirm("確定要登出嗎？")) {
+          localStorage.removeItem("currentUser");
+          window.location.href = "/login";
+        }
+      }
+
+      // 頁面載入時檢查登入狀態
+      window.addEventListener("DOMContentLoaded", function () {
+        checkLoginStatus();
+      });
+    </script>
+  </body>
+</html>

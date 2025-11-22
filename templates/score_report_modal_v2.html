@@ -1,0 +1,598 @@
+<!-- 評分報告彈窗 V2 - 用戶手動評分版本 -->
+<div id="scoreModal" class="score-modal" style="display: none">
+  <div class="score-modal-content">
+    <div class="score-modal-header">
+      <h2><span class="material-icons">edit_note</span> 對話評分表</h2>
+      <button class="score-modal-close">&times;</button>
+    </div>
+
+    <div class="score-modal-body">
+      <!-- 統計資訊區塊（頂部） -->
+      <div class="score-statistics-top">
+        <h3><span class="material-icons">bar_chart</span> 對話統計</h3>
+        <div class="score-stats-grid">
+          <div class="score-stat-card">
+            <div class="score-stat-icon">
+              <span class="material-icons">chat</span>
+            </div>
+            <div class="score-stat-content">
+              <div class="score-stat-label">對話輪數</div>
+              <div class="score-stat-value" id="statConversations">--</div>
+            </div>
+          </div>
+          <div class="score-stat-card">
+            <div class="score-stat-icon">
+              <span class="material-icons">edit_note</span>
+            </div>
+            <div class="score-stat-content">
+              <div class="score-stat-label">總字數</div>
+              <div class="score-stat-value" id="statWords">--</div>
+            </div>
+          </div>
+          <div class="score-stat-card">
+            <div class="score-stat-icon">
+              <span class="material-icons">schedule</span>
+            </div>
+            <div class="score-stat-content">
+              <div class="score-stat-label">持續時間</div>
+              <div class="score-stat-value" id="statDuration">--</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 綜合評分顯示（移到統計下方） -->
+      <div class="score-overall-display">
+        <span class="score-overall-label">綜合評分</span>
+        <span class="score-overall-value" id="overallScoreValue">50</span>
+        <span class="score-overall-grade" id="overallGrade">C - 尚可</span>
+      </div>
+
+      <!-- 評分輸入區塊 -->
+      <div class="score-input-section">
+        <h3><span class="material-icons">star</span> 請為本次對話評分</h3>
+        <p class="score-input-hint">
+          請根據您的實際體驗，為以下三個維度評分（1-100分）
+        </p>
+
+        <!-- 情緒表達評分 -->
+        <div class="score-input-group">
+          <div class="score-input-header">
+            <label class="score-input-label">
+              <span class="score-input-icon"
+                ><span class="material-icons">sentiment_satisfied</span></span
+              >
+              <span class="score-input-title">情緒表達</span>
+            </label>
+            <span class="score-input-value" id="emotionScoreDisplay">50</span>
+          </div>
+          <input
+            type="range"
+            class="score-slider"
+            id="emotionScoreSlider"
+            min="1"
+            max="100"
+            value="50"
+          />
+          <div class="score-input-description">
+            AI 是否能準確識別並回應您的情緒？語氣是否自然親切？
+          </div>
+        </div>
+
+        <!-- 語音品質評分 -->
+        <div class="score-input-group">
+          <div class="score-input-header">
+            <label class="score-input-label">
+              <span class="score-input-icon"
+                ><span class="material-icons">mic</span></span
+              >
+              <span class="score-input-title">語音品質</span>
+            </label>
+            <span class="score-input-value" id="voiceScoreDisplay">50</span>
+          </div>
+          <input
+            type="range"
+            class="score-slider"
+            id="voiceScoreSlider"
+            min="1"
+            max="100"
+            value="50"
+          />
+          <div class="score-input-description">
+            語音識別是否準確？TTS 語音是否清晰自然？
+          </div>
+        </div>
+
+        <!-- 文字內容評分 -->
+        <div class="score-input-group">
+          <div class="score-input-header">
+            <label class="score-input-label">
+              <span class="score-input-icon"
+                ><span class="material-icons">edit_note</span></span
+              >
+              <span class="score-input-title">文字內容</span>
+            </label>
+            <span class="score-input-value" id="contentScoreDisplay">50</span>
+          </div>
+          <input
+            type="range"
+            class="score-slider"
+            id="contentScoreSlider"
+            min="1"
+            max="100"
+            value="50"
+          />
+          <div class="score-input-description">
+            AI 回應是否切題？內容是否有幫助？是否提供了有價值的建議？
+          </div>
+        </div>
+      </div>
+
+      <!-- 改進建議輸入 -->
+      <div class="score-feedback-section">
+        <h3><span class="material-icons">lightbulb</span> 改進建議</h3>
+        <p class="score-feedback-hint">請分享您的使用體驗和改進建議（選填）</p>
+        <textarea
+          id="feedbackText"
+          class="score-feedback-textarea"
+          placeholder="例如：AI 的回應速度可以更快一些、希望能支援更多語言、語音識別在嘈雜環境下不夠準確..."
+          rows="3"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="score-modal-footer">
+      <button class="btn btn-secondary" onclick="closeScoreModal()">
+        取消
+      </button>
+      <button class="btn btn-primary" onclick="submitScoreReport()">
+        提交評分
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* 統計資訊區塊（頂部） - 緊湊版 */
+  .score-statistics-top {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .score-statistics-top h3 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .score-statistics-top h3 .material-icons {
+    font-size: 20px;
+    color: #5b5bd6;
+  }
+
+  .score-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .score-stat-card {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .score-stat-icon {
+    font-size: 24px;
+    color: #5b5bd6;
+  }
+
+  .score-stat-content {
+    flex: 1;
+  }
+
+  .score-stat-label {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 2px;
+  }
+
+  .score-stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  /* 評分輸入區塊 - 緊湊版 */
+  .score-input-section {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .score-input-section h3 {
+    margin: 0 0 6px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .score-input-section h3 .material-icons {
+    font-size: 20px;
+    color: #5b5bd6;
+  }
+
+  .score-input-hint {
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    color: #666;
+  }
+
+  .score-input-group {
+    margin-bottom: 16px;
+    padding: 14px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    transition: border-color 0.2s ease;
+  }
+
+  .score-input-group:hover {
+    border-color: #5b5bd6;
+  }
+
+  .score-input-group:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .score-input-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .score-input-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+  }
+
+  .score-input-icon {
+    font-size: 20px;
+    color: #5b5bd6;
+  }
+
+  .score-input-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #5b5bd6;
+    min-width: 50px;
+    text-align: right;
+  }
+
+  .score-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #e9ecef;
+    outline: none;
+    -webkit-appearance: none;
+    margin: 8px 0;
+  }
+
+  .score-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #5b5bd6;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+  }
+
+  .score-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(91, 91, 214, 0.3);
+  }
+
+  .score-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #5b5bd6;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    border: none;
+    transition: all 0.2s ease;
+  }
+
+  .score-input-description {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+    margin-top: 6px;
+  }
+
+  /* 綜合評分顯示 - 一行版型 */
+  .score-overall-display {
+    background: #5b5bd6;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: white;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .score-overall-label {
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.95;
+  }
+
+  .score-overall-value {
+    font-size: 28px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .score-overall-grade {
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.95;
+    text-align: right;
+    flex: 1;
+  }
+
+  /* 改進建議區塊 - 緊湊版 */
+  .score-feedback-section {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .score-feedback-section h3 {
+    margin: 0 0 6px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .score-feedback-section h3 .material-icons {
+    font-size: 20px;
+    color: #5b5bd6;
+  }
+
+  .score-feedback-hint {
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    color: #666;
+  }
+
+  .score-feedback-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+  }
+
+  .score-feedback-textarea:focus {
+    outline: none;
+    border-color: #5b5bd6;
+  }
+
+  .score-feedback-textarea::placeholder {
+    color: #adb5bd;
+  }
+
+  /* Modal 按鈕樣式 */
+  .score-modal-footer .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .score-modal-footer .btn-secondary {
+    background: white;
+    color: #666;
+    border: 1px solid #e9ecef;
+  }
+
+  .score-modal-footer .btn-secondary:hover {
+    background: #f8f9fa;
+    border-color: #dee2e6;
+  }
+
+  .score-modal-footer .btn-primary {
+    background: #5b5bd6;
+    color: white;
+  }
+
+  .score-modal-footer .btn-primary:hover {
+    background: #4a4ab8;
+    box-shadow: 0 4px 8px rgba(91, 91, 214, 0.3);
+  }
+</style>
+
+<script>
+  // 初始化評分滑桿
+  document.addEventListener("DOMContentLoaded", function () {
+    const sliders = [
+      { slider: "emotionScoreSlider", display: "emotionScoreDisplay" },
+      { slider: "voiceScoreSlider", display: "voiceScoreDisplay" },
+      { slider: "contentScoreSlider", display: "contentScoreDisplay" },
+    ];
+
+    sliders.forEach((item) => {
+      const slider = document.getElementById(item.slider);
+      const display = document.getElementById(item.display);
+
+      if (slider && display) {
+        slider.addEventListener("input", function () {
+          display.textContent = this.value;
+          updateOverallScore();
+        });
+      }
+    });
+  });
+
+  // 更新綜合評分
+  function updateOverallScore() {
+    const emotion = parseInt(
+      document.getElementById("emotionScoreSlider")?.value || 50
+    );
+    const voice = parseInt(
+      document.getElementById("voiceScoreSlider")?.value || 50
+    );
+    const content = parseInt(
+      document.getElementById("contentScoreSlider")?.value || 50
+    );
+
+    const overall = Math.round((emotion + voice + content) / 3);
+
+    const overallValue = document.getElementById("overallScoreValue");
+    const overallGrade = document.getElementById("overallGrade");
+
+    if (overallValue) {
+      overallValue.textContent = overall;
+    }
+
+    if (overallGrade) {
+      let grade, title;
+      if (overall >= 90) {
+        grade = "A+";
+        title = "優秀";
+      } else if (overall >= 80) {
+        grade = "A";
+        title = "良好";
+      } else if (overall >= 70) {
+        grade = "B";
+        title = "中上";
+      } else if (overall >= 60) {
+        grade = "C";
+        title = "尚可";
+      } else if (overall >= 50) {
+        grade = "D";
+        title = "待改進";
+      } else {
+        grade = "F";
+        title = "需加強";
+      }
+      overallGrade.textContent = `${grade} - ${title}`;
+    }
+  }
+
+  // 提交評分報告
+  async function submitScoreReport() {
+    const emotion = parseInt(
+      document.getElementById("emotionScoreSlider")?.value || 50
+    );
+    const voice = parseInt(
+      document.getElementById("voiceScoreSlider")?.value || 50
+    );
+    const content = parseInt(
+      document.getElementById("contentScoreSlider")?.value || 50
+    );
+    const feedback = document.getElementById("feedbackText")?.value || "";
+
+    const overall = Math.round((emotion + voice + content) / 3);
+
+    // 獲取當前用戶
+    const currentUser = localStorage.getItem("currentUser");
+    if (!currentUser) {
+      alert("請先登入");
+      return;
+    }
+
+    const userData = JSON.parse(currentUser);
+
+    // 獲取會話資訊
+    if (!window.scoreManager) {
+      alert("評分系統未初始化");
+      return;
+    }
+
+    const sessionId = window.scoreManager.sessionId;
+    const conversationHistory = window.scoreManager.conversationHistory;
+    const duration = Math.floor(
+      (new Date() - window.scoreManager.sessionStartTime) / 1000
+    );
+
+    try {
+      const response = await fetch("/api/submit-user-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          session_id: sessionId,
+          user_id: userData.id,
+          user_name: userData.full_name || userData.username,
+          scores: {
+            emotion: emotion,
+            voice: voice,
+            content: content,
+            overall: overall,
+          },
+          feedback: feedback,
+          conversation_history: conversationHistory,
+          statistics: {
+            conversation_count: conversationHistory.length,
+            total_words: conversationHistory.reduce(
+              (sum, c) => sum + (c.word_count || 0),
+              0
+            ),
+            duration: duration,
+          },
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.status === "success") {
+        alert("評分提交成功！感謝您的反饋 🎉");
+        closeScoreModal();
+      } else {
+        throw new Error(result.message || "提交失敗");
+      }
+    } catch (error) {
+      console.error("提交評分失敗:", error);
+      alert("提交評分失敗，請稍後再試");
+    }
+  }
+</script>

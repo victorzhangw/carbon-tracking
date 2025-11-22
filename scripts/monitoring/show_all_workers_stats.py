@@ -1,7 +1,3 @@
-"""
-顯示所有社工的完整統計資訊
-"""
-
 import sys
 import os
 # Add project root to path
@@ -11,7 +7,9 @@ import sqlite3
 def show_statistics():
     """顯示完整統計"""
     
-    conn = sqlite3.connect('carbon_tracking.db')
+    # 修正資料庫路徑
+    db_path = os.path.join('data', 'databases', 'carbon_tracking.db')
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
     print("=" * 80)

@@ -1,0 +1,83 @@
+<!-- 評分報告彈窗 -->
+<div id="scoreModal" class="score-modal" style="display: none">
+  <div class="score-modal-content">
+    <div class="score-modal-header">
+      <h2>🎉 對話評分報告</h2>
+      <button class="score-modal-close">&times;</button>
+    </div>
+
+    <div class="score-modal-body">
+      <!-- 雷達圖 -->
+      <div class="score-radar-container">
+        <canvas id="scoreRadarChart"></canvas>
+      </div>
+
+      <!-- 評分卡片 -->
+      <div class="score-cards">
+        <div class="score-card">
+          <div class="score-card-icon">😊</div>
+          <div class="score-card-title">情緒表達</div>
+          <div class="score-card-value" id="emotionScoreValue">--</div>
+          <div class="score-card-bar">
+            <div class="score-card-fill" id="emotionScoreFill"></div>
+          </div>
+        </div>
+
+        <div class="score-card">
+          <div class="score-card-icon">🎤</div>
+          <div class="score-card-title">語音品質</div>
+          <div class="score-card-value" id="voiceScoreValue">--</div>
+          <div class="score-card-bar">
+            <div class="score-card-fill" id="voiceScoreFill"></div>
+          </div>
+        </div>
+
+        <div class="score-card">
+          <div class="score-card-icon">📝</div>
+          <div class="score-card-title">文字內容</div>
+          <div class="score-card-value" id="contentScoreValue">--</div>
+          <div class="score-card-bar">
+            <div class="score-card-fill" id="contentScoreFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 綜合評分 -->
+      <div class="score-overall">
+        <div class="score-overall-label">綜合評分</div>
+        <div class="score-overall-value" id="overallScoreValue">--</div>
+        <div class="score-overall-grade" id="overallGrade">--</div>
+        <div class="score-overall-stars" id="overallStars"></div>
+      </div>
+
+      <!-- 改進建議 -->
+      <div class="score-suggestions">
+        <h3>💡 改進建議</h3>
+        <div id="suggestionsList"></div>
+      </div>
+
+      <!-- 統計資訊 -->
+      <div class="score-statistics">
+        <div class="score-stat">
+          <span class="score-stat-label">對話輪數</span>
+          <span class="score-stat-value" id="statConversations">--</span>
+        </div>
+        <div class="score-stat">
+          <span class="score-stat-label">總字數</span>
+          <span class="score-stat-value" id="statWords">--</span>
+        </div>
+        <div class="score-stat">
+          <span class="score-stat-label">持續時間</span>
+          <span class="score-stat-value" id="statDuration">--</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="score-modal-footer">
+      <button class="btn btn-secondary" onclick="closeScoreModal()">
+        關閉
+      </button>
+      <button class="btn btn-primary" onclick="viewHistory()">查看歷史</button>
+    </div>
+  </div>
+</div>

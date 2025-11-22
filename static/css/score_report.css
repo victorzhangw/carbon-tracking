@@ -1,0 +1,319 @@
+/* 評分系統樣式 */
+
+/* 停止對話按鈕 */
+.btn-end-session {
+  background: #5b5bd6;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+}
+
+.btn-end-session:hover:not(:disabled) {
+  background: #4a4ab8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(91, 91, 214, 0.3);
+}
+
+.btn-end-session:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 評分報告彈窗 */
+.score-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.score-modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+.score-modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.score-modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.score-modal-header h2 .material-icons {
+  font-size: 24px;
+  color: #5b5bd6;
+}
+
+.score-modal-close {
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.score-modal-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.score-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.score-radar-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 32px;
+}
+
+.score-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.score-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.score-card-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.score-card-title {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.score-card-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.score-card-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.score-card-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.6s ease;
+}
+
+.score-overall {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.score-overall-label {
+  font-size: 16px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+.score-overall-value {
+  font-size: 64px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.score-overall-grade {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.score-overall-stars {
+  font-size: 32px;
+}
+
+.score-suggestions {
+  margin-bottom: 32px;
+}
+
+.score-suggestions h3 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.suggestion-item {
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: start;
+  gap: 12px;
+}
+
+.suggestion-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.suggestion-content {
+  flex: 1;
+}
+
+.suggestion-category {
+  font-size: 12px;
+  color: #667eea;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.suggestion-text {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.suggestion-priority-high {
+  border-left-color: #e74c3c;
+}
+
+.suggestion-priority-medium {
+  border-left-color: #f39c12;
+}
+
+.suggestion-priority-low {
+  border-left-color: #3498db;
+}
+
+.score-statistics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.score-stat {
+  text-align: center;
+}
+
+.score-stat-label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.score-stat-value {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.score-modal-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+  background: #f8f9fa;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .score-modal-content {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .score-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .score-overall-value {
+    font-size: 48px;
+  }
+
+  .score-radar-container {
+    max-width: 300px;
+  }
+}

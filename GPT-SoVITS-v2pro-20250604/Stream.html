@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GPT-SoVITS Streaming TTS Demo</title>
+  </head>
+  <body>
+    <h2>GPT-SoVITS Streaming TTS Demo</h2>
+    <button id="playBtn">即時播放語音</button>
+    <audio id="audioPlayer" controls></audio>
+    <script>
+      document.getElementById("playBtn").onclick = async function () {
+        const params = {
+          text: "我在亞馬遜的退貨率很高、但原因是我有70%收到都是瑕疵品、你們告訴我該怎麼辦？我也不願意退貨、甚至我要求退貨重新發貨、結果收到又是瑕疵品、而且只能有一次要求重新發貨、被迫我還得重新購買、有時候退款快有時拖到快一個月、我花錢購物、業者給我不良商品、要不是寄出沒檢查好、不然就是商品沒包裝好運送中受損、是我這消費者快崩潰才對！我常跟我先生說：我是什麼命格、為何我訂購的商品很容易收到是瑕疵品？但也因為亞馬遜退貨機制非常容易、真的很適合我這種命格的人！",
+          text_lang: "zh",
+          ref_audio_path: "D:\\TTS\\vc.wav",
+          prompt_lang: "zh",
+          prompt_text:
+            "使用软件者、传播软件导出的声音者自负全责.如不认可该条款, 则不能使用或引用软件",
+          batch_size: 20,
+          text_split_method: "cut1",
+          batch_threshold: 0.75,
+          streaming_mode: false,
+        };
+
+        // 建立查詢字串
+        const query = Object.entries(params)
+          .map(([k, v]) => encodeURIComponent(k) + "=" + encodeURIComponent(v))
+          .join("&");
+
+        // 建立音訊串流
+        const response = await fetch(`http://127.0.0.1:9880/tts?${query}`);
+        if (!response.ok) {
+          alert("TTS 服務錯誤");
+          return;
+        }
+
+        // 將串流資料轉為 blob 並播放
+        const reader = response.body.getReader();
+        let audioChunks = [];
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          audioChunks.push(value);
+        }
+        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audioPlayer = document.getElementById("audioPlayer");
+        audioPlayer.src = audioUrl;
+        audioPlayer.play();
+      };
+    </script>
+  </body>
+</html>

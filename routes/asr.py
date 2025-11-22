@@ -5,7 +5,7 @@ ASR API 路由
 
 import asyncio
 import logging
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from werkzeug.utils import secure_filename
 from auth import token_required
 from services.asr.coordinator import ASRCoordinator
@@ -287,3 +287,81 @@ def health_check():
             'error': str(e),
             'timestamp': datetime.datetime.now().isoformat()
         }), 503
+
+
+@asr_bp.route('/test', methods=['GET'])
+def test_page():
+    """
+    ASR 測試頁面
+    """
+    return render_template('asr_test.html')
+
+
+@asr_bp.route('/recognize-test', methods=['POST'])
+def recognize_audio_test():
+    """
+    測試用的音頻識別 API（無需認證）
+    
+    請求:
+        - file: 音頻文件（multipart/form-data）
+        - language_hint: 語言提示（可選，zh/zh-TW/minnan）
+        - return_details: 是否返回詳細信息（可選，true/false）
+        - enable_minnan_optimization: 是否啟用閩南語優化（可選，true/false）
+    
+    響應:
+        {
+            "success": true,
+            "text": "識別的文本",
+            "confidence": 0.85,
+            "language": "zh",
+            "audio_duration": 5.2,
+            "processing_time": 1.5,
+            "details": {...}  // 如果 return_details=true
+        }
+    """
+    try:
+        # 檢查文件
+        if 'file' not in request.files:
+            return jsonify({
+                'success': False,
+                'error': '未提供音頻文件'
+            }), 400
+        
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({
+                'success': False,
+                'error': '文件名為空'
+            }), 400
+        
+        # 讀取音頻數據
+        audio_data = file.read()
+        
+        # 獲取選項
+        options = {
+            'language_hint': request.form.get('language_hint', 'zh'),
+            'return_details': request.form.get('return_details', 'false').lower() == 'true',
+            'enable_minnan_optimization': request.form.get('enable_minnan_optimization', 'true').lower() == 'true'
+        }
+        
+        logger.info(f"收到測試識別請求: {file.filename}, 大小: {len(audio_data)} bytes")
+        
+        # 執行識別（異步轉同步）
+        coordinator = get_asr_coordinator()
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        result = loop.run_until_complete(
+            coordinator.recognize(audio_data, options)
+        )
+        loop.close()
+        
+        logger.info(f"測試識別完成: {result.get('text', '')[:50]}...")
+        
+        return jsonify(result), 200
+        
+    except Exception as e:
+        logger.error(f"測試識別失敗: {e}", exc_info=True)
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500

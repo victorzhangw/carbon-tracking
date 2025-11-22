@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 廣播劇書庫</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Microsoft JhengHei", sans-serif;
+        background: #f5f7fa;
+        min-height: 100vh;
+      }
+
+      /* 導航欄 */
+      .navbar {
+        background: white;
+        border-bottom: 1px solid #e8e8e8;
+        padding: 0 20px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .nav-brand {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 8px;
+      }
+
+      .nav-link {
+        padding: 8px 16px;
+        color: #6c757d;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+
+      .nav-link:hover {
+        background: #f8f9fa;
+        color: #212529;
+      }
+
+      .nav-link.active {
+        background: #e7f1ff;
+        color: #0d6efd;
+        font-weight: 500;
+      }
+
+      /* 容器 */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      /* 頁面標題 */
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        font-size: 15px;
+        color: #8a8a8a;
+      }
+
+      .upload-btn {
+        padding: 10px 20px;
+        background: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .upload-btn:hover {
+        background: #0b5ed7;
+        transform: translateY(-1px);
+      }
+
+      /* 書籍表格 */
+      .books-table-container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: #f8f9fa;
+        border-bottom: 2px solid #e8e8e8;
+      }
+
+      th {
+        padding: 16px;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+        color: #495057;
+      }
+
+      td {
+        padding: 16px;
+        font-size: 14px;
+        border-bottom: 1px solid #f1f3f5;
+      }
+
+      tbody tr {
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      tbody tr:hover {
+        background: #f8f9fa;
+      }
+
+      .book-icon {
+        margin-right: 8px;
+      }
+
+      .action-btn {
+        padding: 6px 12px;
+        background: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .action-btn:hover {
+        background: #0b5ed7;
+      }
+
+      /* 空狀態 */
+      .empty-state {
+        padding: 60px 20px;
+        text-align: center;
+      }
+
+      .empty-icon {
+        font-size: 64px;
+        margin-bottom: 16px;
+        opacity: 0.5;
+      }
+
+      .empty-text {
+        font-size: 15px;
+        color: #8a8a8a;
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid #e8e8e8;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-header h2 {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 28px;
+        color: #8a8a8a;
+        cursor: pointer;
+        padding: 0;
+        width: 32px;
+        height: 32px;
+      }
+
+      .modal-close:hover {
+        color: #1a1a1a;
+      }
+
+      .modal-body {
+        padding: 24px;
+      }
+
+      .modal-footer {
+        padding: 16px 24px;
+        border-top: 1px solid #e8e8e8;
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+      }
+
+      /* 上傳區域 */
+      .upload-area {
+        border: 2px dashed #d8d8d8;
+        border-radius: 8px;
+        padding: 40px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .upload-area:hover {
+        border-color: #0d6efd;
+        background: #f8f9ff;
+      }
+
+      .upload-area.dragover {
+        border-color: #0d6efd;
+        background: #e7f1ff;
+      }
+
+      .upload-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+        opacity: 0.6;
+      }
+
+      .upload-text {
+        font-size: 15px;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+      }
+
+      .upload-hint {
+        font-size: 13px;
+        color: #8a8a8a;
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+
+      /* 檔案列表 */
+      .file-list {
+        margin-top: 16px;
+      }
+
+      .file-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        margin-bottom: 8px;
+      }
+
+      .file-name {
+        font-size: 14px;
+        color: #495057;
+        flex: 1;
+      }
+
+      .file-remove {
+        background: none;
+        border: none;
+        color: #dc3545;
+        cursor: pointer;
+        font-size: 18px;
+        padding: 0 8px;
+      }
+
+      .file-remove:hover {
+        color: #c82333;
+      }
+
+      /* 按鈕 */
+      .btn-secondary {
+        padding: 10px 20px;
+        background: white;
+        color: #6c757d;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-secondary:hover {
+        background: #f8f9fa;
+      }
+
+      .btn-primary {
+        padding: 10px 20px;
+        background: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-primary:hover {
+        background: #0b5ed7;
+      }
+
+      .btn-primary:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 導航欄 -->
+    <nav class="navbar">
+      <div class="nav-brand">🎧 AI 廣播劇系統</div>
+      <div class="nav-links">
+        <a href="/api/audiobook/library" class="nav-link active">書庫</a>
+        <a href="/portal" class="nav-link">返回首頁</a>
+      </div>
+    </nav>
+
+    <!-- 主內容 -->
+    <div class="container">
+      <div class="page-header">
+        <div>
+          <h1>我的書庫</h1>
+          <p class="subtitle">雙語 AI 廣播劇，隨時隨地聆聽</p>
+        </div>
+        <button class="upload-btn" onclick="showUploadModal()">
+          📤 上傳書籍
+        </button>
+      </div>
+
+      <!-- 書籍表格 -->
+      <div class="books-table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>書名</th>
+              <th>章節數</th>
+              <th>上傳時間</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="booksTableBody">
+            <tr>
+              <td colspan="4">
+                <div class="empty-state">
+                  <div class="empty-icon">📚</div>
+                  <div class="empty-text">載入中...</div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 上傳 Modal -->
+    <div class="modal" id="uploadModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>上傳書籍</h2>
+          <button class="modal-close" onclick="closeUploadModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">點擊或拖拽 EPUB 檔案到這裡</div>
+            <div class="upload-hint">支援 .epub 格式，最多一次上傳 5 本書</div>
+            <input type="file" id="epubFiles" accept=".epub" multiple />
+          </div>
+          <div class="file-list" id="fileList"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="closeUploadModal()">
+            取消
+          </button>
+          <button class="btn-primary" id="uploadBtn" onclick="handleUpload()">
+            開始上傳
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let selectedFiles = [];
+
+      // Modal 控制
+      function showUploadModal() {
+        document.getElementById("uploadModal").classList.add("active");
+        selectedFiles = [];
+        updateFileList();
+      }
+
+      function closeUploadModal() {
+        document.getElementById("uploadModal").classList.remove("active");
+        document.getElementById("epubFiles").value = "";
+        selectedFiles = [];
+        updateFileList();
+      }
+
+      // 檔案處理
+      function addFiles(files) {
+        for (const file of files) {
+          if (selectedFiles.length >= 5) {
+            alert("最多只能上傳 5 本書");
+            break;
+          }
+          if (!selectedFiles.find((f) => f.name === file.name)) {
+            selectedFiles.push(file);
+          }
+        }
+        updateFileList();
+      }
+
+      function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        updateFileList();
+      }
+
+      function updateFileList() {
+        const fileList = document.getElementById("fileList");
+        if (selectedFiles.length === 0) {
+          fileList.innerHTML = "";
+          return;
+        }
+
+        fileList.innerHTML = selectedFiles
+          .map(
+            (file, index) => `
+        <div class="file-item">
+          <span class="file-name">📖 ${file.name}</span>
+          <button class="file-remove" onclick="removeFile(${index})">×</button>
+        </div>
+      `
+          )
+          .join("");
+      }
+
+      // 上傳處理
+      async function handleUpload() {
+        if (selectedFiles.length === 0) {
+          alert("請選擇檔案");
+          return;
+        }
+
+        const uploadBtn = document.getElementById("uploadBtn");
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = "上傳中...";
+
+        let successCount = 0;
+        let failCount = 0;
+
+        for (const file of selectedFiles) {
+          try {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const response = await fetch("/api/audiobook/upload-epub", {
+              method: "POST",
+              body: formData,
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+              successCount++;
+            } else {
+              failCount++;
+              console.error(`${file.name} 上傳失敗:`, result.error);
+            }
+          } catch (error) {
+            failCount++;
+            console.error(`${file.name} 上傳錯誤:`, error);
+          }
+        }
+
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = "開始上傳";
+
+        if (successCount > 0) {
+          showToast(`✅ 成功上傳 ${successCount} 本書`);
+          await loadBooks();
+        }
+        if (failCount > 0) {
+          showToast(`❌ ${failCount} 本書上傳失敗`, "error");
+        }
+
+        closeUploadModal();
+      }
+
+      function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.style.cssText = `
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: ${type === "success" ? "#4caf50" : "#f44336"};
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1001;
+        font-size: 15px;
+      `;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+
+      // 載入書籍列表
+      async function loadBooks() {
+        const booksTableBody = document.getElementById("booksTableBody");
+        try {
+          const response = await fetch("/api/audiobook/books");
+          const result = await response.json();
+
+          if (result.success && result.books.length > 0) {
+            booksTableBody.innerHTML = result.books
+              .map((book) => {
+                const date = new Date(book.created_at);
+                const dateStr = date.toLocaleDateString("zh-TW");
+
+                return `
+              <tr onclick="location.href='/api/audiobook/book/${book.id}/view'">
+                <td>
+                  <span class="book-icon">📖</span>
+                  ${book.title}
+                </td>
+                <td>${book.chapter_count || 0} 章</td>
+                <td>${dateStr}</td>
+                <td>
+                  <button class="action-btn" onclick="event.stopPropagation(); location.href='/api/audiobook/book/${
+                    book.id
+                  }/view'">
+                    查看章節
+                  </button>
+                </td>
+              </tr>
+            `;
+              })
+              .join("");
+          } else {
+            booksTableBody.innerHTML = `
+            <tr>
+              <td colspan="4">
+                <div class="empty-state">
+                  <div class="empty-icon">📚</div>
+                  <div class="empty-text">還沒有書籍，點擊上方按鈕上傳第一本書吧！</div>
+                </div>
+              </td>
+            </tr>
+          `;
+          }
+        } catch (error) {
+          console.error("載入書籍失敗:", error);
+          booksTableBody.innerHTML = `
+          <tr>
+            <td colspan="4">
+              <div class="empty-state">
+                <div class="empty-text">載入失敗，請重新整理頁面</div>
+              </div>
+            </td>
+          </tr>
+        `;
+        }
+      }
+
+      // 初始化
+      document.addEventListener("DOMContentLoaded", () => {
+        loadBooks();
+
+        const fileInput = document.getElementById("epubFiles");
+        const uploadArea = document.getElementById("uploadArea");
+
+        fileInput.addEventListener("change", (e) => {
+          const files = Array.from(e.target.files);
+          addFiles(files);
+        });
+
+        uploadArea.addEventListener("click", () => {
+          fileInput.click();
+        });
+
+        uploadArea.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          uploadArea.classList.add("dragover");
+        });
+
+        uploadArea.addEventListener("dragleave", () => {
+          uploadArea.classList.remove("dragover");
+        });
+
+        uploadArea.addEventListener("drop", (e) => {
+          e.preventDefault();
+          uploadArea.classList.remove("dragover");
+          const files = Array.from(e.dataTransfer.files).filter((f) =>
+            f.name.endsWith(".epub")
+          );
+          addFiles(files);
+        });
+      });
+    </script>
+  </body>
+</html>

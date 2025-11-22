@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI廣播劇播放器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .upload-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .upload-area {
+            border: 3px dashed #ccc;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .upload-area h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .upload-area p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .library-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .book-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .book-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .player-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .current-book {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .close-player {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .chapter-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .chapter-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .chapter-item:hover {
+            background-color: #f8f9ff;
+        }
+
+        .chapter-item.active {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .audio-player {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background-color: #eee;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            font-size: 1.8rem;
+        }
+
+        .play-btn:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            width: 100px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                gap: 10px;
+            }
+            
+            .control-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .play-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-podcast"></i> AI廣播劇播放器</h1>
+            <p>將EPUB電子書轉換為AI語音廣播劇，隨時隨地享受聽書樂趣</p>
+        </div>
+
+        <!-- 上傳區域 -->
+        <div class="upload-section">
+            <h2 class="section-title">上傳EPUB電子書</h2>
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>拖拽EPUB文件到此處或點擊上傳</h3>
+                <p>支持.epub格式的電子書文件</p>
+                <button class="upload-btn" id="uploadBtn">選擇文件</button>
+                <input type="file" class="file-input" id="fileInput" accept=".epub">
+            </div>
+        </div>
+
+        <!-- 書庫區域 -->
+        <div class="library-section">
+            <h2 class="section-title">我的廣播劇庫</h2>
+            <div class="books-grid" id="booksGrid">
+                <!-- 書籍卡片將在此處動態生成 -->
+                <div class="loading">正在加載書籍列表...</div>
+            </div>
+        </div>
+
+        <!-- 播放器區域 -->
+        <div class="player-section hidden" id="playerSection">
+            <div class="player-header">
+                <div class="current-book" id="currentBookTitle">書名</div>
+                <button class="close-player" id="closePlayer">關閉播放器</button>
+            </div>
+            
+            <div class="chapter-list" id="chapterList">
+                <!-- 章節列表將在此處動態生成 -->
+            </div>
+            
+            <div class="audio-player">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    <div class="time-info">
+                        <span id="currentTime">00:00</span>
+                        <span id="duration">00:00</span>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="control-btn" id="prevBtn">
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="control-btn play-btn" id="playBtn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-btn" id="nextBtn">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                </div>
+                
+                <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+                </div>
+            </div>
+            
+            <audio id="audioPlayer"></audio>
+        </div>
+    </div>
+
+    <script>
+        class AudiobookPlayer {
+            constructor() {
+                this.currentBook = null;
+                this.currentChapter = null;
+                this.audio = document.getElementById('audioPlayer');
+                this.isPlaying = false;
+                
+                this.initElements();
+                this.bindEvents();
+                this.loadBooks();
+            }
+            
+            initElements() {
+                this.uploadArea = document.getElementById('uploadArea');
+                this.fileInput = document.getElementById('fileInput');
+                this.uploadBtn = document.getElementById('uploadBtn');
+                this.booksGrid = document.getElementById('booksGrid');
+                this.playerSection = document.getElementById('playerSection');
+                this.currentBookTitle = document.getElementById('currentBookTitle');
+                this.chapterList = document.getElementById('chapterList');
+                this.progressBar = document.getElementById('progressBar');
+                this.progress = document.getElementById('progress');
+                this.currentTime = document.getElementById('currentTime');
+                this.duration = document.getElementById('duration');
+                this.playBtn = document.getElementById('playBtn');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.volumeSlider = document.getElementById('volumeSlider');
+                this.closePlayer = document.getElementById('closePlayer');
+            }
+            
+            bindEvents() {
+                // 上傳相關事件
+                this.uploadArea.addEventListener('click', () => this.fileInput.click());
+                this.uploadBtn.addEventListener('click', () => this.fileInput.click());
+                this.fileInput.addEventListener('change', (e) => this.handleFileUpload(e));
+                
+                // 播放器相關事件
+                this.playBtn.addEventListener('click', () => this.togglePlay());
+                this.prevBtn.addEventListener('click', () => this.playPrevChapter());
+                this.nextBtn.addEventListener('click', () => this.playNextChapter());
+                this.volumeSlider.addEventListener('input', (e) => this.setVolume(e.target.value));
+                this.closePlayer.addEventListener('click', () => this.closePlayerSection());
+                
+                // 音頻事件
+                this.audio.addEventListener('timeupdate', () => this.updateProgress());
+                this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+                this.audio.addEventListener('ended', () => this.onAudioEnded());
+                this.progressBar.addEventListener('click', (e) => this.seekAudio(e));
+            }
+            
+            async handleFileUpload(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                if (!file.name.toLowerCase().endsWith('.epub')) {
+                    alert('請選擇EPUB格式的文件');
+                    return;
+                }
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                try {
+                    const response = await fetch('/api/audiobook/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert('文件上傳並處理成功！');
+                        this.loadBooks();
+                    } else {
+                        alert('上傳失敗：' + result.error);
+                    }
+                } catch (error) {
+                    console.error('上傳錯誤:', error);
+                    alert('上傳過程中發生錯誤');
+                }
+            }
+            
+            async loadBooks() {
+                try {
+                    const response = await fetch('/api/audiobook/books');
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.renderBooks(result.books);
+                    } else {
+                        this.booksGrid.innerHTML = '<div class="loading">加載失敗：' + result.error + '</div>';
+                    }
+                } catch (error) {
+                    console.error('加載書籍列表錯誤:', error);
+                    this.booksGrid.innerHTML = '<div class="loading">加載失敗，請稍後重試</div>';
+                }
+            }
+            
+            renderBooks(books) {
+                if (books.length === 0) {
+                    this.booksGrid.innerHTML = '<div class="loading">暫無廣播劇，請先上傳EPUB文件</div>';
+                    return;
+                }
+                
+                this.booksGrid.innerHTML = books.map(book => `
+                    <div class="book-card" data-book-id="${book.id}">
+                        <div class="book-title">${book.title || '未知書名'}</div>
+                        <div class="book-meta">
+                            <div>章節數：${book.chapter_count || '未知'}</div>
+                            <div>創建時間：${new Date(book.created_at * 1000).toLocaleString()}</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // 為每個書籍卡片添加點擊事件
+                document.querySelectorAll('.book-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        const bookId = card.getAttribute('data-book-id');
+                        this.loadBookDetails(bookId);
+                    });
+                });
+            }
+            
+            async loadBookDetails(bookId) {
+                try {
+                    const response = await fetch(`/api/audiobook/book/${bookId}`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.currentBook = result.book;
+                        this.showPlayer();
+                        this.renderChapters(result.book.chapters);
+                    } else {
+                        alert('加載書籍詳情失敗：' + result.error);
+                    }
+                } catch (error) {
+                    console.error('加載書籍詳情錯誤:', error);
+                    alert('加載書籍詳情時發生錯誤');
+                }
+            }
+            
+            showPlayer() {
+                this.playerSection.classList.remove('hidden');
+                this.currentBookTitle.textContent = this.currentBook.title || '未知書名';
+            }
+            
+            closePlayerSection() {
+                this.playerSection.classList.add('hidden');
+                this.currentBook = null;
+                this.currentChapter = null;
+                this.audio.pause();
+                this.audio.src = '';
+            }
+            
+            renderChapters(chapters) {
+                this.chapterList.innerHTML = chapters.map((chapter, index) => `
+                    <div class="chapter-item" data-chapter-id="${chapter.id}" data-index="${index}">
+                        ${chapter.title || `第${index + 1}章`}
+                    </div>
+                `).join('');
+                
+                // 為每個章節添加點擊事件
+                document.querySelectorAll('.chapter-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        const chapterId = item.getAttribute('data-chapter-id');
+                        const index = parseInt(item.getAttribute('data-index'));
+                        this.playChapter(chapterId, index);
+                    });
+                });
+            }
+            
+            async playChapter(chapterId, index) {
+                try {
+                    // 更新當前章節
+                    this.currentChapter = {
+                        id: chapterId,
+                        index: index
+                    };
+                    
+                    // 更新UI
+                    document.querySelectorAll('.chapter-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    document.querySelector(`.chapter-item[data-chapter-id="${chapterId}"]`).classList.add('active');
+                    
+                    // 獲取音頻文件
+                    const audioUrl = `/api/audiobook/book/${this.currentBook.id}/chapter/${chapterId}/audio`;
+                    
+                    // 設置音頻源並播放
+                    this.audio.src = audioUrl;
+                    await this.audio.play();
+                    this.isPlaying = true;
+                    this.updatePlayButton();
+                } catch (error) {
+                    console.error('播放章節錯誤:', error);
+                    alert('播放章節時發生錯誤');
+                }
+            }
+            
+            togglePlay() {
+                if (!this.currentChapter) {
+                    alert('請先選擇要播放的章節');
+                    return;
+                }
+                
+                if (this.isPlaying) {
+                    this.audio.pause();
+                } else {
+                    this.audio.play();
+                }
+                
+                this.isPlaying = !this.isPlaying;
+                this.updatePlayButton();
+            }
+            
+            updatePlayButton() {
+                const icon = this.playBtn.querySelector('i');
+                if (this.isPlaying) {
+                    icon.className = 'fas fa-pause';
+                } else {
+                    icon.className = 'fas fa-play';
+                }
+            }
+            
+            playPrevChapter() {
+                if (!this.currentBook || !this.currentChapter) return;
+                
+                const prevIndex = this.currentChapter.index - 1;
+                if (prevIndex >= 0) {
+                    const prevChapter = this.currentBook.chapters[prevIndex];
+                    this.playChapter(prevChapter.id, prevIndex);
+                }
+            }
+            
+            playNextChapter() {
+                if (!this.currentBook || !this.currentChapter) return;
+                
+                const nextIndex = this.currentChapter.index + 1;
+                if (nextIndex < this.currentBook.chapters.length) {
+                    const nextChapter = this.currentBook.chapters[nextIndex];
+                    this.playChapter(nextChapter.id, nextIndex);
+                }
+            }
+            
+            setVolume(volume) {
+                this.audio.volume = volume;
+            }
+            
+            updateProgress() {
+                const percent = (this.audio.currentTime / this.audio.duration) * 100;
+                this.progress.style.width = percent + '%';
+                
+                this.currentTime.textContent = this.formatTime(this.audio.currentTime);
+            }
+            
+            updateDuration() {
+                this.duration.textContent = this.formatTime(this.audio.duration);
+            }
+            
+            formatTime(seconds) {
+                if (isNaN(seconds)) return '00:00';
+                
+                const minutes = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            
+            seekAudio(e) {
+                const rect = this.progressBar.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                this.audio.currentTime = pos * this.audio.duration;
+            }
+            
+            onAudioEnded() {
+                this.isPlaying = false;
+                this.updatePlayButton();
+                // 自動播放下一章
+                this.playNextChapter();
+            }
+        }
+        
+        // 初始化播放器
+        document.addEventListener('DOMContentLoaded', () => {
+            new AudiobookPlayer();
+        });
+    </script>
+</body>
+</html>
