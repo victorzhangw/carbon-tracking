@@ -20,6 +20,15 @@ except ImportError:
     logger = logging.getLogger(__name__)
     logger.warning("AudiobookService 未載入，部分功能將不可用")
 
+# 導入資料庫管理
+try:
+    from modules.voice_processing.audiobook_database import audiobook_db
+    DATABASE_AVAILABLE = True
+except ImportError:
+    DATABASE_AVAILABLE = False
+    logger = logging.getLogger(__name__)
+    logger.warning("AudiobookDatabase 未載入，進度記錄功能將不可用")
+
 # 創建藍圖
 audiobook_bp = Blueprint('audiobook', __name__, url_prefix='/api/audiobook')
 
@@ -54,6 +63,11 @@ def test_page():
 def qwen_test_page():
     """Qwen 雙語測試頁面"""
     return render_template('qwen_bilingual_test.html')
+
+@audiobook_bp.route('/test-enhanced')
+def test_enhanced_page():
+    """Phase 1 功能測試頁面"""
+    return render_template('audiobook_test_enhanced.html')
 
 @audiobook_bp.route('/upload', methods=['POST'])
 def upload_epub():
@@ -200,7 +214,7 @@ def get_book_info(book_id):
         JSON: 書籍詳細信息
     """
     try:
-        audiobooks_dir = os.path.join(current_app.root_path, 'audiobooks')
+        audiobooks_dir = os.path.join(current_app.root_path, 'static', 'audiobooks')
         book_dir = os.path.join(audiobooks_dir, book_id)
         
         if not os.path.exists(book_dir):
@@ -246,7 +260,7 @@ def get_chapter_audio(book_id, chapter_id):
         File: 音頻文件
     """
     try:
-        audiobooks_dir = os.path.join(current_app.root_path, 'audiobooks')
+        audiobooks_dir = os.path.join(current_app.root_path, 'static', 'audiobooks')
         audio_file_path = os.path.join(audiobooks_dir, book_id, f"{chapter_id}.mp3")
         
         if not os.path.exists(audio_file_path):
@@ -257,6 +271,53 @@ def get_chapter_audio(book_id, chapter_id):
     except Exception as e:
         logger.error(f"獲取音頻文件時出錯: {str(e)}")
         return jsonify({'error': f'獲取音頻文件時發生錯誤: {str(e)}'}), 500
+
+@audiobook_bp.route('/book/<book_id>/chapter/<chapter_id>/content', methods=['GET'])
+def get_chapter_content(book_id, chapter_id):
+    """
+    獲取章節文字內容
+    
+    Args:
+        book_id (str): 書籍ID
+        chapter_id (str): 章節ID
+        
+    Returns:
+        JSON: 章節文字內容
+    """
+    try:
+        # 嘗試從文字檔案中讀取章節內容
+        audiobooks_dir = os.path.join(current_app.root_path, 'static', 'audiobooks')
+        content_file_path = os.path.join(audiobooks_dir, book_id, f"{chapter_id}.txt")
+        
+        if os.path.exists(content_file_path):
+            with open(content_file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            return jsonify({
+                'status': 'success',
+                'data': {
+                    'book_id': book_id,
+                    'chapter_id': chapter_id,
+                    'content': content
+                }
+            }), 200
+        else:
+            # 如果沒有文字檔案，返回提示訊息
+            return jsonify({
+                'status': 'success',
+                'data': {
+                    'book_id': book_id,
+                    'chapter_id': chapter_id,
+                    'content': None
+                }
+            }), 200
+        
+    except Exception as e:
+        logger.error(f"獲取章節內容時出錯: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': f'獲取章節內容時發生錯誤: {str(e)}'
+        }), 500
 
 @audiobook_bp.route('/book/<book_id>', methods=['DELETE'])
 def delete_book(book_id):
@@ -288,3 +349,173 @@ def delete_book(book_id):
     except Exception as e:
         logger.error(f"刪除廣播劇時出錯: {str(e)}")
         return jsonify({'error': f'刪除廣播劇時發生錯誤: {str(e)}'}), 500
+
+
+# ==================== 進度管理 API ====================
+
+@audiobook_bp.route('/progress/save', methods=['POST'])
+def save_progress():
+    """儲存播放進度"""
+    if not DATABASE_AVAILABLE:
+        return jsonify({'success': False, 'error': '資料庫服務不可用'}), 503
+    
+    try:
+        data = request.json
+        book_id = data.get('book_id')
+        chapter_id = data.get('chapter_id')
+        position = data.get('position')
+        total_duration = data.get('total_duration')
+        
+        if not all([book_id, chapter_id, position is not None]):
+            return jsonify({'success': False, 'error': '缺少必要參數'}), 400
+        
+        success = audiobook_db.save_progress(book_id, chapter_id, position, total_duration)
+        
+        if success:
+            return jsonify({'success': True, 'message': '進度已儲存'})
+        else:
+            return jsonify({'success': False, 'error': '儲存失敗'}), 500
+            
+    except Exception as e:
+        logger.error(f"儲存進度錯誤: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@audiobook_bp.route('/progress/<book_id>', methods=['GET'])
+def get_progress(book_id):
+    """獲取播放進度"""
+    if not DATABASE_AVAILABLE:
+        return jsonify({'success': False, 'error': '資料庫服務不可用'}), 503
+    
+    try:
+        progress = audiobook_db.get_progress(book_id)
+        
+        if progress:
+            return jsonify({'success': True, 'progress': progress})
+        else:
+            return jsonify({'success': True, 'progress': None})
+            
+    except Exception as e:
+        logger.error(f"獲取進度錯誤: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# ==================== 書籤管理 API ====================
+
+@audiobook_bp.route('/bookmark/add', methods=['POST'])
+def add_bookmark():
+    """添加書籤"""
+    if not DATABASE_AVAILABLE:
+        return jsonify({'success': False, 'error': '資料庫服務不可用'}), 503
+    
+    try:
+        data = request.json
+        book_id = data.get('book_id')
+        chapter_id = data.get('chapter_id')
+        chapter_title = data.get('chapter_title')
+        position = data.get('position')
+        note = data.get('note', '')
+        
+        if not all([book_id, chapter_id, chapter_title, position is not None]):
+            return jsonify({'success': False, 'error': '缺少必要參數'}), 400
+        
+        bookmark_id = audiobook_db.add_bookmark(
+            book_id, chapter_id, chapter_title, position, note
+        )
+        
+        if bookmark_id:
+            return jsonify({
+                'success': True, 
+                'bookmark_id': bookmark_id,
+                'message': '書籤已添加'
+            })
+        else:
+            return jsonify({'success': False, 'error': '添加失敗'}), 500
+            
+    except Exception as e:
+        logger.error(f"添加書籤錯誤: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@audiobook_bp.route('/bookmarks/<book_id>', methods=['GET'])
+def get_bookmarks(book_id):
+    """獲取書籤列表"""
+    if not DATABASE_AVAILABLE:
+        return jsonify({'success': False, 'error': '資料庫服務不可用'}), 503
+    
+    try:
+        bookmarks = audiobook_db.get_bookmarks(book_id)
+        return jsonify({'success': True, 'bookmarks': bookmarks})
+            
+    except Exception as e:
+        logger.error(f"獲取書籤錯誤: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@audiobook_bp.route('/bookmark/<int:bookmark_id>', methods=['DELETE'])
+def delete_bookmark(bookmark_id):
+    """刪除書籤"""
+    if not DATABASE_AVAILABLE:
+        return jsonify({'success': False, 'error': '資料庫服務不可用'}), 503
+    
+    try:
+        success = audiobook_db.delete_bookmark(bookmark_id)
+        
+        if success:
+            return jsonify({'success': True, 'message': '書籤已刪除'})
+        else:
+            return jsonify({'success': False, 'error': '刪除失敗'}), 500
+            
+    except Exception as e:
+        logger.error(f"刪除書籤錯誤: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# ==================== 偏好設定 API ====================
+
+@audiobook_bp.route('/preferences/save', methods=['POST'])
+def save_preferences():
+    """儲存使用者偏好設定"""
+    if not DATABASE_AVAILABLE:
+        return jsonify({'success': False, 'error': '資料庫服務不可用'}), 503
+    
+    try:
+        data = request.json
+        
+        for key, value in data.items():
+            audiobook_db.save_preference(key, value)
+        
+        return jsonify({'success': True, 'message': '設定已儲存'})
+            
+    except Exception as e:
+        logger.error(f"儲存設定錯誤: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@audiobook_bp.route('/preferences', methods=['GET'])
+def get_preferences():
+    """獲取使用者偏好設定"""
+    if not DATABASE_AVAILABLE:
+        return jsonify({'success': False, 'error': '資料庫服務不可用'}), 503
+    
+    try:
+        preferences = audiobook_db.get_all_preferences()
+        
+        # 設定預設值
+        defaults = {
+            'playbackSpeed': 0.8,
+            'volume': 1.0,
+            'autoPlay': True,
+            'theme': 'light'
+        }
+        
+        # 合併預設值和使用者設定
+        for key, value in defaults.items():
+            if key not in preferences:
+                preferences[key] = value
+        
+        return jsonify({'success': True, 'preferences': preferences})
+            
+    except Exception as e:
+        logger.error(f"獲取設定錯誤: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500

@@ -179,6 +179,14 @@ class AudiobookService:
             str: 音頻文件路徑
         """
         try:
+            # 儲存章節文字內容為 .txt 檔案
+            text_file = os.path.join(output_dir, f"{chapter_id}.txt")
+            with open(text_file, 'w', encoding='utf-8') as f:
+                if title:
+                    f.write(f"{title}\n\n")
+                f.write(text)
+            logger.info(f"已儲存章節文字: {text_file}")
+            
             # 分段處理長文本
             segments = self._split_text_into_segments(text)
             

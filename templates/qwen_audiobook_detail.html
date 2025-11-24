@@ -3,7 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>書籍詳情</title>
+    <title>書籍詳情 - Phase 1 增強版</title>
+
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- Phase 1 增強版樣式 -->
+    <link rel="stylesheet" href="/static/css/audiobook_enhanced.css" />
+
     <style>
       * {
         margin: 0;
@@ -19,64 +29,81 @@
         padding-bottom: 120px;
       }
 
-      /* 頂部導航欄 */
+      /* 頂部導航欄 - 參考 carbon 設計 */
       .navbar {
-        background: white;
-        border-bottom: 1px solid #e8e8e8;
-        padding: 16px 0;
+        background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);
+        color: white;
+        padding: 12px 20px;
         position: sticky;
         top: 0;
         z-index: 100;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
       .navbar-content {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 0 20px;
         display: flex;
         align-items: center;
         gap: 16px;
+        flex: 1;
       }
 
       .back-btn {
         display: flex;
         align-items: center;
-        gap: 4px;
-        color: #667eea;
+        gap: 6px;
+        color: white;
         text-decoration: none;
-        font-size: 15px;
+        font-size: 0.9em;
         font-weight: 500;
-        transition: opacity 0.2s;
+        transition: all 0.2s;
+        opacity: 0.9;
+        padding: 6px 12px;
+        border-radius: 4px;
       }
 
       .back-btn:hover {
-        opacity: 0.7;
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .back-btn .material-icons {
+        font-size: 18px;
       }
 
       .navbar-title {
-        font-size: 16px;
+        font-size: 1.1em;
         font-weight: 600;
-        color: #1a1a1a;
+        color: white;
         flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .navbar-title .material-icons {
+        font-size: 20px;
       }
 
       /* 主內容 */
       .container {
-        max-width: 900px;
+        max-width: 80%;
+        width: 80%;
         margin: 0 auto;
-        padding: 24px 20px;
+        padding: 24px 0;
       }
 
       /* 書籍頭部 */
       .book-header {
         background: white;
         border-radius: 12px;
-        padding: 32px;
-        margin-bottom: 24px;
+        padding: 16px 32px;
+        margin: 0 20px 12px 20px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
       }
 
@@ -275,7 +302,7 @@
         }
       }
 
-      /* 底部播放器 */
+      /* 底部播放器 - Phase 2 增強版 */
       .audio-player {
         position: fixed;
         bottom: 0;
@@ -283,7 +310,7 @@
         right: 0;
         background: white;
         border-top: 1px solid #e8e8e8;
-        padding: 16px 20px;
+        padding: 16px 20px 20px;
         box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
         display: none;
         z-index: 200;
@@ -294,7 +321,7 @@
       }
 
       .player-content {
-        max-width: 900px;
+        max-width: 1000px;
         margin: 0 auto;
       }
 
@@ -338,18 +365,188 @@
       }
 
       .close-player-btn {
-        padding: 8px 16px;
+        padding: 8px;
         background: #f5f7fa;
         color: #8a8a8a;
         border: none;
         border-radius: 6px;
-        font-size: 14px;
         cursor: pointer;
         transition: all 0.2s;
+        display: flex;
+        align-items: center;
       }
 
       .close-player-btn:hover {
         background: #e8e8e8;
+      }
+
+      /* 進度條 */
+      .progress-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .time-display {
+        font-size: 12px;
+        color: #666;
+        min-width: 45px;
+        text-align: center;
+      }
+
+      .progress-bar {
+        flex: 1;
+        height: 6px;
+        background: #e8e8e8;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+        transition: height 0.2s;
+      }
+
+      .progress-bar:hover {
+        height: 8px;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #2196f3 0%, #64b5f6 100%);
+        border-radius: 3px;
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+
+      .progress-handle {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 14px;
+        height: 14px;
+        background: #2196f3;
+        border: 2px solid white;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.2s;
+        left: 0%;
+      }
+
+      .progress-bar:hover .progress-handle {
+        opacity: 1;
+      }
+
+      /* 控制按鈕 */
+      .player-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .control-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .control-btn {
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: #f5f7fa;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: #555;
+        position: relative;
+      }
+
+      .control-btn:hover {
+        background: #e8e8e8;
+        color: #2196f3;
+        transform: scale(1.05);
+      }
+
+      .control-btn.active {
+        background: #2196f3;
+        color: white;
+      }
+
+      .play-pause-btn {
+        width: 56px;
+        height: 56px;
+        background: #2196f3;
+        color: white;
+      }
+
+      .play-pause-btn:hover {
+        background: #1976d2;
+        transform: scale(1.08);
+      }
+
+      .control-btn .material-icons {
+        font-size: 24px;
+      }
+
+      .play-pause-btn .material-icons {
+        font-size: 32px;
+      }
+
+      /* 播放速度控制 */
+      .speed-control {
+        position: relative;
+      }
+
+      .speed-text {
+        font-size: 11px;
+        font-weight: 600;
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        background: #2196f3;
+        color: white;
+        padding: 2px 4px;
+        border-radius: 4px;
+        line-height: 1;
+      }
+
+      .speed-menu {
+        position: absolute;
+        bottom: 50px;
+        right: 0;
+        background: white;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 8px;
+        min-width: 80px;
+        z-index: 10;
+      }
+
+      .speed-menu button {
+        width: 100%;
+        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        text-align: left;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+
+      .speed-menu button:hover {
+        background: #f5f7fa;
+      }
+
+      .speed-menu button.active {
+        background: #e3f2fd;
+        color: #2196f3;
+        font-weight: 600;
       }
 
       audio {
@@ -401,6 +598,302 @@
       .chapter-list::-webkit-scrollbar-thumb:hover {
         background: #c0c0c0;
       }
+
+      /* 文字顯示區域 */
+      .transcript-section {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        position: relative;
+      }
+
+      .transcript-content {
+        max-height: 60vh;
+        overflow-y: auto;
+        padding: 20px;
+        background: #fafafa;
+        border-radius: 8px;
+        line-height: 2;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .transcript-content .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+      }
+
+      .bookmark-btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 12px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+
+      .bookmark-btn:hover {
+        background: #5568d3;
+        transform: translateY(-1px);
+      }
+
+      .bookmarks-panel {
+        margin-top: 16px;
+        padding: 16px;
+        background: #f9f9f9;
+        border-radius: 8px;
+      }
+
+      .bookmark-item {
+        padding: 12px;
+        background: white;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .bookmark-item:hover {
+        background: #f0f0f0;
+        transform: translateX(4px);
+      }
+
+      .bookmark-delete {
+        color: #e74c3c;
+        cursor: pointer;
+        padding: 4px;
+      }
+
+      /* 工具列按鈕 */
+      .toolbar-btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 12px;
+        background: white;
+        border: none;
+        color: #555;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+
+      .toolbar-btn:hover {
+        background: #f0f0f0;
+        color: #2196f3;
+      }
+
+      .toolbar-btn.active {
+        background: #2196f3;
+        color: white;
+      }
+
+      .toolbar-btn .material-icons {
+        font-size: 16px;
+      }
+
+      /* 深色主題 */
+      body.dark-theme {
+        background: #1a1a1a;
+        color: #e0e0e0;
+      }
+
+      body.dark-theme .container {
+        background: #1a1a1a;
+      }
+
+      body.dark-theme .chapters-section,
+      body.dark-theme .transcript-section {
+        background: #2d2d2d;
+        border-color: #404040;
+      }
+
+      body.dark-theme .section-header {
+        background: #333;
+        color: #e0e0e0;
+        border-color: #404040;
+      }
+
+      body.dark-theme .chapter-item {
+        background: #2d2d2d;
+        border-color: #404040;
+        color: #e0e0e0;
+      }
+
+      body.dark-theme .chapter-item:hover {
+        background: #3d3d3d;
+      }
+
+      body.dark-theme .transcript-content {
+        background: #2d2d2d;
+        color: #e0e0e0;
+      }
+
+      body.dark-theme .toolbar-btn {
+        background: #3d3d3d;
+        color: #e0e0e0;
+        border-color: #505050;
+      }
+
+      body.dark-theme .toolbar-btn:hover {
+        background: #4d4d4d;
+        color: #64b5f6;
+      }
+
+      body.dark-theme .toolbar-btn.active {
+        background: #2196f3;
+        color: white;
+      }
+
+      body.dark-theme .audio-player {
+        background: #2d2d2d;
+        border-color: #404040;
+      }
+
+      body.dark-theme .player-title {
+        color: #e0e0e0;
+      }
+
+      body.dark-theme .player-subtitle {
+        color: #999;
+      }
+
+      body.dark-theme .close-player-btn,
+      body.dark-theme .control-btn {
+        background: #3d3d3d;
+        color: #e0e0e0;
+      }
+
+      body.dark-theme .close-player-btn:hover,
+      body.dark-theme .control-btn:hover {
+        background: #4d4d4d;
+        color: #64b5f6;
+      }
+
+      body.dark-theme .play-pause-btn {
+        background: #2196f3;
+        color: white;
+      }
+
+      body.dark-theme .play-pause-btn:hover {
+        background: #1976d2;
+      }
+
+      body.dark-theme .progress-bar {
+        background: #404040;
+      }
+
+      body.dark-theme .time-display {
+        color: #999;
+      }
+
+      body.dark-theme .speed-menu {
+        background: #3d3d3d;
+        border-color: #505050;
+      }
+
+      body.dark-theme .speed-menu button:hover {
+        background: #4d4d4d;
+      }
+
+      body.dark-theme .empty-state {
+        color: #888;
+      }
+
+      /* 無障礙模式 */
+      body.accessibility-mode {
+        font-size: 18px;
+      }
+
+      body.accessibility-mode .transcript-content {
+        background: #fffef0;
+        line-height: 2.5;
+      }
+
+      body.accessibility-mode .chapter-title {
+        font-size: 18px;
+      }
+
+      body.accessibility-mode .toolbar-btn,
+      body.accessibility-mode .control-btn {
+        min-width: 48px;
+        min-height: 48px;
+      }
+
+      body.accessibility-mode button {
+        min-height: 44px;
+        font-size: 16px;
+      }
+
+      body.accessibility-mode .material-icons {
+        font-size: 24px !important;
+      }
+
+      /* 高對比度模式（無障礙 + 深色） */
+      body.accessibility-mode.dark-theme .transcript-content {
+        background: #000;
+        color: #fff;
+      }
+
+      body.accessibility-mode.dark-theme {
+        background: #000;
+      }
+
+      body.accessibility-mode.dark-theme .chapters-section,
+      body.accessibility-mode.dark-theme .transcript-section {
+        background: #1a1a1a;
+        border: 2px solid #fff;
+      }
+
+      /* 提示訊息動畫 */
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+
+      /* 響應式設計 */
+      @media (max-width: 1024px) {
+        .container > div[style*="grid"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        .section-header {
+          flex-direction: column;
+          align-items: flex-start !important;
+        }
+
+        .section-header > div:last-child {
+          width: 100%;
+          justify-content: flex-start;
+        }
+      }
     </style>
   </head>
   <body>
@@ -408,10 +901,13 @@
     <nav class="navbar">
       <div class="navbar-content">
         <a href="/api/audiobook/library" class="back-btn">
-          <span>←</span>
-          <span>返回</span>
+          <span class="material-icons">arrow_back</span>
+          <span>返回書庫</span>
         </a>
-        <div class="navbar-title" id="navbarTitle">載入中...</div>
+        <div class="navbar-title">
+          <span class="material-icons">menu_book</span>
+          <span id="navbarTitle">載入中...</span>
+        </div>
       </div>
     </nav>
 
@@ -420,16 +916,24 @@
       <!-- 書籍頭部 -->
       <div class="book-header">
         <div class="book-header-content">
-          <div class="book-cover-large">📖</div>
+          <div class="book-cover-large">
+            <span class="material-icons" style="font-size: 48px; color: #2196f3"
+              >auto_stories</span
+            >
+          </div>
           <div class="book-header-info">
             <h1 class="book-title-large" id="bookTitle">載入中...</h1>
             <div class="book-stats">
               <div class="book-stat-item">
-                <span>📚</span>
+                <span class="material-icons" style="font-size: 18px"
+                  >library_books</span
+                >
                 <span id="chapterCount">-- 章</span>
               </div>
               <div class="book-stat-item">
-                <span>🎧</span>
+                <span class="material-icons" style="font-size: 18px"
+                  >headphones</span
+                >
                 <span>雙語音頻</span>
               </div>
             </div>
@@ -437,48 +941,368 @@
         </div>
       </div>
 
-      <!-- 章節列表 -->
-      <div class="chapters-section">
-        <div class="section-header">
-          <span>章節列表</span>
-          <div class="sort-controls">
-            <button
-              class="sort-btn active"
-              onclick="sortChapters('asc')"
-              id="sortAsc"
-            >
-              ↑ 正序
-            </button>
-            <button
-              class="sort-btn"
-              onclick="sortChapters('desc')"
-              id="sortDesc"
-            >
-              ↓ 倒序
-            </button>
+      <!-- 主要內容區域：章節列表 + 文字顯示 -->
+      <div
+        style="
+          display: grid;
+          grid-template-columns: 30% 70%;
+          gap: 24px;
+          margin: 0 20px;
+        "
+      >
+        <!-- 左側：章節列表 -->
+        <div class="chapters-section">
+          <div class="section-header">
+            <span>📚 章節列表</span>
+            <div class="sort-controls">
+              <button
+                class="sort-btn active"
+                onclick="sortChapters('asc')"
+                id="sortAsc"
+              >
+                ↑ 正序
+              </button>
+              <button
+                class="sort-btn"
+                onclick="sortChapters('desc')"
+                id="sortDesc"
+              >
+                ↓ 倒序
+              </button>
+            </div>
+          </div>
+          <div class="chapter-list" id="chapterList">
+            <div class="loading-state">
+              <div class="loading-spinner"></div>
+              <div>載入章節中...</div>
+            </div>
           </div>
         </div>
-        <div class="chapter-list" id="chapterList">
-          <div class="loading-state">
-            <div class="loading-spinner"></div>
-            <div>載入章節中...</div>
+
+        <!-- 右側：文字顯示區域（逐字稿） -->
+        <div class="transcript-section">
+          <div
+            class="section-header"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 12px;
+            "
+          >
+            <div style="display: flex; align-items: center; gap: 8px">
+              <span
+                class="material-icons"
+                style="font-size: 18px; vertical-align: middle"
+                >description</span
+              >
+              <span>章節內容</span>
+            </div>
+
+            <!-- 工具列 -->
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex-wrap: wrap;
+              "
+            >
+              <!-- 語言選擇 -->
+              <div
+                style="
+                  display: flex;
+                  gap: 4px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  overflow: hidden;
+                "
+              >
+                <button
+                  class="toolbar-btn active"
+                  id="mandarinBtn"
+                  onclick="switchLanguage('mandarin')"
+                  title="國語"
+                >
+                  <span class="material-icons" style="font-size: 16px"
+                    >record_voice_over</span
+                  >
+                  國語
+                </button>
+                <button
+                  class="toolbar-btn"
+                  id="minanBtn"
+                  onclick="switchLanguage('minan')"
+                  title="閩南語"
+                >
+                  <span class="material-icons" style="font-size: 16px"
+                    >interpreter_mode</span
+                  >
+                  閩南語
+                </button>
+              </div>
+
+              <!-- 文字大小 -->
+              <div
+                style="
+                  display: flex;
+                  gap: 4px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  overflow: hidden;
+                "
+              >
+                <button
+                  class="toolbar-btn"
+                  onclick="adjustFontSize('decrease')"
+                  title="縮小文字"
+                >
+                  <span class="material-icons" style="font-size: 16px"
+                    >text_decrease</span
+                  >
+                </button>
+                <button
+                  class="toolbar-btn"
+                  onclick="adjustFontSize('reset')"
+                  title="重設文字大小"
+                >
+                  <span class="material-icons" style="font-size: 16px"
+                    >text_fields</span
+                  >
+                </button>
+                <button
+                  class="toolbar-btn"
+                  onclick="adjustFontSize('increase')"
+                  title="放大文字"
+                >
+                  <span class="material-icons" style="font-size: 16px"
+                    >text_increase</span
+                  >
+                </button>
+              </div>
+
+              <!-- 字重調整 -->
+              <div
+                style="
+                  display: flex;
+                  gap: 4px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  overflow: hidden;
+                "
+              >
+                <button
+                  class="toolbar-btn"
+                  id="fontWeightLight"
+                  onclick="adjustFontWeight('light')"
+                  title="細體"
+                >
+                  <span style="font-size: 14px; font-weight: 300">細</span>
+                </button>
+                <button
+                  class="toolbar-btn active"
+                  id="fontWeightNormal"
+                  onclick="adjustFontWeight('normal')"
+                  title="標準"
+                >
+                  <span style="font-size: 14px; font-weight: 400">標</span>
+                </button>
+                <button
+                  class="toolbar-btn"
+                  id="fontWeightBold"
+                  onclick="adjustFontWeight('bold')"
+                  title="粗體"
+                >
+                  <span style="font-size: 14px; font-weight: 700">粗</span>
+                </button>
+              </div>
+
+              <!-- 自動排版 -->
+              <button
+                class="toolbar-btn"
+                id="autoFormatBtn"
+                onclick="toggleAutoFormat()"
+                title="自動排版（標點符號斷行）"
+              >
+                <span class="material-icons" style="font-size: 16px"
+                  >format_align_left</span
+                >
+              </button>
+
+              <!-- 無障礙模式 -->
+              <button
+                class="toolbar-btn"
+                id="accessibilityBtn"
+                onclick="toggleAccessibilityMode()"
+                title="無障礙模式"
+              >
+                <span class="material-icons" style="font-size: 16px"
+                  >accessibility</span
+                >
+              </button>
+
+              <!-- 主題切換 -->
+              <button
+                class="toolbar-btn"
+                id="themeBtn"
+                onclick="toggleTheme()"
+                title="切換主題"
+              >
+                <span class="material-icons" style="font-size: 16px"
+                  >dark_mode</span
+                >
+              </button>
+
+              <!-- 書籤 -->
+              <button
+                class="toolbar-btn"
+                onclick="addCurrentBookmark()"
+                title="添加書籤"
+              >
+                <span class="material-icons" style="font-size: 16px"
+                  >bookmark_add</span
+                >
+                書籤
+              </button>
+            </div>
+          </div>
+          <div class="transcript-content" id="transcriptContent">
+            <div class="empty-state">
+              <span class="material-icons" style="font-size: 48px; color: #ddd"
+                >menu_book</span
+              >
+              <p style="margin-top: 16px; color: #999">選擇章節開始閱讀</p>
+            </div>
+          </div>
+
+          <!-- 書籤列表 -->
+          <div
+            class="bookmarks-panel"
+            id="bookmarksPanel"
+            style="display: none"
+          >
+            <div class="section-header">
+              <span>🔖 我的書籤</span>
+              <button
+                onclick="toggleBookmarks()"
+                style="background: none; border: none; cursor: pointer"
+              >
+                <span class="material-icons">close</span>
+              </button>
+            </div>
+            <div id="bookmarksList"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 底部播放器 -->
+    <!-- 底部播放器 - Phase 2 增強版 -->
     <div class="audio-player" id="audioPlayer">
       <div class="player-content">
+        <!-- 播放器資訊列 -->
         <div class="player-info-row">
           <div class="player-cover">📖</div>
           <div class="player-text">
             <div class="player-title" id="playerTitle"></div>
             <div class="player-subtitle" id="playerSubtitle"></div>
           </div>
-          <button class="close-player-btn" onclick="stopAudio()">關閉</button>
+          <button class="close-player-btn" onclick="stopAudio()">
+            <span class="material-icons">close</span>
+          </button>
         </div>
-        <audio id="audio" controls></audio>
+
+        <!-- 進度條 -->
+        <div class="progress-container">
+          <span class="time-display" id="currentTime">0:00</span>
+          <div class="progress-bar" id="progressBar" onclick="seekAudio(event)">
+            <div class="progress-fill" id="progressFill"></div>
+            <div class="progress-handle" id="progressHandle"></div>
+          </div>
+          <span class="time-display" id="totalTime">0:00</span>
+        </div>
+
+        <!-- 控制按鈕列 -->
+        <div class="player-controls">
+          <!-- 左側：章節導航 -->
+          <div class="control-group">
+            <button
+              class="control-btn"
+              onclick="playPreviousChapter()"
+              title="上一章 (P)"
+            >
+              <span class="material-icons">skip_previous</span>
+            </button>
+            <button class="control-btn" onclick="rewind()" title="後退15秒 (←)">
+              <span class="material-icons">replay_15</span>
+            </button>
+          </div>
+
+          <!-- 中間：播放控制 -->
+          <div class="control-group">
+            <button
+              class="control-btn play-pause-btn"
+              id="playPauseBtn"
+              onclick="togglePlayPause()"
+              title="播放/暫停 (Space)"
+            >
+              <span class="material-icons">play_arrow</span>
+            </button>
+          </div>
+
+          <!-- 右側：進階控制 -->
+          <div class="control-group">
+            <button
+              class="control-btn"
+              onclick="forward()"
+              title="前進15秒 (→)"
+            >
+              <span class="material-icons">forward_15</span>
+            </button>
+            <button
+              class="control-btn"
+              onclick="playNextChapter()"
+              title="下一章 (N)"
+            >
+              <span class="material-icons">skip_next</span>
+            </button>
+
+            <!-- 播放速度 -->
+            <div class="speed-control">
+              <button
+                class="control-btn"
+                onclick="toggleSpeedMenu()"
+                title="播放速度"
+              >
+                <span class="material-icons">speed</span>
+                <span class="speed-text" id="speedText">1.0x</span>
+              </button>
+              <div class="speed-menu" id="speedMenu" style="display: none">
+                <button onclick="setPlaybackSpeed(0.5)">0.5x</button>
+                <button onclick="setPlaybackSpeed(0.75)">0.75x</button>
+                <button onclick="setPlaybackSpeed(1.0)" class="active">
+                  1.0x
+                </button>
+                <button onclick="setPlaybackSpeed(1.25)">1.25x</button>
+                <button onclick="setPlaybackSpeed(1.5)">1.5x</button>
+                <button onclick="setPlaybackSpeed(2.0)">2.0x</button>
+              </div>
+            </div>
+
+            <!-- 自動播放下一章 -->
+            <button
+              class="control-btn"
+              id="autoPlayBtn"
+              onclick="toggleAutoPlay()"
+              title="自動播放下一章"
+            >
+              <span class="material-icons">playlist_play</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 隱藏的 audio 元素 -->
+        <audio id="audio" style="display: none"></audio>
       </div>
     </div>
 
@@ -488,6 +1312,12 @@
       let currentAudio = null;
       let chapters = [];
       let currentSortOrder = "asc";
+      let currentChapterIndex = -1;
+      let currentChapterId = null;
+      let currentChapterTitle = null;
+      let playbackSpeed = 1.0;
+      let autoPlayNext = false;
+      let isPlaying = false;
 
       // 排序功能
       function sortChapters(order) {
@@ -551,24 +1381,31 @@
             <div class="chapter-item">
               <div class="chapter-number">${index + 1}</div>
               <div class="chapter-info">
-                <div class="chapter-title">${chapter.title}</div>
+                <div class="chapter-title" onclick="loadChapterText('${
+                  chapter.id
+                }', '${
+              chapter.title
+            }')" style="cursor: pointer; color: #2196f3;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${
+              chapter.title
+            }</div>
               </div>
               <div class="chapter-actions">
-                <button class="play-btn mandarin" onclick="playChapter('${
+                <button class="play-btn" onclick="playChapterWithCurrentLanguage('${
                   chapter.id
-                }', 'mandarin', '${chapter.title}', this)">
-                  🎧 國語
-                </button>
-                <button class="play-btn minan" onclick="playChapter('${
-                  chapter.id
-                }', 'minan', '${chapter.title}', this)">
-                  🎧 閩南語
+                }', '${chapter.title}', this)">
+                  <span class="material-icons" style="font-size: 18px; vertical-align: middle;">play_circle</span>
+                  播放
                 </button>
               </div>
             </div>
           `
           )
           .join("");
+      }
+
+      // 使用當前選擇的語言播放章節
+      function playChapterWithCurrentLanguage(chapterId, title, button) {
+        playChapter(chapterId, currentLanguage, title, button);
       }
 
       function playChapter(chapterId, dialect, title, button) {
@@ -581,6 +1418,11 @@
           currentAudio.pause();
         }
 
+        // 記錄當前章節資訊
+        currentChapterId = chapterId;
+        currentChapterTitle = title;
+        currentChapterIndex = chapters.findIndex((ch) => ch.id === chapterId);
+
         const langName = dialect === "mandarin" ? "國語" : "閩南語";
         playerTitle.textContent = title;
         playerSubtitle.textContent = `正在生成${langName}音頻...`;
@@ -590,6 +1432,7 @@
 
         audio.oncanplay = () => {
           playerSubtitle.textContent = `正在播放：${langName}`;
+          audio.playbackRate = playbackSpeed; // 使用儲存的播放速度
           audio.play().catch((err) => console.error("播放錯誤:", err));
         };
 
@@ -599,7 +1442,7 @@
             audio.networkState === HTMLMediaElement.NETWORK_NO_SOURCE
           ) {
             playerSubtitle.textContent = `載入失敗，請重試`;
-            alert("音頻載入失敗，請稍後重試");
+            showToast("音頻載入失敗，請稍後重試", "#f44336");
           }
         };
 
@@ -610,7 +1453,19 @@
         document.querySelectorAll(".play-btn").forEach((btn) => {
           btn.classList.remove("playing");
         });
-        button.classList.add("playing");
+        if (button) {
+          button.classList.add("playing");
+        }
+
+        // 儲存閱讀進度
+        saveReadingProgress(chapterId, title);
+
+        // 載入章節文字內容
+        console.log("🎵 準備載入章節文字:", chapterId, title);
+        loadChapterText(chapterId, title);
+
+        // 更新當前章節 ID（用於進度追蹤）
+        currentChapterId = chapterId;
       }
 
       function stopAudio() {
@@ -626,7 +1481,1082 @@
         });
       }
 
+      // ==================== Phase 1 功能：進度追蹤 ====================
+
+      let currentPosition = 0;
+
+      // 儲存播放進度
+      async function saveProgress() {
+        if (!currentChapterId) return;
+
+        try {
+          const audio = document.getElementById("audio");
+          const response = await fetch("/api/audiobook/progress/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              book_id: bookId,
+              chapter_id: currentChapterId,
+              position: audio.currentTime,
+              total_duration: audio.duration,
+            }),
+          });
+
+          const result = await response.json();
+          if (result.success) {
+            console.log("✅ 進度已儲存");
+          }
+        } catch (error) {
+          console.error("儲存進度失敗:", error);
+        }
+      }
+
+      // 載入播放進度
+      async function loadProgress() {
+        try {
+          const response = await fetch(`/api/audiobook/progress/${bookId}`);
+          const result = await response.json();
+
+          if (result.success && result.progress) {
+            console.log("✅ 載入進度:", result.progress);
+            return result.progress;
+          }
+        } catch (error) {
+          console.error("載入進度失敗:", error);
+        }
+        return null;
+      }
+
+      // 自動儲存進度（每 5 秒）
+      setInterval(() => {
+        const audio = document.getElementById("audio");
+        if (audio && !audio.paused) {
+          saveProgress();
+        }
+      }, 5000);
+
+      // ==================== Phase 1 功能：書籤管理 ====================
+
+      // 添加書籤
+      async function addCurrentBookmark() {
+        if (!currentChapterId) {
+          alert("請先播放章節");
+          return;
+        }
+
+        const audio = document.getElementById("audio");
+        const note = prompt("書籤備註（選填）：");
+
+        if (note === null) return; // 取消
+
+        try {
+          const response = await fetch("/api/audiobook/bookmark/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              book_id: bookId,
+              chapter_id: currentChapterId,
+              chapter_title: document.getElementById("playerTitle").textContent,
+              position: audio.currentTime,
+              note: note,
+            }),
+          });
+
+          const result = await response.json();
+          if (result.success) {
+            alert("✅ 書籤已添加");
+            loadBookmarks();
+          }
+        } catch (error) {
+          console.error("添加書籤失敗:", error);
+          alert("添加書籤失敗");
+        }
+      }
+
+      // 載入書籤列表
+      async function loadBookmarks() {
+        try {
+          const response = await fetch(`/api/audiobook/bookmarks/${bookId}`);
+          const result = await response.json();
+
+          if (result.success && result.bookmarks) {
+            renderBookmarks(result.bookmarks);
+          }
+        } catch (error) {
+          console.error("載入書籤失敗:", error);
+        }
+      }
+
+      // 渲染書籤列表
+      function renderBookmarks(bookmarks) {
+        const bookmarksList = document.getElementById("bookmarksList");
+
+        if (bookmarks.length === 0) {
+          bookmarksList.innerHTML =
+            '<p style="color: #999; text-align: center; padding: 20px;">尚無書籤</p>';
+          return;
+        }
+
+        bookmarksList.innerHTML = bookmarks
+          .map(
+            (bookmark) => `
+          <div class="bookmark-item" onclick="jumpToBookmark('${
+            bookmark.chapter_id
+          }', ${bookmark.position})">
+            <div>
+              <div style="font-weight: 600; margin-bottom: 4px;">${
+                bookmark.chapter_title
+              }</div>
+              <div style="font-size: 12px; color: #999;">${formatTime(
+                bookmark.position
+              )} ${bookmark.note ? "· " + bookmark.note : ""}</div>
+            </div>
+            <span class="material-icons bookmark-delete" onclick="event.stopPropagation(); deleteBookmark(${
+              bookmark.id
+            })">delete</span>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      // 跳轉到書籤位置
+      function jumpToBookmark(chapterId, position) {
+        // 找到對應章節並播放
+        const chapterItem = document.querySelector(
+          `[data-chapter-id="${chapterId}"]`
+        );
+        if (chapterItem) {
+          const playBtn = chapterItem.querySelector(".play-btn");
+          if (playBtn) {
+            playBtn.click();
+
+            // 等待音頻載入後跳轉
+            setTimeout(() => {
+              const audio = document.getElementById("audio");
+              audio.currentTime = position;
+            }, 1000);
+          }
+        }
+      }
+
+      // 刪除書籤
+      async function deleteBookmark(bookmarkId) {
+        if (!confirm("確定要刪除此書籤嗎？")) return;
+
+        try {
+          const response = await fetch(
+            `/api/audiobook/bookmark/${bookmarkId}`,
+            {
+              method: "DELETE",
+            }
+          );
+
+          const result = await response.json();
+          if (result.success) {
+            loadBookmarks();
+          }
+        } catch (error) {
+          console.error("刪除書籤失敗:", error);
+        }
+      }
+
+      // 切換書籤面板
+      function toggleBookmarks() {
+        const panel = document.getElementById("bookmarksPanel");
+        if (panel.style.display === "none") {
+          panel.style.display = "block";
+          loadBookmarks();
+        } else {
+          panel.style.display = "none";
+        }
+      }
+
+      // 格式化時間
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, "0")}`;
+      }
+
+      // ==================== 文字顯示功能 ====================
+
+      // 載入章節文字內容
+      async function loadChapterText(chapterId, chapterTitle) {
+        console.log("🔍 loadChapterText 被調用:", chapterId, chapterTitle);
+        const transcriptContent = document.getElementById("transcriptContent");
+        console.log("📝 transcriptContent 元素:", transcriptContent);
+
+        if (!transcriptContent) {
+          console.error("❌ transcriptContent 元素不存在！");
+          return;
+        }
+
+        transcriptContent.innerHTML =
+          '<div style="text-align: center; padding: 40px;"><div class="loading-spinner"></div><p style="margin-top: 16px; color: #999;">載入中...</p></div>';
+
+        try {
+          // 嘗試從後端獲取章節內容
+          const response = await fetch(
+            `/api/audiobook/book/${bookId}/chapter/${chapterId}/content`
+          );
+
+          if (response.ok) {
+            const result = await response.json();
+            if (result.status === "success" && result.data.content) {
+              const weightValue =
+                currentFontWeight === "light"
+                  ? "300"
+                  : currentFontWeight === "bold"
+                  ? "700"
+                  : "400";
+              const content = autoFormatEnabled
+                ? formatTextWithPunctuation(result.data.content)
+                : result.data.content;
+              const whiteSpace = autoFormatEnabled ? "normal" : "pre-wrap";
+
+              transcriptContent.innerHTML = `
+                <div style="padding: 20px;">
+                  <h3 style="margin-bottom: 16px; color: #333; font-size: 18px;">${chapterTitle}</h3>
+                  <div style="color: #444; line-height: 2; font-size: ${currentFontSize}px; font-weight: ${weightValue}; white-space: ${whiteSpace};" data-original-text="${result.data.content.replace(
+                /"/g,
+                "&quot;"
+              )}">
+                    ${content}
+                  </div>
+                </div>
+              `;
+              return;
+            }
+          }
+
+          // 如果 API 不存在或沒有內容，顯示提示
+          transcriptContent.innerHTML = `
+            <div style="padding: 30px; text-align: center;">
+              <span class="material-icons" style="font-size: 48px; color: #ccc; margin-bottom: 16px;">description</span>
+              <h3 style="margin-bottom: 12px; color: #666; font-size: 16px;">${chapterTitle}</h3>
+              <p style="color: #999; line-height: 1.8; font-size: 14px;">
+                正在播放此章節的音頻內容<br>
+                <span style="font-size: 13px; color: #bbb;">章節文字內容功能開發中</span>
+              </p>
+            </div>
+          `;
+        } catch (error) {
+          console.error("載入章節文字失敗:", error);
+          transcriptContent.innerHTML = `
+            <div style="padding: 30px; text-align: center;">
+              <span class="material-icons" style="font-size: 48px; color: #ccc; margin-bottom: 16px;">description</span>
+              <h3 style="margin-bottom: 12px; color: #666; font-size: 16px;">${chapterTitle}</h3>
+              <p style="color: #999; line-height: 1.8; font-size: 14px;">
+                正在播放此章節的音頻內容
+              </p>
+            </div>
+          `;
+        }
+      }
+
+      // ==================== 工具列功能 ====================
+
+      // 語言切換
+      let currentLanguage = "mandarin";
+
+      function switchLanguage(language) {
+        currentLanguage = language;
+
+        // 更新按鈕狀態
+        document
+          .getElementById("mandarinBtn")
+          .classList.toggle("active", language === "mandarin");
+        document
+          .getElementById("minanBtn")
+          .classList.toggle("active", language === "minan");
+
+        const langName = language === "mandarin" ? "國語" : "閩南語";
+        console.log("切換語言:", langName);
+
+        // 顯示提示訊息
+        const toast = document.createElement("div");
+        toast.textContent = `已切換至${langName}模式`;
+        toast.style.cssText = `
+          position: fixed;
+          top: 80px;
+          right: 20px;
+          background: #2196f3;
+          color: white;
+          padding: 12px 20px;
+          border-radius: 6px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          z-index: 1000;
+          animation: slideIn 0.3s ease;
+        `;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.animation = "slideOut 0.3s ease";
+          setTimeout(() => toast.remove(), 300);
+        }, 2000);
+      }
+
+      // 文字大小調整
+      let currentFontSize = 15; // 預設字體大小
+
+      function adjustFontSize(action) {
+        const transcriptContent = document.getElementById("transcriptContent");
+
+        if (action === "increase") {
+          currentFontSize = Math.min(currentFontSize + 2, 36);
+        } else if (action === "decrease") {
+          currentFontSize = Math.max(currentFontSize - 2, 12);
+        } else if (action === "reset") {
+          currentFontSize = 15;
+        }
+
+        // 更新文字大小
+        const contentDiv = transcriptContent.querySelector(
+          'div[style*="font-size"]'
+        );
+        if (contentDiv) {
+          contentDiv.style.fontSize = currentFontSize + "px";
+        }
+
+        // 儲存設定
+        localStorage.setItem("audiobook_fontSize", currentFontSize);
+
+        console.log("文字大小:", currentFontSize);
+      }
+
+      // 字重調整
+      let currentFontWeight = "normal"; // 預設字重
+
+      function adjustFontWeight(weight) {
+        currentFontWeight = weight;
+
+        // 更新按鈕狀態
+        document.getElementById("fontWeightLight").classList.remove("active");
+        document.getElementById("fontWeightNormal").classList.remove("active");
+        document.getElementById("fontWeightBold").classList.remove("active");
+
+        if (weight === "light") {
+          document.getElementById("fontWeightLight").classList.add("active");
+        } else if (weight === "normal") {
+          document.getElementById("fontWeightNormal").classList.add("active");
+        } else if (weight === "bold") {
+          document.getElementById("fontWeightBold").classList.add("active");
+        }
+
+        // 更新文字字重
+        const transcriptContent = document.getElementById("transcriptContent");
+        const contentDiv = transcriptContent.querySelector(
+          'div[style*="line-height"]'
+        );
+        if (contentDiv) {
+          const weightValue =
+            weight === "light" ? "300" : weight === "bold" ? "700" : "400";
+          contentDiv.style.fontWeight = weightValue;
+        }
+
+        // 儲存設定
+        localStorage.setItem("audiobook_fontWeight", weight);
+
+        console.log("字重:", weight);
+      }
+
+      // 自動排版
+      let autoFormatEnabled = false;
+
+      function toggleAutoFormat() {
+        autoFormatEnabled = !autoFormatEnabled;
+        document
+          .getElementById("autoFormatBtn")
+          .classList.toggle("active", autoFormatEnabled);
+
+        // 儲存設定
+        localStorage.setItem("audiobook_autoFormat", autoFormatEnabled);
+
+        // 重新格式化當前內容
+        const transcriptContent = document.getElementById("transcriptContent");
+        const contentDiv = transcriptContent.querySelector(
+          'div[style*="line-height"]'
+        );
+
+        if (contentDiv && contentDiv.textContent.trim()) {
+          const originalText =
+            contentDiv.getAttribute("data-original-text") ||
+            contentDiv.textContent;
+
+          // 儲存原始文字（如果還沒儲存）
+          if (!contentDiv.getAttribute("data-original-text")) {
+            contentDiv.setAttribute("data-original-text", originalText);
+          }
+
+          if (autoFormatEnabled) {
+            // 自動排版：在標點符號後添加換行
+            const formattedText = formatTextWithPunctuation(originalText);
+            contentDiv.innerHTML = formattedText;
+          } else {
+            // 恢復原始格式
+            contentDiv.textContent = originalText;
+          }
+        }
+
+        showToast(
+          autoFormatEnabled ? "已開啟自動排版" : "已關閉自動排版",
+          autoFormatEnabled ? "#4caf50" : "#666"
+        );
+      }
+
+      // 依據標點符號格式化文字
+      function formatTextWithPunctuation(text) {
+        // 在句號、問號、驚嘆號、分號後添加換行
+        // 保留原有的換行符號
+        let formatted = text
+          .replace(/([。！？；])/g, "$1\n") // 中文標點
+          .replace(/([.!?;])\s*/g, "$1\n") // 英文標點
+          .replace(/\n{3,}/g, "\n\n") // 移除多餘的空行（保留最多兩個換行）
+          .trim();
+
+        // 將換行符號轉換為 <br> 標籤
+        formatted = formatted.replace(/\n/g, "<br>");
+
+        return formatted;
+      }
+
+      // 無障礙模式
+      let accessibilityMode = false;
+
+      function toggleAccessibilityMode() {
+        accessibilityMode = !accessibilityMode;
+        document.body.classList.toggle("accessibility-mode", accessibilityMode);
+        document
+          .getElementById("accessibilityBtn")
+          .classList.toggle("active", accessibilityMode);
+
+        // 儲存設定
+        localStorage.setItem("audiobook_accessibility", accessibilityMode);
+
+        if (accessibilityMode) {
+          // 開啟無障礙模式時的優化
+          // 1. 自動放大字體到 24px
+          if (currentFontSize < 24) {
+            currentFontSize = 24;
+            const transcriptContent =
+              document.getElementById("transcriptContent");
+            const contentDiv = transcriptContent.querySelector(
+              'div[style*="font-size"]'
+            );
+            if (contentDiv) {
+              contentDiv.style.fontSize = currentFontSize + "px";
+            }
+            localStorage.setItem("audiobook_fontSize", currentFontSize);
+          }
+
+          // 2. 自動開啟自動排版
+          if (!autoFormatEnabled) {
+            toggleAutoFormat();
+          }
+
+          // 3. 顯示提示
+          showToast("已開啟無障礙模式：大字體、高對比度、自動排版", "#4caf50");
+
+          // 4. 啟用鍵盤導航提示
+          showKeyboardShortcutsHint();
+        } else {
+          showToast("已關閉無障礙模式", "#666");
+        }
+
+        console.log("無障礙模式:", accessibilityMode ? "開啟" : "關閉");
+      }
+
+      // 顯示鍵盤快捷鍵提示
+      function showKeyboardShortcutsHint() {
+        const hint = document.createElement("div");
+        hint.innerHTML = `
+          <div style="font-weight: 600; margin-bottom: 8px;">⌨️ 鍵盤快捷鍵</div>
+          <div style="font-size: 13px; line-height: 1.8;">
+            <div>Space - 播放/暫停</div>
+            <div>← / → - 快退/快進 15秒</div>
+            <div>P / N - 上一章/下一章</div>
+          </div>
+        `;
+        hint.style.cssText = `
+          position: fixed;
+          top: 80px;
+          left: 20px;
+          background: #2196f3;
+          color: white;
+          padding: 16px 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+          z-index: 1000;
+          animation: slideIn 0.3s ease;
+          max-width: 280px;
+        `;
+        document.body.appendChild(hint);
+
+        setTimeout(() => {
+          hint.style.animation = "slideOut 0.3s ease";
+          setTimeout(() => hint.remove(), 300);
+        }, 5000);
+      }
+
+      // 主題切換
+      let isDarkTheme = false;
+
+      function toggleTheme() {
+        isDarkTheme = !isDarkTheme;
+        document.body.classList.toggle("dark-theme", isDarkTheme);
+
+        // 更新按鈕圖示
+        const themeBtn = document.getElementById("themeBtn");
+        const icon = themeBtn.querySelector(".material-icons");
+        icon.textContent = isDarkTheme ? "light_mode" : "dark_mode";
+
+        // 儲存設定
+        localStorage.setItem("audiobook_theme", isDarkTheme ? "dark" : "light");
+
+        console.log("主題:", isDarkTheme ? "深色" : "淺色");
+      }
+
+      // ==================== Phase 2 播放器增強功能 ====================
+
+      // 初始化播放器事件
+      function initializePlayer() {
+        const audio = document.getElementById("audio");
+
+        // 時間更新
+        audio.addEventListener("timeupdate", updateProgress);
+
+        // 播放結束
+        audio.addEventListener("ended", onAudioEnded);
+
+        // 載入完成
+        audio.addEventListener("loadedmetadata", () => {
+          document.getElementById("totalTime").textContent = formatTime(
+            audio.duration
+          );
+        });
+
+        // 播放狀態變化
+        audio.addEventListener("play", () => {
+          isPlaying = true;
+          updatePlayPauseButton();
+        });
+
+        audio.addEventListener("pause", () => {
+          isPlaying = false;
+          updatePlayPauseButton();
+        });
+
+        // 載入播放速度設定
+        const savedSpeed = localStorage.getItem("audiobook_playbackSpeed");
+        if (savedSpeed) {
+          playbackSpeed = parseFloat(savedSpeed);
+          audio.playbackRate = playbackSpeed;
+          document.getElementById("speedText").textContent =
+            playbackSpeed + "x";
+        }
+
+        // 載入自動播放設定
+        const savedAutoPlay = localStorage.getItem("audiobook_autoPlay");
+        if (savedAutoPlay === "true") {
+          autoPlayNext = true;
+          document.getElementById("autoPlayBtn").classList.add("active");
+        }
+      }
+
+      // 更新進度條
+      function updateProgress() {
+        const audio = document.getElementById("audio");
+        if (!audio.duration) return;
+
+        const percent = (audio.currentTime / audio.duration) * 100;
+        document.getElementById("progressFill").style.width = percent + "%";
+        document.getElementById("progressHandle").style.left = percent + "%";
+        document.getElementById("currentTime").textContent = formatTime(
+          audio.currentTime
+        );
+      }
+
+      // 拖曳進度條
+      function seekAudio(event) {
+        const audio = document.getElementById("audio");
+        const progressBar = document.getElementById("progressBar");
+        const rect = progressBar.getBoundingClientRect();
+        const percent = (event.clientX - rect.left) / rect.width;
+        audio.currentTime = percent * audio.duration;
+      }
+
+      // 播放/暫停切換
+      function togglePlayPause() {
+        const audio = document.getElementById("audio");
+        if (isPlaying) {
+          audio.pause();
+        } else {
+          audio.play();
+        }
+      }
+
+      // 更新播放/暫停按鈕
+      function updatePlayPauseButton() {
+        const btn = document.getElementById("playPauseBtn");
+        const icon = btn.querySelector(".material-icons");
+        icon.textContent = isPlaying ? "pause" : "play_arrow";
+      }
+
+      // 快退 15 秒
+      function rewind() {
+        const audio = document.getElementById("audio");
+        audio.currentTime = Math.max(0, audio.currentTime - 15);
+      }
+
+      // 快進 15 秒
+      function forward() {
+        const audio = document.getElementById("audio");
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
+      }
+
+      // 播放速度控制
+      function toggleSpeedMenu() {
+        const menu = document.getElementById("speedMenu");
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+      }
+
+      function setPlaybackSpeed(speed) {
+        playbackSpeed = speed;
+        const audio = document.getElementById("audio");
+        audio.playbackRate = speed;
+        document.getElementById("speedText").textContent = speed + "x";
+
+        // 更新選中狀態
+        document.querySelectorAll(".speed-menu button").forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.textContent === speed + "x") {
+            btn.classList.add("active");
+          }
+        });
+
+        // 儲存設定
+        localStorage.setItem("audiobook_playbackSpeed", speed);
+
+        // 關閉選單
+        document.getElementById("speedMenu").style.display = "none";
+      }
+
+      // 自動播放下一章切換
+      function toggleAutoPlay() {
+        autoPlayNext = !autoPlayNext;
+        document
+          .getElementById("autoPlayBtn")
+          .classList.toggle("active", autoPlayNext);
+        localStorage.setItem("audiobook_autoPlay", autoPlayNext);
+
+        const toast = document.createElement("div");
+        toast.textContent = autoPlayNext
+          ? "已開啟自動播放下一章"
+          : "已關閉自動播放下一章";
+        toast.style.cssText = `
+          position: fixed;
+          top: 80px;
+          right: 20px;
+          background: ${autoPlayNext ? "#4caf50" : "#666"};
+          color: white;
+          padding: 12px 20px;
+          border-radius: 6px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          z-index: 1000;
+          animation: slideIn 0.3s ease;
+        `;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.animation = "slideOut 0.3s ease";
+          setTimeout(() => toast.remove(), 300);
+        }, 2000);
+      }
+
+      // 音頻播放結束
+      function onAudioEnded() {
+        if (autoPlayNext) {
+          playNextChapter();
+        } else {
+          isPlaying = false;
+          updatePlayPauseButton();
+        }
+      }
+
+      // 播放上一章
+      function playPreviousChapter() {
+        if (currentChapterIndex > 0) {
+          const prevChapter = chapters[currentChapterIndex - 1];
+          const chapterItem = document.querySelector(
+            `[onclick*="${prevChapter.id}"]`
+          );
+          if (chapterItem) {
+            playChapterWithCurrentLanguage(
+              prevChapter.id,
+              prevChapter.title,
+              chapterItem
+            );
+          }
+        } else {
+          showToast("已經是第一章了");
+        }
+      }
+
+      // 播放下一章
+      function playNextChapter() {
+        if (currentChapterIndex < chapters.length - 1) {
+          const nextChapter = chapters[currentChapterIndex + 1];
+          const chapterItem = document.querySelector(
+            `[onclick*="${nextChapter.id}"]`
+          );
+          if (chapterItem) {
+            playChapterWithCurrentLanguage(
+              nextChapter.id,
+              nextChapter.title,
+              chapterItem
+            );
+          }
+        } else {
+          showToast("已經是最後一章了");
+          isPlaying = false;
+          updatePlayPauseButton();
+        }
+      }
+
+      // 顯示提示訊息
+      function showToast(message, color = "#666") {
+        const toast = document.createElement("div");
+        toast.textContent = message;
+        toast.style.cssText = `
+          position: fixed;
+          top: 80px;
+          right: 20px;
+          background: ${color};
+          color: white;
+          padding: 12px 20px;
+          border-radius: 6px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          z-index: 1000;
+          animation: slideIn 0.3s ease;
+        `;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.animation = "slideOut 0.3s ease";
+          setTimeout(() => toast.remove(), 300);
+        }, 2000);
+      }
+
+      // 鍵盤快捷鍵
+      document.addEventListener("keydown", (e) => {
+        // 如果在輸入框中，不觸發快捷鍵
+        if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")
+          return;
+
+        switch (e.key) {
+          case " ": // 空格：播放/暫停
+            e.preventDefault();
+            togglePlayPause();
+            break;
+          case "ArrowLeft": // 左箭頭：後退15秒
+            e.preventDefault();
+            rewind();
+            break;
+          case "ArrowRight": // 右箭頭：前進15秒
+            e.preventDefault();
+            forward();
+            break;
+          case "p": // P：上一章
+          case "P":
+            e.preventDefault();
+            playPreviousChapter();
+            break;
+          case "n": // N：下一章
+          case "N":
+            e.preventDefault();
+            playNextChapter();
+            break;
+        }
+      });
+
+      // 載入使用者設定
+      function loadUserSettings() {
+        // 載入字體大小
+        const savedFontSize = localStorage.getItem("audiobook_fontSize");
+        if (savedFontSize) {
+          currentFontSize = parseInt(savedFontSize);
+        }
+
+        // 載入字重
+        const savedFontWeight = localStorage.getItem("audiobook_fontWeight");
+        if (savedFontWeight) {
+          currentFontWeight = savedFontWeight;
+          // 更新按鈕狀態
+          document.getElementById("fontWeightLight").classList.remove("active");
+          document
+            .getElementById("fontWeightNormal")
+            .classList.remove("active");
+          document.getElementById("fontWeightBold").classList.remove("active");
+          document
+            .getElementById(
+              `fontWeight${
+                savedFontWeight.charAt(0).toUpperCase() +
+                savedFontWeight.slice(1)
+              }`
+            )
+            .classList.add("active");
+        }
+
+        // 載入自動排版設定
+        const savedAutoFormat = localStorage.getItem("audiobook_autoFormat");
+        if (savedAutoFormat === "true") {
+          autoFormatEnabled = true;
+          document.getElementById("autoFormatBtn").classList.add("active");
+        }
+
+        // 載入無障礙模式
+        const savedAccessibility = localStorage.getItem(
+          "audiobook_accessibility"
+        );
+        if (savedAccessibility === "true") {
+          accessibilityMode = true;
+          document.body.classList.add("accessibility-mode");
+          document.getElementById("accessibilityBtn").classList.add("active");
+        }
+
+        // 載入主題
+        const savedTheme = localStorage.getItem("audiobook_theme");
+        if (savedTheme === "dark") {
+          isDarkTheme = true;
+          document.body.classList.add("dark-theme");
+          const themeBtn = document.getElementById("themeBtn");
+          if (themeBtn) {
+            const icon = themeBtn.querySelector(".material-icons");
+            icon.textContent = "light_mode";
+          }
+        }
+      }
+
+      // ==================== 閱讀進度管理 ====================
+
+      // 儲存閱讀進度
+      function saveReadingProgress(chapterId, chapterTitle) {
+        const progress = {
+          bookId: bookId,
+          chapterId: chapterId,
+          chapterTitle: chapterTitle,
+          timestamp: new Date().toISOString(),
+        };
+        localStorage.setItem(
+          `audiobook_progress_${bookId}`,
+          JSON.stringify(progress)
+        );
+      }
+
+      // 載入閱讀進度
+      function loadReadingProgress() {
+        const saved = localStorage.getItem(`audiobook_progress_${bookId}`);
+        if (saved) {
+          const progress = JSON.parse(saved);
+          return progress;
+        }
+        return null;
+      }
+
+      // 顯示繼續閱讀提示
+      function showContinueReading() {
+        const progress = loadReadingProgress();
+        if (progress && progress.chapterId) {
+          const toast = document.createElement("div");
+          toast.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="material-icons">bookmark</span>
+              <div style="flex: 1;">
+                <div style="font-weight: 600; margin-bottom: 4px;">繼續閱讀</div>
+                <div style="font-size: 13px; opacity: 0.9;">${progress.chapterTitle}</div>
+              </div>
+              <button onclick="continueReading('${progress.chapterId}', '${progress.chapterTitle}')" 
+                      style="padding: 8px 16px; background: white; color: #2196f3; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                繼續
+              </button>
+            </div>
+          `;
+          toast.style.cssText = `
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            max-width: 320px;
+          `;
+          document.body.appendChild(toast);
+
+          setTimeout(() => {
+            toast.style.animation = "slideOut 0.3s ease";
+            setTimeout(() => toast.remove(), 300);
+          }, 8000);
+        }
+      }
+
+      // 繼續閱讀
+      function continueReading(chapterId, chapterTitle) {
+        // 移除提示
+        document
+          .querySelectorAll('div[style*="slideIn"]')
+          .forEach((el) => el.remove());
+
+        // 播放章節
+        playChapterWithCurrentLanguage(chapterId, chapterTitle, null);
+
+        // 載入文字
+        loadChapterText(chapterId, chapterTitle);
+      }
+
+      // ==================== 滾動自動切換章節 ====================
+
+      let scrollTimeout = null;
+      let hasShownNextChapterPrompt = false;
+
+      function initScrollListener() {
+        const transcriptContent = document.getElementById("transcriptContent");
+
+        transcriptContent.addEventListener("scroll", () => {
+          // 清除之前的計時器
+          if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+          }
+
+          // 設定新的計時器，避免頻繁觸發
+          scrollTimeout = setTimeout(() => {
+            checkScrollPosition();
+          }, 200);
+        });
+      }
+
+      function checkScrollPosition() {
+        const transcriptContent = document.getElementById("transcriptContent");
+
+        // 檢查是否滾動到底部（留 50px 緩衝區）
+        const isAtBottom =
+          transcriptContent.scrollHeight -
+            transcriptContent.scrollTop -
+            transcriptContent.clientHeight <
+          50;
+
+        if (
+          isAtBottom &&
+          !hasShownNextChapterPrompt &&
+          currentChapterIndex >= 0
+        ) {
+          // 檢查是否有下一章
+          if (currentChapterIndex < chapters.length - 1) {
+            showNextChapterPrompt();
+          }
+        }
+      }
+
+      function showNextChapterPrompt() {
+        hasShownNextChapterPrompt = true;
+
+        const nextChapter = chapters[currentChapterIndex + 1];
+
+        const toast = document.createElement("div");
+        toast.id = "nextChapterPrompt";
+        toast.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span class="material-icons">arrow_forward</span>
+            <div style="flex: 1;">
+              <div style="font-weight: 600; margin-bottom: 4px;">已閱讀完本章</div>
+              <div style="font-size: 13px; opacity: 0.9;">下一章：${nextChapter.title}</div>
+            </div>
+            <button onclick="loadNextChapterFromPrompt()" 
+                    style="padding: 8px 16px; background: white; color: #2196f3; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
+              繼續
+            </button>
+            <button onclick="closeNextChapterPrompt()" 
+                    style="padding: 8px; background: transparent; color: white; border: none; cursor: pointer;">
+              <span class="material-icons" style="font-size: 18px;">close</span>
+            </button>
+          </div>
+        `;
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 180px;
+          right: 20px;
+          background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+          color: white;
+          padding: 16px 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+          z-index: 1000;
+          animation: slideIn 0.3s ease;
+          max-width: 360px;
+        `;
+        document.body.appendChild(toast);
+      }
+
+      function loadNextChapterFromPrompt() {
+        closeNextChapterPrompt();
+
+        if (currentChapterIndex < chapters.length - 1) {
+          const nextChapter = chapters[currentChapterIndex + 1];
+
+          // 載入下一章文字
+          loadChapterText(nextChapter.id, nextChapter.title);
+
+          // 如果正在播放，也切換音頻
+          if (isPlaying || currentAudio) {
+            playChapterWithCurrentLanguage(
+              nextChapter.id,
+              nextChapter.title,
+              null
+            );
+          }
+
+          // 滾動到頂部
+          const transcriptContent =
+            document.getElementById("transcriptContent");
+          transcriptContent.scrollTop = 0;
+
+          // 重置提示狀態
+          hasShownNextChapterPrompt = false;
+        }
+      }
+
+      function closeNextChapterPrompt() {
+        const prompt = document.getElementById("nextChapterPrompt");
+        if (prompt) {
+          prompt.style.animation = "slideOut 0.3s ease";
+          setTimeout(() => prompt.remove(), 300);
+        }
+        hasShownNextChapterPrompt = false;
+      }
+
+      // 當載入新章節時，重置提示狀態
+      const originalLoadChapterText = loadChapterText;
+      loadChapterText = function (chapterId, chapterTitle) {
+        hasShownNextChapterPrompt = false;
+        closeNextChapterPrompt();
+        return originalLoadChapterText(chapterId, chapterTitle);
+      };
+
+      // 初始化
       loadBookInfo();
+      loadBookmarks(); // 載入書籤
+      loadUserSettings(); // 載入使用者設定
+      initializePlayer(); // 初始化播放器
+      initScrollListener(); // 初始化滾動監聽
+
+      // 延遲顯示繼續閱讀提示
+      setTimeout(() => {
+        showContinueReading();
+      }, 1000);
     </script>
   </body>
 </html>
