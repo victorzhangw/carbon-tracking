@@ -246,6 +246,27 @@ class RealtimeInteractionService:
             print(f"❌ 發送音頻失敗: {e}")
             return False
     
+    def process_text_input(self, text: str):
+        """
+        處理文字輸入（快速訊息）
+        跳過 ASR，直接進入 LLM 處理
+        
+        Args:
+            text: 用戶輸入的文字
+        """
+        try:
+            print(f"📝 處理文字輸入: {text}")
+            
+            # 直接觸發 LLM 處理
+            self._process_with_llm(text)
+            
+            return True
+        except Exception as e:
+            print(f"❌ 處理文字輸入失敗: {e}")
+            if self.on_error:
+                self.on_error(f"處理文字輸入失敗: {str(e)}")
+            return False
+    
     def _process_with_llm(self, user_text: str):
         """
         使用 LLM 生成回應
@@ -323,6 +344,7 @@ class RealtimeInteractionService:
                 text=text,
                 voice=self.voice,
                 language_type="Chinese",
+                speed=0.9,  # 設定語速為 0.9（範圍：0.5-2.0，預設 1.0）
                 stream=True
             )
             

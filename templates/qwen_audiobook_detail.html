@@ -100,115 +100,126 @@
 
       /* 書籍頭部 */
       .book-header {
-        background: white;
-        border-radius: 12px;
-        padding: 16px 32px;
-        margin: 0 20px 12px 20px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        background: linear-gradient(to right, #ffffff 0%, #fafbfc 100%);
+        border-radius: 8px;
+        padding: 12px 24px;
+        margin: 0 20px 16px 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        border-left: 3px solid #2196f3;
       }
 
       .book-header-content {
         display: flex;
-        gap: 24px;
-        align-items: flex-start;
+        gap: 16px;
+        align-items: center;
       }
 
       .book-cover-large {
-        width: 60px;
-        height: 80px;
-        border-radius: 6px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        width: 48px;
+        height: 64px;
+        border-radius: 4px;
+        background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
+        font-size: 20px;
         flex-shrink: 0;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 6px rgba(33, 150, 243, 0.3);
       }
 
       .book-header-info {
         flex: 1;
+        min-width: 0;
       }
 
       .book-title-large {
-        font-size: 24px;
+        font-size: 18px;
         font-weight: 600;
         color: #1a1a1a;
-        margin-bottom: 12px;
+        margin-bottom: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .book-stats {
         display: flex;
-        gap: 24px;
-        color: #8a8a8a;
-        font-size: 14px;
-        margin-bottom: 16px;
+        gap: 16px;
+        color: #666;
+        font-size: 13px;
       }
 
       .book-stat-item {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 4px;
       }
 
-      /* 章節列表 */
+      /* 章節列表 - 精簡設計 */
       .chapters-section {
         background: white;
-        border-radius: 12px;
+        border-radius: 8px;
         overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f0f0f0;
       }
 
       .section-header {
-        padding: 20px 24px;
+        padding: 14px 20px;
         border-bottom: 1px solid #f0f0f0;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 600;
         color: #1a1a1a;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
       }
 
       .sort-controls {
         display: flex;
-        gap: 8px;
+        gap: 6px;
       }
 
       .sort-btn {
-        padding: 6px 12px;
+        padding: 5px 10px;
         background: white;
         border: 1px solid #e0e0e0;
         border-radius: 4px;
-        font-size: 13px;
+        font-size: 12px;
         color: #666;
         cursor: pointer;
         transition: all 0.2s;
       }
 
       .sort-btn:hover {
-        background: #f5f5f5;
-        border-color: #ccc;
+        background: #f5f7fa;
+        border-color: #2196f3;
+        color: #2196f3;
       }
 
       .sort-btn.active {
-        background: #667eea;
+        background: #2196f3;
         color: white;
-        border-color: #667eea;
+        border-color: #2196f3;
       }
 
       .chapter-list {
-        max-height: 60vh;
+        max-height: 70vh;
         overflow-y: auto;
       }
 
       .chapter-item {
-        padding: 16px 24px;
+        padding: 12px 20px;
         border-bottom: 1px solid #f8f8f8;
         display: flex;
         align-items: center;
-        gap: 16px;
-        transition: background 0.2s;
+        gap: 12px;
+        transition: all 0.2s;
+      }
+
+      .chapter-item:hover {
+        background: #f8f9fa;
       }
 
       .chapter-item:last-child {
@@ -220,16 +231,16 @@
       }
 
       .chapter-number {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background: #f5f7fa;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 13px;
-        color: #8a8a8a;
-        font-weight: 500;
+        font-size: 12px;
+        color: #1976d2;
+        font-weight: 600;
         flex-shrink: 0;
       }
 
@@ -239,40 +250,47 @@
       }
 
       .chapter-title {
-        font-size: 15px;
+        font-size: 14px;
         color: #1a1a1a;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        font-weight: 500;
       }
 
       .chapter-actions {
         display: flex;
-        gap: 8px;
+        gap: 6px;
         flex-shrink: 0;
       }
 
       .play-btn {
-        padding: 8px 16px;
-        border: none;
+        padding: 6px 14px;
+        border: 1px solid #e0e0e0;
         border-radius: 6px;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: all 0.2s;
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 4px;
+        background: white;
+        color: #2196f3;
       }
 
       .play-btn:hover {
+        background: #2196f3;
+        color: white;
+        border-color: #2196f3;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
       }
 
-      .play-btn.mandarin {
-        background: #667eea;
+      .play-btn.playing {
+        background: #2196f3;
         color: white;
+        border-color: #2196f3;
       }
 
       .play-btn.mandarin:hover {
@@ -549,6 +567,43 @@
         font-weight: 600;
       }
 
+      /* 滾動速度選單 */
+      .scroll-speed-menu {
+        position: absolute;
+        bottom: 50px;
+        right: 0;
+        background: white;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 4px;
+        min-width: 140px;
+        z-index: 10;
+      }
+
+      .scroll-speed-menu button {
+        width: 100%;
+        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        text-align: left;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 13px;
+        transition: all 0.2s;
+        color: #333;
+      }
+
+      .scroll-speed-menu button:hover {
+        background: #f5f7fa;
+      }
+
+      .scroll-speed-menu button.active {
+        background: #e3f2fd;
+        color: #2196f3;
+        font-weight: 600;
+      }
+
       audio {
         width: 100%;
         height: 40px;
@@ -599,19 +654,21 @@
         background: #c0c0c0;
       }
 
-      /* 文字顯示區域 */
+      /* 文字顯示區域 - 精簡設計 */
       .transcript-section {
         background: white;
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border-radius: 8px;
+        padding: 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f0f0f0;
         position: relative;
+        overflow: hidden;
       }
 
       .transcript-content {
-        max-height: 60vh;
+        max-height: 70vh;
         overflow-y: auto;
-        padding: 20px;
+        padding: 24px;
         background: #fafafa;
         border-radius: 8px;
         line-height: 2;
@@ -900,14 +957,14 @@
     <!-- 頂部導航欄 -->
     <nav class="navbar">
       <div class="navbar-content">
-        <a href="/api/audiobook/library" class="back-btn">
-          <span class="material-icons">arrow_back</span>
-          <span>返回書庫</span>
-        </a>
         <div class="navbar-title">
           <span class="material-icons">menu_book</span>
           <span id="navbarTitle">載入中...</span>
         </div>
+        <a href="/api/audiobook/library" class="back-btn">
+          <span class="material-icons">arrow_back</span>
+          <span>返回書庫</span>
+        </a>
       </div>
     </nav>
 
@@ -1129,6 +1186,42 @@
                   >format_align_left</span
                 >
               </button>
+
+              <!-- 自動滾動 -->
+              <div style="position: relative">
+                <button
+                  class="toolbar-btn"
+                  id="autoScrollBtn"
+                  onclick="toggleAutoScroll()"
+                  title="自動滾動"
+                >
+                  <span class="material-icons" style="font-size: 16px"
+                    >unfold_more</span
+                  >
+                </button>
+                <div
+                  class="scroll-speed-menu"
+                  id="scrollSpeedMenu"
+                  style="display: none"
+                >
+                  <div
+                    style="
+                      padding: 8px;
+                      font-size: 12px;
+                      color: #666;
+                      border-bottom: 1px solid #f0f0f0;
+                    "
+                  >
+                    滾動速度
+                  </div>
+                  <button onclick="setScrollSpeed(0.5)">慢速 (0.5x)</button>
+                  <button onclick="setScrollSpeed(1.0)" class="active">
+                    標準 (1.0x)
+                  </button>
+                  <button onclick="setScrollSpeed(1.5)">快速 (1.5x)</button>
+                  <button onclick="setScrollSpeed(2.0)">極快 (2.0x)</button>
+                </div>
+              </div>
 
               <!-- 無障礙模式 -->
               <button
@@ -1692,6 +1785,17 @@
           return;
         }
 
+        // 更新當前章節索引
+        currentChapterId = chapterId;
+        currentChapterTitle = chapterTitle;
+        currentChapterIndex = chapters.findIndex((ch) => ch.id === chapterId);
+        console.log(
+          "📖 設定章節索引:",
+          currentChapterIndex,
+          "總章節數:",
+          chapters.length
+        );
+
         transcriptContent.innerHTML =
           '<div style="text-align: center; padding: 40px;"><div class="loading-spinner"></div><p style="margin-top: 16px; color: #999;">載入中...</p></div>';
 
@@ -1920,6 +2024,122 @@
 
         return formatted;
       }
+
+      // ==================== 自動滾動功能 ====================
+
+      let autoScrollEnabled = false;
+      let autoScrollInterval = null;
+      let scrollSpeed = 1.0; // 預設速度
+
+      function toggleAutoScroll() {
+        autoScrollEnabled = !autoScrollEnabled;
+        document
+          .getElementById("autoScrollBtn")
+          .classList.toggle("active", autoScrollEnabled);
+
+        if (autoScrollEnabled) {
+          startAutoScroll();
+          showToast("已開啟自動滾動", "#4caf50");
+        } else {
+          stopAutoScroll();
+          showToast("已關閉自動滾動", "#666");
+        }
+
+        // 儲存設定
+        localStorage.setItem("audiobook_autoScroll", autoScrollEnabled);
+      }
+
+      function startAutoScroll() {
+        if (autoScrollInterval) {
+          clearInterval(autoScrollInterval);
+        }
+
+        const transcriptContent = document.getElementById("transcriptContent");
+
+        // 根據速度計算滾動間隔（速度越快，間隔越短）
+        const baseInterval = 50; // 基礎間隔 50ms
+        const scrollAmount = 1 * scrollSpeed; // 每次滾動的像素數
+
+        autoScrollInterval = setInterval(() => {
+          if (transcriptContent) {
+            transcriptContent.scrollTop += scrollAmount;
+
+            // 檢查是否到底部
+            const isAtBottom =
+              transcriptContent.scrollHeight -
+                transcriptContent.scrollTop -
+                transcriptContent.clientHeight <
+              10;
+
+            if (isAtBottom) {
+              // 到底部時自動停止
+              toggleAutoScroll();
+            }
+          }
+        }, baseInterval);
+      }
+
+      function stopAutoScroll() {
+        if (autoScrollInterval) {
+          clearInterval(autoScrollInterval);
+          autoScrollInterval = null;
+        }
+      }
+
+      function setScrollSpeed(speed) {
+        scrollSpeed = speed;
+
+        // 更新選中狀態
+        document
+          .querySelectorAll(".scroll-speed-menu button")
+          .forEach((btn) => {
+            btn.classList.remove("active");
+            if (btn.textContent.includes(speed + "x")) {
+              btn.classList.add("active");
+            }
+          });
+
+        // 如果正在滾動，重新啟動以應用新速度
+        if (autoScrollEnabled) {
+          startAutoScroll();
+        }
+
+        // 儲存設定
+        localStorage.setItem("audiobook_scrollSpeed", scrollSpeed);
+
+        // 關閉選單
+        document.getElementById("scrollSpeedMenu").style.display = "none";
+
+        showToast(`滾動速度：${speed}x`, "#2196f3");
+      }
+
+      // 點擊自動滾動按鈕時顯示/隱藏速度選單
+      document.addEventListener("click", (e) => {
+        const scrollBtn = document.getElementById("autoScrollBtn");
+        const scrollMenu = document.getElementById("scrollSpeedMenu");
+
+        if (scrollBtn && scrollBtn.contains(e.target)) {
+          // 右鍵或長按顯示選單
+          if (e.button === 2 || e.type === "contextmenu") {
+            e.preventDefault();
+            scrollMenu.style.display =
+              scrollMenu.style.display === "none" ? "block" : "none";
+          }
+        } else if (scrollMenu && !scrollMenu.contains(e.target)) {
+          scrollMenu.style.display = "none";
+        }
+      });
+
+      // 右鍵點擊自動滾動按鈕顯示速度選單
+      document.addEventListener("contextmenu", (e) => {
+        const scrollBtn = document.getElementById("autoScrollBtn");
+        if (scrollBtn && scrollBtn.contains(e.target)) {
+          e.preventDefault();
+          const scrollMenu = document.getElementById("scrollSpeedMenu");
+          scrollMenu.style.display =
+            scrollMenu.style.display === "none" ? "block" : "none";
+        }
+      });
 
       // 無障礙模式
       let accessibilityMode = false;
@@ -2325,6 +2545,21 @@
           document.getElementById("accessibilityBtn").classList.add("active");
         }
 
+        // 載入滾動速度
+        const savedScrollSpeed = localStorage.getItem("audiobook_scrollSpeed");
+        if (savedScrollSpeed) {
+          scrollSpeed = parseFloat(savedScrollSpeed);
+          // 更新選中狀態
+          document
+            .querySelectorAll(".scroll-speed-menu button")
+            .forEach((btn) => {
+              btn.classList.remove("active");
+              if (btn.textContent.includes(scrollSpeed + "x")) {
+                btn.classList.add("active");
+              }
+            });
+        }
+
         // 載入主題
         const savedTheme = localStorage.getItem("audiobook_theme");
         if (savedTheme === "dark") {
@@ -2449,6 +2684,21 @@
             transcriptContent.clientHeight <
           50;
 
+        // 調試信息
+        console.log("滾動檢查:", {
+          isAtBottom,
+          hasShownNextChapterPrompt,
+          currentChapterIndex,
+          chaptersLength: chapters.length,
+          scrollHeight: transcriptContent.scrollHeight,
+          scrollTop: transcriptContent.scrollTop,
+          clientHeight: transcriptContent.clientHeight,
+          distance:
+            transcriptContent.scrollHeight -
+            transcriptContent.scrollTop -
+            transcriptContent.clientHeight,
+        });
+
         if (
           isAtBottom &&
           !hasShownNextChapterPrompt &&
@@ -2456,7 +2706,10 @@
         ) {
           // 檢查是否有下一章
           if (currentChapterIndex < chapters.length - 1) {
+            console.log("顯示下一章提示");
             showNextChapterPrompt();
+          } else {
+            console.log("已經是最後一章");
           }
         }
       }

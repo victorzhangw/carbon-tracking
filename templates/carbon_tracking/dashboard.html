@@ -17,6 +17,13 @@
     <link rel="manifest" href="/static/manifest.json" />
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
     <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png" />
+
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       * {
@@ -79,6 +86,11 @@
         font-size: 1.8em;
         margin-bottom: 5px;
       }
+
+      .kpi-card .material-icons {
+        font-size: 2em;
+        margin-bottom: 5px;
+      }
       .kpi-card .value {
         font-size: 1.5em;
         font-weight: bold;
@@ -125,7 +137,12 @@
   </head>
   <body>
     <div class="navbar">
-      <h1>📊 碳排放追蹤儀表板</h1>
+      <h1>
+        <span class="material-icons" style="vertical-align: middle"
+          >dashboard</span
+        >
+        碳排放追蹤儀表板
+      </h1>
       <div>
         <a href="/carbon/">← 首頁</a>
         <a href="/carbon/visit-records">訪視記錄</a>
@@ -136,22 +153,24 @@
     <div class="container">
       <div class="kpi-grid">
         <div class="kpi-card">
-          <div class="icon">🚗</div>
+          <span class="material-icons" style="color: #2196f3"
+            >directions_car</span
+          >
           <div class="value" id="totalVisits">-</div>
           <div class="label">總訪視次數</div>
         </div>
         <div class="kpi-card">
-          <div class="icon">📏</div>
+          <span class="material-icons" style="color: #ff9800">straighten</span>
           <div class="value" id="totalDistance">-</div>
           <div class="label">總里程（公里）</div>
         </div>
         <div class="kpi-card">
-          <div class="icon">🌍</div>
+          <span class="material-icons" style="color: #4caf50">public</span>
           <div class="value" id="totalEmission">-</div>
           <div class="label">碳排放（公噸）</div>
         </div>
         <div class="kpi-card">
-          <div class="icon">👥</div>
+          <span class="material-icons" style="color: #9c27b0">groups</span>
           <div class="value" id="totalElders">-</div>
           <div class="label">服務長者</div>
         </div>
@@ -159,17 +178,38 @@
 
       <div class="chart-grid">
         <div class="chart-card">
-          <h3>🌱 月度碳排放趨勢</h3>
+          <h3>
+            <span
+              class="material-icons"
+              style="vertical-align: middle; color: #8bc34a; font-size: 1.2em"
+              >eco</span
+            >
+            月度碳排放趨勢
+          </h3>
           <canvas id="monthlyChart"></canvas>
         </div>
         <div class="chart-card">
-          <h3>🚗 交通工具分布</h3>
+          <h3>
+            <span
+              class="material-icons"
+              style="vertical-align: middle; color: #2196f3; font-size: 1.2em"
+              >commute</span
+            >
+            交通工具分布
+          </h3>
           <canvas id="transportChart"></canvas>
         </div>
       </div>
 
       <div class="chart-card">
-        <h3>📊 訪視次數與碳排放對比</h3>
+        <h3>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; color: #ff9800; font-size: 1.2em"
+            >bar_chart</span
+          >
+          訪視次數與碳排放對比
+        </h3>
         <canvas id="comparisonChart" style="max-height: 200px"></canvas>
       </div>
     </div>

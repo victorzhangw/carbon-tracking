@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 廣播劇 - Phase 1 功能測試</title>
+
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- 增強版樣式 -->
+    <link rel="stylesheet" href="/static/css/audiobook_enhanced.css" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Microsoft JhengHei", Arial, sans-serif;
+        background: #f5f7fa;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+      }
+
+      .header h1 {
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .test-section {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+      }
+
+      .test-section h2 {
+        color: #667eea;
+        margin-bottom: 16px;
+        font-size: 18px;
+      }
+
+      .test-btn {
+        padding: 10px 20px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .test-btn:hover {
+        background: #5568d3;
+      }
+
+      .test-btn.secondary {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      .test-btn.secondary:hover {
+        background: #e0e0e0;
+      }
+
+      .log-area {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 16px;
+        margin-top: 16px;
+        max-height: 300px;
+        overflow-y: auto;
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+      }
+
+      .log-entry {
+        margin-bottom: 4px;
+        padding: 4px 0;
+      }
+
+      .log-entry.success {
+        color: #4caf50;
+      }
+
+      .log-entry.error {
+        color: #f44336;
+      }
+
+      .log-entry.info {
+        color: #2196f3;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .status-badge.success {
+        background: #e8f5e9;
+        color: #4caf50;
+      }
+
+      .status-badge.error {
+        background: #ffebee;
+        color: #f44336;
+      }
+
+      .status-badge.pending {
+        background: #fff3e0;
+        color: #ff9800;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; color: #667eea"
+            >science</span
+          >
+          AI 廣播劇 Phase 1 功能測試
+        </h1>
+        <p>測試進度記錄、書籤、偏好設定等核心功能</p>
+      </div>
+
+      <!-- 資料庫測試 -->
+      <div class="test-section">
+        <h2>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; font-size: 20px"
+            >storage</span
+          >
+          資料庫功能測試
+        </h2>
+        <button class="test-btn" onclick="testDatabase()">
+          測試資料庫連接
+        </button>
+        <button class="test-btn" onclick="testProgressSave()">
+          測試進度儲存
+        </button>
+        <button class="test-btn" onclick="testProgressLoad()">
+          測試進度載入
+        </button>
+        <button class="test-btn secondary" onclick="clearLogs()">
+          清除日誌
+        </button>
+        <div class="log-area" id="dbLog"></div>
+      </div>
+
+      <!-- API 測試 -->
+      <div class="test-section">
+        <h2>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; font-size: 20px"
+            >api</span
+          >
+          API 端點測試
+        </h2>
+        <button class="test-btn" onclick="testProgressAPI()">
+          測試進度 API
+        </button>
+        <button class="test-btn" onclick="testBookmarkAPI()">
+          測試書籤 API
+        </button>
+        <button class="test-btn" onclick="testPreferencesAPI()">
+          測試偏好設定 API
+        </button>
+        <div class="log-area" id="apiLog"></div>
+      </div>
+
+      <!-- 播放器測試 -->
+      <div class="test-section">
+        <h2>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; font-size: 20px"
+            >play_circle</span
+          >
+          播放器功能測試
+        </h2>
+        <button class="test-btn" onclick="testPlayerInit()">
+          初始化播放器
+        </button>
+        <button class="test-btn" onclick="testSpeedControl()">
+          測試速度控制
+        </button>
+        <button class="test-btn" onclick="testVolumeControl()">
+          測試音量控制
+        </button>
+        <div class="log-area" id="playerLog"></div>
+      </div>
+
+      <!-- 模擬播放器 -->
+      <div class="test-section">
+        <h2>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; font-size: 20px"
+            >headphones</span
+          >
+          模擬播放器
+        </h2>
+        <div class="player-controls-enhanced">
+          <div class="progress-container-enhanced">
+            <div class="progress-bar-enhanced">
+              <div class="progress-fill" id="testProgressFill"></div>
+            </div>
+            <div class="time-display">
+              <span id="testCurrentTime">00:00</span>
+              <span id="testDuration">05:00</span>
+            </div>
+          </div>
+
+          <div class="playback-controls-enhanced">
+            <button class="control-btn-enhanced">
+              <span class="material-icons">skip_previous</span>
+            </button>
+            <button class="control-btn-enhanced play-btn">
+              <span class="material-icons">play_arrow</span>
+            </button>
+            <button class="control-btn-enhanced">
+              <span class="material-icons">skip_next</span>
+            </button>
+          </div>
+
+          <div class="settings-controls-enhanced">
+            <div class="control-group-enhanced">
+              <label>速度</label>
+              <input
+                type="range"
+                class="slider-enhanced"
+                min="0.5"
+                max="2.0"
+                step="0.1"
+                value="0.8"
+                id="testSpeedSlider"
+              />
+              <span class="value-display-enhanced" id="testSpeedDisplay"
+                >0.8x</span
+              >
+            </div>
+            <div class="control-group-enhanced">
+              <label>音量</label>
+              <input
+                type="range"
+                class="slider-enhanced"
+                min="0"
+                max="1"
+                step="0.1"
+                value="1.0"
+                id="testVolumeSlider"
+              />
+              <span class="value-display-enhanced" id="testVolumeDisplay"
+                >100%</span
+              >
+            </div>
+          </div>
+
+          <button class="bookmark-btn-enhanced" onclick="testAddBookmark()">
+            <span class="material-icons">bookmark_add</span>
+            <span>添加書籤</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 測試結果摘要 -->
+      <div class="test-section">
+        <h2>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; font-size: 20px"
+            >assessment</span
+          >
+          測試結果摘要
+        </h2>
+        <div id="testSummary">
+          <p>尚未執行測試</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 音頻元素 -->
+    <audio id="audio" style="display: none"></audio>
+
+    <!-- 載入增強版播放器 -->
+    <script src="/static/js/audiobook_player_enhanced.js"></script>
+
+    <script>
+      // 測試用的模擬書籍 ID
+      const TEST_BOOK_ID = "test_book_001";
+      const TEST_CHAPTER_ID = "chapter_001";
+
+      // 日誌函數
+      function log(area, message, type = "info") {
+        const logArea = document.getElementById(area);
+        const entry = document.createElement("div");
+        entry.className = `log-entry ${type}`;
+        entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        logArea.appendChild(entry);
+        logArea.scrollTop = logArea.scrollHeight;
+      }
+
+      function clearLogs() {
+        document.getElementById("dbLog").innerHTML = "";
+        document.getElementById("apiLog").innerHTML = "";
+        document.getElementById("playerLog").innerHTML = "";
+      }
+
+      // 資料庫測試
+      async function testDatabase() {
+        log("dbLog", "開始測試資料庫...", "info");
+
+        try {
+          // 測試進度 API（這會觸發資料庫初始化）
+          const response = await fetch(
+            `/api/audiobook/progress/${TEST_BOOK_ID}`
+          );
+          const result = await response.json();
+
+          if (response.ok) {
+            log("dbLog", "✅ 資料庫連接成功", "success");
+            log("dbLog", `回應: ${JSON.stringify(result)}`, "info");
+          } else {
+            log("dbLog", `❌ 資料庫連接失敗: ${result.error}`, "error");
+          }
+        } catch (error) {
+          log("dbLog", `❌ 錯誤: ${error.message}`, "error");
+        }
+      }
+
+      async function testProgressSave() {
+        log("dbLog", "測試進度儲存...", "info");
+
+        try {
+          const response = await fetch("/api/audiobook/progress/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              book_id: TEST_BOOK_ID,
+              chapter_id: TEST_CHAPTER_ID,
+              position: 123.45,
+              total_duration: 300.0,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            log("dbLog", "✅ 進度儲存成功", "success");
+          } else {
+            log("dbLog", `❌ 進度儲存失敗: ${result.error}`, "error");
+          }
+        } catch (error) {
+          log("dbLog", `❌ 錯誤: ${error.message}`, "error");
+        }
+      }
+
+      async function testProgressLoad() {
+        log("dbLog", "測試進度載入...", "info");
+
+        try {
+          const response = await fetch(
+            `/api/audiobook/progress/${TEST_BOOK_ID}`
+          );
+          const result = await response.json();
+
+          if (result.success) {
+            log("dbLog", "✅ 進度載入成功", "success");
+            if (result.progress) {
+              log("dbLog", `位置: ${result.progress.position}秒`, "info");
+              log(
+                "dbLog",
+                `進度: ${result.progress.progress_percent}%`,
+                "info"
+              );
+            } else {
+              log("dbLog", "無儲存的進度", "info");
+            }
+          } else {
+            log("dbLog", `❌ 進度載入失敗: ${result.error}`, "error");
+          }
+        } catch (error) {
+          log("dbLog", `❌ 錯誤: ${error.message}`, "error");
+        }
+      }
+
+      // API 測試
+      async function testProgressAPI() {
+        log("apiLog", "測試進度 API...", "info");
+        await testProgressSave();
+        await testProgressLoad();
+        log("apiLog", "✅ 進度 API 測試完成", "success");
+      }
+
+      async function testBookmarkAPI() {
+        log("apiLog", "測試書籤 API...", "info");
+
+        try {
+          // 添加書籤
+          const addResponse = await fetch("/api/audiobook/bookmark/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              book_id: TEST_BOOK_ID,
+              chapter_id: TEST_CHAPTER_ID,
+              chapter_title: "測試章節",
+              position: 60.0,
+              note: "測試書籤",
+            }),
+          });
+
+          const addResult = await addResponse.json();
+
+          if (addResult.success) {
+            log("apiLog", "✅ 書籤添加成功", "success");
+
+            // 獲取書籤列表
+            const listResponse = await fetch(
+              `/api/audiobook/bookmarks/${TEST_BOOK_ID}`
+            );
+            const listResult = await listResponse.json();
+
+            if (listResult.success) {
+              log(
+                "apiLog",
+                `✅ 書籤列表獲取成功，共 ${listResult.bookmarks.length} 個書籤`,
+                "success"
+              );
+            }
+          } else {
+            log("apiLog", `❌ 書籤添加失敗: ${addResult.error}`, "error");
+          }
+        } catch (error) {
+          log("apiLog", `❌ 錯誤: ${error.message}`, "error");
+        }
+      }
+
+      async function testPreferencesAPI() {
+        log("apiLog", "測試偏好設定 API...", "info");
+
+        try {
+          // 儲存設定
+          const saveResponse = await fetch("/api/audiobook/preferences/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              playbackSpeed: 0.8,
+              volume: 0.9,
+              theme: "light",
+            }),
+          });
+
+          const saveResult = await saveResponse.json();
+
+          if (saveResult.success) {
+            log("apiLog", "✅ 偏好設定儲存成功", "success");
+
+            // 獲取設定
+            const getResponse = await fetch("/api/audiobook/preferences");
+            const getResult = await getResponse.json();
+
+            if (getResult.success) {
+              log("apiLog", "✅ 偏好設定獲取成功", "success");
+              log(
+                "apiLog",
+                `設定: ${JSON.stringify(getResult.preferences)}`,
+                "info"
+              );
+            }
+          } else {
+            log("apiLog", `❌ 偏好設定儲存失敗: ${saveResult.error}`, "error");
+          }
+        } catch (error) {
+          log("apiLog", `❌ 錯誤: ${error.message}`, "error");
+        }
+      }
+
+      // 播放器測試
+      function testPlayerInit() {
+        log("playerLog", "初始化播放器...", "info");
+
+        try {
+          if (typeof EnhancedAudiobookPlayer !== "undefined") {
+            const testPlayer = new EnhancedAudiobookPlayer();
+            log("playerLog", "✅ 播放器類別載入成功", "success");
+            log("playerLog", `預設速度: ${testPlayer.playbackSpeed}`, "info");
+            log("playerLog", `預設音量: ${testPlayer.volume}`, "info");
+          } else {
+            log("playerLog", "❌ 播放器類別未載入", "error");
+          }
+        } catch (error) {
+          log("playerLog", `❌ 錯誤: ${error.message}`, "error");
+        }
+      }
+
+      function testSpeedControl() {
+        log("playerLog", "測試速度控制...", "info");
+        const slider = document.getElementById("testSpeedSlider");
+        const display = document.getElementById("testSpeedDisplay");
+
+        slider.addEventListener("input", (e) => {
+          const speed = parseFloat(e.target.value);
+          display.textContent = `${speed.toFixed(1)}x`;
+          log("playerLog", `速度調整為: ${speed.toFixed(1)}x`, "info");
+        });
+
+        log("playerLog", "✅ 速度控制已啟用", "success");
+      }
+
+      function testVolumeControl() {
+        log("playerLog", "測試音量控制...", "info");
+        const slider = document.getElementById("testVolumeSlider");
+        const display = document.getElementById("testVolumeDisplay");
+
+        slider.addEventListener("input", (e) => {
+          const volume = parseFloat(e.target.value);
+          display.textContent = `${Math.round(volume * 100)}%`;
+          log("playerLog", `音量調整為: ${Math.round(volume * 100)}%`, "info");
+        });
+
+        log("playerLog", "✅ 音量控制已啟用", "success");
+      }
+
+      async function testAddBookmark() {
+        log("playerLog", "測試添加書籤...", "info");
+
+        const note = prompt("輸入書籤備註（選填）：");
+        if (note !== null) {
+          try {
+            const response = await fetch("/api/audiobook/bookmark/add", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                book_id: TEST_BOOK_ID,
+                chapter_id: TEST_CHAPTER_ID,
+                chapter_title: "測試章節",
+                position: 90.0,
+                note: note,
+              }),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+              log("playerLog", "✅ 書籤添加成功", "success");
+              alert("✅ 書籤已添加");
+            } else {
+              log("playerLog", `❌ 書籤添加失敗: ${result.error}`, "error");
+            }
+          } catch (error) {
+            log("playerLog", `❌ 錯誤: ${error.message}`, "error");
+          }
+        }
+      }
+
+      // 頁面載入時的初始化
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("🎵 測試頁面已載入");
+        log("dbLog", "測試頁面已就緒", "success");
+        log("apiLog", "測試頁面已就緒", "success");
+        log("playerLog", "測試頁面已就緒", "success");
+      });
+    </script>
+  </body>
+</html>

@@ -28,7 +28,7 @@
         background: white;
         padding: 30px;
         border-radius: 8px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       }
 
@@ -46,15 +46,31 @@
       }
 
       .back-link {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         margin-bottom: 20px;
-        color: #0d6efd;
+        padding: 8px 20px;
+        background: white;
+        color: #955f27;
         text-decoration: none;
         font-size: 14px;
+        border-radius: 6px;
+        border: 1.5px solid #955f27;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       }
 
       .back-link:hover {
-        text-decoration: underline;
+        background: #955f27;
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(149, 95, 39, 0.2);
+      }
+
+      .back-link .material-icons {
+        font-size: 18px;
       }
 
       .modules-grid {
@@ -140,14 +156,27 @@
       }
     </style>
     <!-- Material Icons -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/material-icons.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/material-icons.css') }}"
+    />
   </head>
   <body>
     <div class="container">
-      <a href="/portal" class="back-link">← 返回 Portal</a>
+      <a href="/portal" class="back-link">
+        <span class="material-icons">arrow_back</span>
+        返回主選單
+      </a>
 
       <div class="header">
-        <h1><span class="material-icons">science</span> 語音測試訓練模組</h1>
+        <h1>
+          <span
+            class="material-icons"
+            style="color: #9c27b0; vertical-align: middle"
+            >science</span
+          >
+          語音測試訓練模組
+        </h1>
         <p>
           專為語音技術開發和測試設計的工具集，供開發人員和技術人員使用。
           提供語音分析、聲音模擬、語音克隆等專業工具。
@@ -157,7 +186,11 @@
       <div class="modules-grid">
         <!-- 語音分析 -->
         <a href="/emotion-analysis" class="module-card">
-          <div class="module-icon"><span class="material-icons">bar_chart</span></div>
+          <div class="module-icon">
+            <span class="material-icons" style="color: #4caf50; font-size: 40px"
+              >bar_chart</span
+            >
+          </div>
           <span class="badge badge-success">語音分析</span>
           <h3>情緒識別系統</h3>
           <p>基於 librosa 和 Wav2Vec2 的雙引擎情緒識別系統</p>
@@ -169,8 +202,8 @@
           </ul>
         </a>
 
-        <!-- 語音克隆 -->
-        <a href="/voice_clone/demo" class="module-card">
+        <!-- 語音克隆 - 已隱藏 -->
+        <!-- <a href="/voice_clone/demo" class="module-card">
           <div class="module-icon"><span class="material-icons">mic</span></div>
           <span class="badge badge-primary">語音克隆</span>
           <h3>語音克隆演示</h3>
@@ -181,11 +214,13 @@
             <li>模型訓練</li>
             <li>品質評估</li>
           </ul>
-        </a>
+        </a> -->
 
-        <!-- ASR 測試 -->
-        <a href="/api/asr/test" class="module-card">
-          <div class="module-icon"><span class="material-icons">hearing</span></div>
+        <!-- ASR 測試 - 已隱藏 -->
+        <!-- <a href="/api/asr/test" class="module-card">
+          <div class="module-icon">
+            <span class="material-icons">hearing</span>
+          </div>
           <span class="badge badge-primary">語音識別</span>
           <h3>ASR 測試工具</h3>
           <p>雙引擎語音識別測試（Whisper + FunASR）</p>
@@ -195,11 +230,15 @@
             <li>閩南語識別</li>
             <li>長者語音優化</li>
           </ul>
-        </a>
+        </a> -->
 
         <!-- 評分分析 -->
         <a href="/score-analysis" class="module-card">
-          <div class="module-icon"><span class="material-icons">bar_chart</span></div>
+          <div class="module-icon">
+            <span class="material-icons" style="color: #2196f3; font-size: 40px"
+              >assessment</span
+            >
+          </div>
           <span class="badge badge-success">評分分析</span>
           <h3>對話評分分析</h3>
           <p>多維度對話品質評分與歷史趨勢分析</p>
@@ -213,7 +252,11 @@
 
         <!-- TTS 語音合成訓練 -->
         <a href="/tts-training" target="_blank" class="module-card">
-          <div class="module-icon"><span class="material-icons">record_voice_over</span></div>
+          <div class="module-icon">
+            <span class="material-icons" style="color: #ff9800; font-size: 40px"
+              >record_voice_over</span
+            >
+          </div>
           <span class="badge badge-primary">TTS 訓練</span>
           <h3>TTS 語音合成訓練</h3>
           <p>GPT-SoVITS 語音合成模型訓練與推理</p>

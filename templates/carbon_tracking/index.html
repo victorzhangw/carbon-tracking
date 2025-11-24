@@ -33,6 +33,13 @@
       sizes="512x512"
       href="/static/icons/icon-512x512.png"
     />
+
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
     <style>
       * {
         margin: 0;
@@ -155,6 +162,11 @@
         font-size: 2.2em;
         margin-bottom: 8px;
       }
+
+      .menu-card .material-icons {
+        font-size: 2.5em;
+        margin-bottom: 8px;
+      }
       .menu-card h3 {
         font-size: 1em;
         margin-bottom: 5px;
@@ -225,7 +237,14 @@
   <body>
     <!-- 導航欄 -->
     <div class="navbar">
-      <div class="nav-brand">🌱 碳排放追蹤系統</div>
+      <div class="nav-brand">
+        <span
+          class="material-icons"
+          style="vertical-align: middle; color: #8bc34a"
+          >eco</span
+        >
+        碳排放追蹤系統
+      </div>
       <div class="nav-links">
         <a href="/carbon" class="nav-link active">首頁</a>
         <a href="/carbon/dashboard" class="nav-link">儀表板</a>
@@ -237,35 +256,52 @@
 
     <div class="container">
       <div class="header">
-        <h1>🌍 碳排放追蹤系統</h1>
+        <h1>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; color: #4caf50; font-size: 1.3em"
+            >public</span
+          >
+          碳排放追蹤系統
+        </h1>
         <p>AI關懷系統環境效益管理平台</p>
       </div>
 
       <div class="eco-banner">
-        🌱 守護地球，從記錄每一次訪視開始 | 讓科技與環保同行 🌿
+        <span
+          class="material-icons"
+          style="vertical-align: middle; color: #689f38"
+          >eco</span
+        >
+        守護地球，從記錄每一次訪視開始 | 讓科技與環保同行
+        <span
+          class="material-icons"
+          style="vertical-align: middle; color: #689f38"
+          >nature</span
+        >
       </div>
 
       <div class="menu-grid">
         <a href="/carbon/dashboard" class="menu-card">
-          <div class="icon">📊</div>
+          <span class="material-icons" style="color: #2196f3">dashboard</span>
           <h3>儀表板</h3>
           <p>碳排放統計與趨勢</p>
         </a>
 
         <a href="/carbon/visit-records" class="menu-card">
-          <div class="icon">📝</div>
+          <span class="material-icons" style="color: #ff9800">description</span>
           <h3>訪視記錄</h3>
           <p>查看訪視記錄</p>
         </a>
 
         <a href="/carbon/add-visit" class="menu-card">
-          <div class="icon">➕</div>
+          <span class="material-icons" style="color: #4caf50">add_circle</span>
           <h3>新增記錄</h3>
           <p>新增訪視記錄</p>
         </a>
 
         <a href="/carbon/statistics" class="menu-card">
-          <div class="icon">📈</div>
+          <span class="material-icons" style="color: #9c27b0">analytics</span>
           <h3>統計報表</h3>
           <p>詳細統計分析</p>
         </a>

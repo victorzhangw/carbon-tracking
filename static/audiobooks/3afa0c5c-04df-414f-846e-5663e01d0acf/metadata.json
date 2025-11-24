@@ -1,0 +1,159 @@
+{
+  "id": "3afa0c5c-04df-414f-846e-5663e01d0acf",
+  "title": "飢餓遊戲3　自由幻夢",
+  "chapter_count": 30,
+  "created_at": "1ac13135-64ca-4472-a5e2-bb5b3e8ccb26",
+  "chapters": [
+    {
+      "id": "chapter_001",
+      "title": "第 1 章",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_001.txt"
+    },
+    {
+      "id": "chapter_002",
+      "title": "《飢餓遊戲３　自由幻夢》",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_002.txt"
+    },
+    {
+      "id": "chapter_003",
+      "title": "第一篇　灰燼１",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_003.txt"
+    },
+    {
+      "id": "chapter_004",
+      "title": "２",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_004.txt"
+    },
+    {
+      "id": "chapter_005",
+      "title": "３",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_005.txt"
+    },
+    {
+      "id": "chapter_006",
+      "title": "４",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_006.txt"
+    },
+    {
+      "id": "chapter_007",
+      "title": "５",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_007.txt"
+    },
+    {
+      "id": "chapter_008",
+      "title": "６",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_008.txt"
+    },
+    {
+      "id": "chapter_009",
+      "title": "７",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_009.txt"
+    },
+    {
+      "id": "chapter_010",
+      "title": "８",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_010.txt"
+    },
+    {
+      "id": "chapter_011",
+      "title": "９",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_011.txt"
+    },
+    {
+      "id": "chapter_012",
+      "title": "第二篇　攻擊１０",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_012.txt"
+    },
+    {
+      "id": "chapter_013",
+      "title": "１１",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_013.txt"
+    },
+    {
+      "id": "chapter_014",
+      "title": "１２",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_014.txt"
+    },
+    {
+      "id": "chapter_015",
+      "title": "１３",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_015.txt"
+    },
+    {
+      "id": "chapter_016",
+      "title": "１４",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_016.txt"
+    },
+    {
+      "id": "chapter_017",
+      "title": "１５",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_017.txt"
+    },
+    {
+      "id": "chapter_018",
+      "title": "１６",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_018.txt"
+    },
+    {
+      "id": "chapter_019",
+      "title": "１７",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_019.txt"
+    },
+    {
+      "id": "chapter_020",
+      "title": "１８",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_020.txt"
+    },
+    {
+      "id": "chapter_021",
+      "title": "第三篇　攻擊１９",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_021.txt"
+    },
+    {
+      "id": "chapter_022",
+      "title": "２０",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_022.txt"
+    },
+    {
+      "id": "chapter_023",
+      "title": "２１",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_023.txt"
+    },
+    {
+      "id": "chapter_024",
+      "title": "２２",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_024.txt"
+    },
+    {
+      "id": "chapter_025",
+      "title": "２３",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_025.txt"
+    },
+    {
+      "id": "chapter_026",
+      "title": "２４",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_026.txt"
+    },
+    {
+      "id": "chapter_027",
+      "title": "２５",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_027.txt"
+    },
+    {
+      "id": "chapter_028",
+      "title": "２６",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_028.txt"
+    },
+    {
+      "id": "chapter_029",
+      "title": "２７",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_029.txt"
+    },
+    {
+      "id": "chapter_030",
+      "title": "尾聲",
+      "text_file": "static\\audiobooks\\3afa0c5c-04df-414f-846e-5663e01d0acf\\chapter_030.txt"
+    }
+  ],
+  "cover_url": "https://books.google.com/books/content?id=jRTRAQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+}

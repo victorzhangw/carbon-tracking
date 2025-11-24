@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>即時語音互動 - 國語版（Nofish）</title>
+
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- Enhanced CSS -->
+    <link rel="stylesheet" href="/static/css/voice_interaction_enhanced.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>
+          <span class="material-icons">mic</span>
+          即時語音互動 - 國語版
+        </h1>
+        <div class="status-bar">
+          <div class="status-dot" id="statusDot"></div>
+          <span id="statusText">未連接</span>
+        </div>
+      </div>
+
+      <!-- Waveform Visualization -->
+      <div class="waveform-container">
+        <canvas id="waveformCanvas" class="waveform-canvas"></canvas>
+      </div>
+
+      <!-- Conversation Area with History Sidebar -->
+      <div class="conversation-wrapper">
+        <div class="conversation-area" id="conversationArea">
+          <div class="empty-state">
+            <span class="material-icons">waving_hand</span>
+            <h3>歡迎使用即時語音互動系統</h3>
+            <p>點擊「開始對話」按鈕開始與 AI 助理對話</p>
+          </div>
+        </div>
+
+        <!-- History Sidebar -->
+        <div class="history-sidebar">
+          <div class="history-header">
+            <h3>
+              <span class="material-icons" style="font-size: 18px"
+                >history</span
+              >
+              對話歷史
+            </h3>
+            <button
+              id="clearHistoryBtn"
+              style="
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: #999;
+              "
+              title="清除歷史"
+            >
+              <span class="material-icons" style="font-size: 18px">delete</span>
+            </button>
+          </div>
+          <div class="history-list" id="historyList">
+            <div class="history-empty">尚無對話記錄</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <div class="quick-actions-title">
+          <span class="material-icons" style="font-size: 16px">bolt</span>
+          快速回應
+        </div>
+        <div class="quick-buttons" id="quickButtons">
+          <button class="quick-btn" data-text="今天天氣如何？">
+            <span class="material-icons" style="font-size: 16px">wb_sunny</span>
+            今天天氣
+          </button>
+          <button class="quick-btn" data-text="現在幾點？">
+            <span class="material-icons" style="font-size: 16px">schedule</span>
+            現在時間
+          </button>
+          <button class="quick-btn" data-text="說個笑話">
+            <span class="material-icons" style="font-size: 16px"
+              >sentiment_satisfied</span
+            >
+            說個笑話
+          </button>
+          <button class="quick-btn" data-text="播放音樂">
+            <span class="material-icons" style="font-size: 16px"
+              >music_note</span
+            >
+            播放音樂
+          </button>
+          <button class="quick-btn" data-text="提醒我吃藥">
+            <span class="material-icons" style="font-size: 16px"
+              >medication</span
+            >
+            吃藥提醒
+          </button>
+          <button class="quick-btn" data-text="查詢行程">
+            <span class="material-icons" style="font-size: 16px">event</span>
+            查詢行程
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Controls -->
+      <div class="main-controls">
+        <button class="control-btn btn-start" id="startBtn">
+          <span class="material-icons">mic</span>
+          <span>開始對話</span>
+        </button>
+        <button class="control-btn btn-stop" id="stopBtn" disabled>
+          <span class="material-icons">stop</span>
+          <span>結束對話</span>
+        </button>
+      </div>
+
+      <div class="recording-indicator" id="recordingIndicator">
+        <div class="recording-dot"></div>
+        <span>正在錄音...</span>
+      </div>
+
+      <!-- Settings Panel -->
+      <div class="settings-panel">
+        <div class="settings-row">
+          <div class="setting-item">
+            <div class="setting-label">
+              <span class="material-icons" style="font-size: 18px"
+                >volume_up</span
+              >
+              音量控制
+            </div>
+            <div class="setting-control">
+              <input
+                type="range"
+                id="volumeSlider"
+                class="slider"
+                min="0"
+                max="100"
+                value="80"
+              />
+              <span class="slider-value" id="volumeValue">80%</span>
+            </div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <span class="material-icons" style="font-size: 18px">speed</span>
+              語速控制
+            </div>
+            <div class="setting-control">
+              <input
+                type="range"
+                id="speedSlider"
+                class="slider"
+                min="50"
+                max="200"
+                value="90"
+              />
+              <span class="slider-value" id="speedValue">0.9x</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="/static/js/voice_waveform.js"></script>
+    <script>
+      const VOICE = "Nofish";
+      const API_BASE = "/voice_interaction_realtime";
+    </script>
+    <script src="/static/js/voice_interaction_realtime.js"></script>
+  </body>
+</html>

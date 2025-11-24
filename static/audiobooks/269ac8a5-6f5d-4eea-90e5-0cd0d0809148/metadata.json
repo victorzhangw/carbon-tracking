@@ -1,0 +1,599 @@
+{
+  "id": "269ac8a5-6f5d-4eea-90e5-0cd0d0809148",
+  "title": "基督山恩仇記",
+  "chapter_count": 118,
+  "created_at": "dc3f536b-8eb4-4930-9ff3-1a8aecb09c7b",
+  "chapters": [
+    {
+      "id": "chapter_001",
+      "title": "目錄",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_001.txt"
+    },
+    {
+      "id": "chapter_002",
+      "title": "《基督山恩仇記》大仲馬",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_002.txt"
+    },
+    {
+      "id": "chapter_003",
+      "title": "第二章　父與子",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_003.txt"
+    },
+    {
+      "id": "chapter_004",
+      "title": "第三章　迦太蘭人的村莊",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_004.txt"
+    },
+    {
+      "id": "chapter_005",
+      "title": "第四章　陰謀",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_005.txt"
+    },
+    {
+      "id": "chapter_006",
+      "title": "第五章　婚宴",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_006.txt"
+    },
+    {
+      "id": "chapter_007",
+      "title": "第六章　代理檢察官",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_007.txt"
+    },
+    {
+      "id": "chapter_008",
+      "title": "第七章　審問",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_008.txt"
+    },
+    {
+      "id": "chapter_009",
+      "title": "第八章　伊夫堡",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_009.txt"
+    },
+    {
+      "id": "chapter_010",
+      "title": "第九章　訂婚之夜",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_010.txt"
+    },
+    {
+      "id": "chapter_011",
+      "title": "第十章　杜伊勒宮的小書房",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_011.txt"
+    },
+    {
+      "id": "chapter_012",
+      "title": "第十一章　科西嘉島的魔王",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_012.txt"
+    },
+    {
+      "id": "chapter_013",
+      "title": "第十二章　父與子",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_013.txt"
+    },
+    {
+      "id": "chapter_014",
+      "title": "第十三章　百日",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_014.txt"
+    },
+    {
+      "id": "chapter_015",
+      "title": "第十四章　兩犯人",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_015.txt"
+    },
+    {
+      "id": "chapter_016",
+      "title": "第十五章　三十四號和二十七號",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_016.txt"
+    },
+    {
+      "id": "chapter_017",
+      "title": "第十六章　一位義大利學者",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_017.txt"
+    },
+    {
+      "id": "chapter_018",
+      "title": "第十七章　神甫的房間",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_018.txt"
+    },
+    {
+      "id": "chapter_019",
+      "title": "第十八章　寶藏",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_019.txt"
+    },
+    {
+      "id": "chapter_020",
+      "title": "第十九章　第三次發病",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_020.txt"
+    },
+    {
+      "id": "chapter_021",
+      "title": "第二十章　伊夫堡的墳場",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_021.txt"
+    },
+    {
+      "id": "chapter_022",
+      "title": "第二十一章　狄布倫島",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_022.txt"
+    },
+    {
+      "id": "chapter_023",
+      "title": "第二十二章　走私販子",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_023.txt"
+    },
+    {
+      "id": "chapter_024",
+      "title": "第二十三章　基督山小島",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_024.txt"
+    },
+    {
+      "id": "chapter_025",
+      "title": "第二十四章　祕密洞窟",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_025.txt"
+    },
+    {
+      "id": "chapter_026",
+      "title": "第二十五章　陌生人",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_026.txt"
+    },
+    {
+      "id": "chapter_027",
+      "title": "第二十六章　杜加橋客棧",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_027.txt"
+    },
+    {
+      "id": "chapter_028",
+      "title": "第二十七章　回憶往事",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_028.txt"
+    },
+    {
+      "id": "chapter_029",
+      "title": "第二十八章　監獄檔案",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_029.txt"
+    },
+    {
+      "id": "chapter_030",
+      "title": "第二十九章　莫雷爾父子公司",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_030.txt"
+    },
+    {
+      "id": "chapter_031",
+      "title": "第三十章　九月五日",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_031.txt"
+    },
+    {
+      "id": "chapter_032",
+      "title": "第三十一章　義大利：水手辛巴德",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_032.txt"
+    },
+    {
+      "id": "chapter_033",
+      "title": "第三十二章　醒來",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_033.txt"
+    },
+    {
+      "id": "chapter_034",
+      "title": "第三十三章　羅馬強盜",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_034.txt"
+    },
+    {
+      "id": "chapter_035",
+      "title": "第三十四章　顯身",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_035.txt"
+    },
+    {
+      "id": "chapter_036",
+      "title": "第三十五章　錘刑",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_036.txt"
+    },
+    {
+      "id": "chapter_037",
+      "title": "第三十六章　狂歡節在羅馬",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_037.txt"
+    },
+    {
+      "id": "chapter_038",
+      "title": "第三十七章　聖‧塞巴斯蒂安的陵墓",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_038.txt"
+    },
+    {
+      "id": "chapter_039",
+      "title": "第三十八章　約會",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_039.txt"
+    },
+    {
+      "id": "chapter_040",
+      "title": "第三十九章　來賓",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_040.txt"
+    },
+    {
+      "id": "chapter_041",
+      "title": "第四十章　早餐",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_041.txt"
+    },
+    {
+      "id": "chapter_042",
+      "title": "第四十一章　介紹",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_042.txt"
+    },
+    {
+      "id": "chapter_043",
+      "title": "第四十二章　貝爾圖喬先生",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_043.txt"
+    },
+    {
+      "id": "chapter_044",
+      "title": "第四十三章　歐特伊別墅",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_044.txt"
+    },
+    {
+      "id": "chapter_045",
+      "title": "第四十四章　為親人復仇",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_045.txt"
+    },
+    {
+      "id": "chapter_046",
+      "title": "第四十五章　血雨",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_046.txt"
+    },
+    {
+      "id": "chapter_047",
+      "title": "第四十六章　無限貸款",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_047.txt"
+    },
+    {
+      "id": "chapter_048",
+      "title": "第四十七章　灰斑馬",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_048.txt"
+    },
+    {
+      "id": "chapter_049",
+      "title": "第四十八章　人生觀",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_049.txt"
+    },
+    {
+      "id": "chapter_050",
+      "title": "第四十九章　海黛",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_050.txt"
+    },
+    {
+      "id": "chapter_051",
+      "title": "第五十章　莫雷爾一家",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_051.txt"
+    },
+    {
+      "id": "chapter_052",
+      "title": "第五十一章　巴雷穆斯和狄絲琵",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_052.txt"
+    },
+    {
+      "id": "chapter_053",
+      "title": "第五十二章　毒藥學",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_053.txt"
+    },
+    {
+      "id": "chapter_054",
+      "title": "第五十三章　惡棍羅勃脫",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_054.txt"
+    },
+    {
+      "id": "chapter_055",
+      "title": "第五十四章　公債風波",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_055.txt"
+    },
+    {
+      "id": "chapter_056",
+      "title": "第五十五章　卡瓦爾康蒂少校",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_056.txt"
+    },
+    {
+      "id": "chapter_057",
+      "title": "第五十六章　安德烈‧卡瓦爾康蒂",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_057.txt"
+    },
+    {
+      "id": "chapter_058",
+      "title": "第五十七章　幽會",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_058.txt"
+    },
+    {
+      "id": "chapter_059",
+      "title": "第五十八章　諾瓦蒂埃‧德‧維爾福先生",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_059.txt"
+    },
+    {
+      "id": "chapter_060",
+      "title": "第五十九章　遺囑",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_060.txt"
+    },
+    {
+      "id": "chapter_061",
+      "title": "第六十章　急報",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_061.txt"
+    },
+    {
+      "id": "chapter_062",
+      "title": "第六十一章　幫園藝家擺脫睡鼠",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_062.txt"
+    },
+    {
+      "id": "chapter_063",
+      "title": "第六十二章　幽靈",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_063.txt"
+    },
+    {
+      "id": "chapter_064",
+      "title": "第六十三章　晚宴",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_064.txt"
+    },
+    {
+      "id": "chapter_065",
+      "title": "第六十四章　乞丐",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_065.txt"
+    },
+    {
+      "id": "chapter_066",
+      "title": "第六十五章　夫婦間的一幕",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_066.txt"
+    },
+    {
+      "id": "chapter_067",
+      "title": "第六十六章　婚姻計劃",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_067.txt"
+    },
+    {
+      "id": "chapter_068",
+      "title": "第六十七章　檢察官的辦公室",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_068.txt"
+    },
+    {
+      "id": "chapter_069",
+      "title": "第六十八章　夏季舞會",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_069.txt"
+    },
+    {
+      "id": "chapter_070",
+      "title": "第六十九章　調查",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_070.txt"
+    },
+    {
+      "id": "chapter_071",
+      "title": "第七十章　舞會",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_071.txt"
+    },
+    {
+      "id": "chapter_072",
+      "title": "第七十一章　麵包和鹽",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_072.txt"
+    },
+    {
+      "id": "chapter_073",
+      "title": "第七十二章　聖‧梅朗夫人",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_073.txt"
+    },
+    {
+      "id": "chapter_074",
+      "title": "第七十三章　諾言",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_074.txt"
+    },
+    {
+      "id": "chapter_075",
+      "title": "第七十四章　維爾福家族之墓",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_075.txt"
+    },
+    {
+      "id": "chapter_076",
+      "title": "第七十五章　會議紀要",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_076.txt"
+    },
+    {
+      "id": "chapter_077",
+      "title": "第七十六章　小卡瓦爾康蒂的進展",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_077.txt"
+    },
+    {
+      "id": "chapter_078",
+      "title": "第七十七章　海黛",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_078.txt"
+    },
+    {
+      "id": "chapter_079",
+      "title": "第七十八章　亞尼納來的消息",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_079.txt"
+    },
+    {
+      "id": "chapter_080",
+      "title": "第七十九章　檸檬水",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_080.txt"
+    },
+    {
+      "id": "chapter_081",
+      "title": "第八十章　控訴",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_081.txt"
+    },
+    {
+      "id": "chapter_082",
+      "title": "第八十一章　一位退休的麵包師",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_082.txt"
+    },
+    {
+      "id": "chapter_083",
+      "title": "第八十二章　夜盜",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_083.txt"
+    },
+    {
+      "id": "chapter_084",
+      "title": "第八十三章　上帝的手",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_084.txt"
+    },
+    {
+      "id": "chapter_085",
+      "title": "第八十四章　波尚",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_085.txt"
+    },
+    {
+      "id": "chapter_086",
+      "title": "第八十五章　旅行",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_086.txt"
+    },
+    {
+      "id": "chapter_087",
+      "title": "第八十六章　審問",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_087.txt"
+    },
+    {
+      "id": "chapter_088",
+      "title": "第八十七章　挑釁",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_088.txt"
+    },
+    {
+      "id": "chapter_089",
+      "title": "第八十八章　侮辱",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_089.txt"
+    },
+    {
+      "id": "chapter_090",
+      "title": "第八十九章　夜",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_090.txt"
+    },
+    {
+      "id": "chapter_091",
+      "title": "第九十章　決鬥",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_091.txt"
+    },
+    {
+      "id": "chapter_092",
+      "title": "第九十一章　母與子",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_092.txt"
+    },
+    {
+      "id": "chapter_093",
+      "title": "第九十二章　自殺",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_093.txt"
+    },
+    {
+      "id": "chapter_094",
+      "title": "第九十三章　瓦朗蒂娜",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_094.txt"
+    },
+    {
+      "id": "chapter_095",
+      "title": "第九十四章　吐露真情",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_095.txt"
+    },
+    {
+      "id": "chapter_096",
+      "title": "第九十五章　父與女",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_096.txt"
+    },
+    {
+      "id": "chapter_097",
+      "title": "第九十六章　婚約",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_097.txt"
+    },
+    {
+      "id": "chapter_098",
+      "title": "第九十七章　去比利時",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_098.txt"
+    },
+    {
+      "id": "chapter_099",
+      "title": "第九十八章　鐘瓶旅館",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_099.txt"
+    },
+    {
+      "id": "chapter_100",
+      "title": "第九十九章　法律",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_100.txt"
+    },
+    {
+      "id": "chapter_101",
+      "title": "第一○○章　顯身",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_101.txt"
+    },
+    {
+      "id": "chapter_102",
+      "title": "第一○一章　赤練蛇",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_102.txt"
+    },
+    {
+      "id": "chapter_103",
+      "title": "第一○二章　瓦朗蒂娜",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_103.txt"
+    },
+    {
+      "id": "chapter_104",
+      "title": "第一○三章　馬西米蘭",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_104.txt"
+    },
+    {
+      "id": "chapter_105",
+      "title": "第一○四章　騰格拉爾的簽字",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_105.txt"
+    },
+    {
+      "id": "chapter_106",
+      "title": "第一○五章　公墓",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_106.txt"
+    },
+    {
+      "id": "chapter_107",
+      "title": "第一○六章　財產分享",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_107.txt"
+    },
+    {
+      "id": "chapter_108",
+      "title": "第一○七章　獅穴",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_108.txt"
+    },
+    {
+      "id": "chapter_109",
+      "title": "第一○八章　法官",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_109.txt"
+    },
+    {
+      "id": "chapter_110",
+      "title": "第一○九章　開庭",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_110.txt"
+    },
+    {
+      "id": "chapter_111",
+      "title": "第一一○章起訴書",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_111.txt"
+    },
+    {
+      "id": "chapter_112",
+      "title": "第一一一章　抵罪",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_112.txt"
+    },
+    {
+      "id": "chapter_113",
+      "title": "第一一二章　離開",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_113.txt"
+    },
+    {
+      "id": "chapter_114",
+      "title": "第一一三章　往事",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_114.txt"
+    },
+    {
+      "id": "chapter_115",
+      "title": "第一一四章　庇皮諾",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_115.txt"
+    },
+    {
+      "id": "chapter_116",
+      "title": "第一一五章　羅吉‧萬帕的菜單",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_116.txt"
+    },
+    {
+      "id": "chapter_117",
+      "title": "第一一六章　寬恕",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_117.txt"
+    },
+    {
+      "id": "chapter_118",
+      "title": "第一一七章　十月五日",
+      "text_file": "static\\audiobooks\\269ac8a5-6f5d-4eea-90e5-0cd0d0809148\\chapter_118.txt"
+    }
+  ],
+  "cover_url": "https://books.google.com/books/content?id=IVYzCgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+}

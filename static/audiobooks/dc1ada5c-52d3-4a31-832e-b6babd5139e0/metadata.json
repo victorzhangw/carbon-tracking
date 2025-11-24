@@ -1,0 +1,364 @@
+{
+  "id": "dc1ada5c-52d3-4a31-832e-b6babd5139e0",
+  "title": "三劍客",
+  "chapter_count": 71,
+  "created_at": "73bb517f-7bb5-40fc-aa1b-7be900633d01",
+  "chapters": [
+    {
+      "id": "chapter_001",
+      "title": "目錄",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_001.txt"
+    },
+    {
+      "id": "chapter_002",
+      "title": "《三劍客》大仲馬",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_002.txt"
+    },
+    {
+      "id": "chapter_003",
+      "title": "譯序",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_003.txt"
+    },
+    {
+      "id": "chapter_004",
+      "title": "第一章　達德尼昂老爹的三件賞賜",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_004.txt"
+    },
+    {
+      "id": "chapter_005",
+      "title": "第二章　特雷維爾先生的候見室",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_005.txt"
+    },
+    {
+      "id": "chapter_006",
+      "title": "第三章　謁見",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_006.txt"
+    },
+    {
+      "id": "chapter_007",
+      "title": "第四章　阿托斯的肩膀、波爾多斯的肩帶和阿拉密斯的手絹",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_007.txt"
+    },
+    {
+      "id": "chapter_008",
+      "title": "第五章　國王的火槍手和紅衣主教的衛士",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_008.txt"
+    },
+    {
+      "id": "chapter_009",
+      "title": "第六章　國王陛下路易十三",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_009.txt"
+    },
+    {
+      "id": "chapter_010",
+      "title": "第七章　火槍手的內情",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_010.txt"
+    },
+    {
+      "id": "chapter_011",
+      "title": "第八章　宮廷裡的陰謀",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_011.txt"
+    },
+    {
+      "id": "chapter_012",
+      "title": "第九章　達德尼昂初露鋒芒",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_012.txt"
+    },
+    {
+      "id": "chapter_013",
+      "title": "第十章　十七世紀的捕鼠籠子",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_013.txt"
+    },
+    {
+      "id": "chapter_014",
+      "title": "第十一章　牽線搭橋",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_014.txt"
+    },
+    {
+      "id": "chapter_015",
+      "title": "第十二章　白金漢公爵喬治‧維利爾斯",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_015.txt"
+    },
+    {
+      "id": "chapter_016",
+      "title": "第十三章　波那瑟先生",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_016.txt"
+    },
+    {
+      "id": "chapter_017",
+      "title": "第十四章　默恩鎮的那個人",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_017.txt"
+    },
+    {
+      "id": "chapter_018",
+      "title": "第十五章　法官和軍人",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_018.txt"
+    },
+    {
+      "id": "chapter_019",
+      "title": "第十六章　掌璽大臣賽基埃又一次想打鐘驅魔",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_019.txt"
+    },
+    {
+      "id": "chapter_020",
+      "title": "第十七章　波那瑟夫婦",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_020.txt"
+    },
+    {
+      "id": "chapter_021",
+      "title": "第十八章　情夫與丈夫",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_021.txt"
+    },
+    {
+      "id": "chapter_022",
+      "title": "第十九章　行動計劃",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_022.txt"
+    },
+    {
+      "id": "chapter_023",
+      "title": "第二十章　旅途",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_023.txt"
+    },
+    {
+      "id": "chapter_024",
+      "title": "第二十一章　溫特伯爵夫人",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_024.txt"
+    },
+    {
+      "id": "chapter_025",
+      "title": "第二十二章　美爾萊宋舞",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_025.txt"
+    },
+    {
+      "id": "chapter_026",
+      "title": "第二十三章　幽會",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_026.txt"
+    },
+    {
+      "id": "chapter_027",
+      "title": "第二十四章　小樓",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_027.txt"
+    },
+    {
+      "id": "chapter_028",
+      "title": "第二十五章　波爾多斯",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_028.txt"
+    },
+    {
+      "id": "chapter_029",
+      "title": "第二十六章　阿拉密斯的論文",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_029.txt"
+    },
+    {
+      "id": "chapter_030",
+      "title": "第二十七章　阿托斯的妻子",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_030.txt"
+    },
+    {
+      "id": "chapter_031",
+      "title": "第二十八章　歸途",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_031.txt"
+    },
+    {
+      "id": "chapter_032",
+      "title": "第二十九章　籌辦裝備",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_032.txt"
+    },
+    {
+      "id": "chapter_033",
+      "title": "第三十章　米萊迪",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_033.txt"
+    },
+    {
+      "id": "chapter_034",
+      "title": "第三十一章　英國人和法國人",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_034.txt"
+    },
+    {
+      "id": "chapter_035",
+      "title": "第三十二章　訴訟代理人家的一頓晚餐",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_035.txt"
+    },
+    {
+      "id": "chapter_036",
+      "title": "第三十三章　侍女與主人",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_036.txt"
+    },
+    {
+      "id": "chapter_037",
+      "title": "第三十四章　阿拉密斯和波爾多斯的裝備",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_037.txt"
+    },
+    {
+      "id": "chapter_038",
+      "title": "第三十五章　冒名頂替",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_038.txt"
+    },
+    {
+      "id": "chapter_039",
+      "title": "第三十六章　復仇之夢",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_039.txt"
+    },
+    {
+      "id": "chapter_040",
+      "title": "第三十七章　米萊迪的祕密",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_040.txt"
+    },
+    {
+      "id": "chapter_041",
+      "title": "第三十八章　阿托斯當寶從戎",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_041.txt"
+    },
+    {
+      "id": "chapter_042",
+      "title": "第三十九章　一個幻覺",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_042.txt"
+    },
+    {
+      "id": "chapter_043",
+      "title": "第四十章　紅衣主教",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_043.txt"
+    },
+    {
+      "id": "chapter_044",
+      "title": "第四十一章　圍困拉羅謝爾之戰",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_044.txt"
+    },
+    {
+      "id": "chapter_045",
+      "title": "第四十二章　昂儒葡萄酒",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_045.txt"
+    },
+    {
+      "id": "chapter_046",
+      "title": "第四十三章　紅鴿棚客棧",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_046.txt"
+    },
+    {
+      "id": "chapter_047",
+      "title": "第四十四章　火爐煙筒的妙用",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_047.txt"
+    },
+    {
+      "id": "chapter_048",
+      "title": "第四十五章　夫妻一戰",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_048.txt"
+    },
+    {
+      "id": "chapter_049",
+      "title": "第四十六章　聖熱爾韋稜堡",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_049.txt"
+    },
+    {
+      "id": "chapter_050",
+      "title": "第四十七章　火槍手的集會",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_050.txt"
+    },
+    {
+      "id": "chapter_051",
+      "title": "第四十八章　家務事",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_051.txt"
+    },
+    {
+      "id": "chapter_052",
+      "title": "第四十九章　厄運",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_052.txt"
+    },
+    {
+      "id": "chapter_053",
+      "title": "第五十章　叔嫂間的談話",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_053.txt"
+    },
+    {
+      "id": "chapter_054",
+      "title": "第五十一章　長官",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_054.txt"
+    },
+    {
+      "id": "chapter_055",
+      "title": "第五十二章　軟禁的第一天",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_055.txt"
+    },
+    {
+      "id": "chapter_056",
+      "title": "第五十三章　軟禁的第二天",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_056.txt"
+    },
+    {
+      "id": "chapter_057",
+      "title": "第五十四章　軟禁中的第三天",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_057.txt"
+    },
+    {
+      "id": "chapter_058",
+      "title": "第五十五章　軟禁的第四天",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_058.txt"
+    },
+    {
+      "id": "chapter_059",
+      "title": "第五十六章　軟禁的第五天",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_059.txt"
+    },
+    {
+      "id": "chapter_060",
+      "title": "第五十七章　一個古典悲劇的手法",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_060.txt"
+    },
+    {
+      "id": "chapter_061",
+      "title": "第五十八章　越獄",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_061.txt"
+    },
+    {
+      "id": "chapter_062",
+      "title": "第五十九章　一六二八年八月二十三日樸茨茅斯兇殺案",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_062.txt"
+    },
+    {
+      "id": "chapter_063",
+      "title": "第六十章　在法國",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_063.txt"
+    },
+    {
+      "id": "chapter_064",
+      "title": "第六十一章　貝圖納加爾默羅會女修道院",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_064.txt"
+    },
+    {
+      "id": "chapter_065",
+      "title": "第六十二章　兩個惡魔變種",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_065.txt"
+    },
+    {
+      "id": "chapter_066",
+      "title": "第六十三章　一滴水",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_066.txt"
+    },
+    {
+      "id": "chapter_067",
+      "title": "第六十四章　身披紅大氅的男人",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_067.txt"
+    },
+    {
+      "id": "chapter_068",
+      "title": "第六十五章　審判",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_068.txt"
+    },
+    {
+      "id": "chapter_069",
+      "title": "第六十六章　處決",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_069.txt"
+    },
+    {
+      "id": "chapter_070",
+      "title": "第六十七章　結局",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_070.txt"
+    },
+    {
+      "id": "chapter_071",
+      "title": "尾聲",
+      "text_file": "static\\audiobooks\\dc1ada5c-52d3-4a31-832e-b6babd5139e0\\chapter_071.txt"
+    }
+  ],
+  "cover_url": "https://books.google.com/books/content?id=t5x2DGlJlkUC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+}

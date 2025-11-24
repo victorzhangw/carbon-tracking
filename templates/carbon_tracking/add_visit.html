@@ -12,6 +12,12 @@
     <link rel="manifest" href="/static/manifest.json" />
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
 
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
     <style>
       * {
         margin: 0;
@@ -175,7 +181,12 @@
   </head>
   <body>
     <div class="navbar">
-      <h1>➕ 新增訪視記錄</h1>
+      <h1>
+        <span class="material-icons" style="vertical-align: middle"
+          >add_circle</span
+        >
+        新增訪視記錄
+      </h1>
       <div>
         <a href="/carbon/">← 首頁</a>
         <a href="/carbon/visit-records">訪視記錄</a>
@@ -183,7 +194,19 @@
     </div>
 
     <div class="container">
-      <div class="eco-badge">🌱 每次記錄都是為地球減碳的一小步 🌍</div>
+      <div class="eco-badge">
+        <span
+          class="material-icons"
+          style="vertical-align: middle; color: #2e7d32"
+          >eco</span
+        >
+        每次記錄都是為地球減碳的一小步
+        <span
+          class="material-icons"
+          style="vertical-align: middle; color: #2e7d32"
+          >public</span
+        >
+      </div>
 
       <div id="alertBox" class="alert"></div>
 
@@ -249,9 +272,9 @@
               <label>交通工具 *</label>
               <select id="transportType" required>
                 <option value="">請選擇</option>
-                <option value="機車">🏍️ 機車</option>
-                <option value="汽車">🚗 汽車</option>
-                <option value="大眾運輸">🚌 大眾運輸</option>
+                <option value="機車">機車</option>
+                <option value="汽車">汽車</option>
+                <option value="大眾運輸">大眾運輸</option>
               </select>
             </div>
             <div class="form-group">
@@ -301,12 +324,24 @@
           </div>
 
           <div style="margin-top: 20px">
-            <button type="submit" class="btn btn-primary">💾 儲存記錄</button>
+            <button type="submit" class="btn btn-primary">
+              <span
+                class="material-icons"
+                style="vertical-align: middle; font-size: 1em"
+                >save</span
+              >
+              儲存記錄
+            </button>
             <button
               type="button"
               class="btn btn-secondary"
               onclick="window.location.href='/carbon/'"
             >
+              <span
+                class="material-icons"
+                style="vertical-align: middle; font-size: 1em"
+                >cancel</span
+              >
               取消
             </button>
           </div>

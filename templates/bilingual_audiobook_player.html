@@ -869,6 +869,7 @@
 
             // 設置音頻源並播放
             this.mandarinAudio.src = audioUrl;
+            this.mandarinAudio.playbackRate = 0.8; // 設定播放速度為 0.8
             await this.mandarinAudio.play();
             this.mandarinIsPlaying = true;
             this.updateMandarinPlayButton();
@@ -903,6 +904,7 @@
 
             // 設置音頻源並播放
             this.minanAudio.src = audioUrl;
+            this.minanAudio.playbackRate = 0.8; // 設定播放速度為 0.8
             await this.minanAudio.play();
             this.minanIsPlaying = true;
             this.updateMinanPlayButton();

@@ -1,0 +1,88 @@
+/**
+ * 統一返回按鈕樣式
+ * 適用於所有頁面的返回導航
+ */
+
+/* 返回按鈕基礎樣式 */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-2px);
+}
+
+.back-btn .material-icons {
+  font-size: 20px;
+}
+
+/* 深色背景版本（用於淺色 header） */
+.back-btn.dark {
+  background: rgba(0, 0, 0, 0.05);
+  color: #2c3e50;
+}
+
+.back-btn.dark:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* 帶文字的返回按鈕 */
+.back-btn-with-text {
+  padding: 8px 16px;
+}
+
+/* 固定位置返回按鈕（浮動在右上角） */
+.back-btn-fixed {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: white;
+  color: #2c3e50;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.back-btn-fixed:hover {
+  background: #f8f9fa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* 內聯返回按鈕（用於內容區域） */
+.back-btn-inline {
+  background: #f8f9fa;
+  color: #2c3e50;
+  border: 1px solid #dee2e6;
+  padding: 8px 16px;
+}
+
+.back-btn-inline:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+  transform: translateX(-2px);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .back-btn-with-text .back-btn-text {
+    display: none;
+  }
+
+  .back-btn-fixed {
+    top: 10px;
+    right: 10px;
+  }
+}

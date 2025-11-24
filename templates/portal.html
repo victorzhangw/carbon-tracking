@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI 智慧服務平台 - 系統入口</title>
+    <title>AI 智慧服務平台 - 模組入口</title>
     <style>
       * {
         margin: 0;
@@ -55,20 +55,52 @@
         background: white;
         border-radius: 12px;
         padding: 0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
         color: inherit;
         display: flex;
         flex-direction: column;
-        border: 2px solid transparent;
+        border: 1px solid #f0f0f0;
         overflow: hidden;
+        position: relative;
+      }
+
+      .module-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, transparent);
+        transition: all 0.3s ease;
       }
 
       .module-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        border-color: #ddd;
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        border-color: #e0e0e0;
+      }
+
+      .module-card:nth-child(1):hover::before {
+        background: linear-gradient(90deg, #9c27b0, #ba68c8);
+      }
+
+      .module-card:nth-child(2):hover::before {
+        background: linear-gradient(90deg, #4caf50, #81c784);
+      }
+
+      .module-card:nth-child(3):hover::before {
+        background: linear-gradient(90deg, #e91e63, #f06292);
+      }
+
+      .module-card:nth-child(4):hover::before {
+        background: linear-gradient(90deg, #ff9800, #ffb74d);
+      }
+
+      .module-card:nth-child(5):hover::before {
+        background: linear-gradient(90deg, #2196f3, #64b5f6);
       }
 
       .module-content {
@@ -153,22 +185,42 @@
       .module-button {
         display: block;
         width: 100%;
-        padding: 14px 24px;
+        padding: 16px 24px;
         background: #955f27;
         color: white;
         text-align: center;
         border-radius: 0;
         font-size: 15px;
         font-weight: 600;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
         border: none;
         cursor: pointer;
         margin-top: auto;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .module-button::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .module-button:hover::before {
+        width: 300px;
+        height: 300px;
       }
 
       .module-button:hover {
         background: #7a4d1f;
-        transform: translateY(-2px);
+        letter-spacing: 0.5px;
       }
 
       .footer {
@@ -224,12 +276,23 @@
       }
     </style>
     <!-- Material Icons -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/material-icons.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/material-icons.css') }}"
+    />
   </head>
   <body>
     <div class="container">
       <div class="header">
-        <h1>智慧服務平台</h1>
+        <h1>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; font-size: 1em; color: #955f27"
+            >dashboard</span
+          >
+          智慧服務平台
+        </h1>
+        <p>整合 AI 技術，提供智能化服務解決方案</p>
       </div>
 
       <div class="modules-grid">
@@ -237,7 +300,11 @@
         <a href="/voice-testing" class="module-card">
           <div class="module-content">
             <div class="module-header">
-              <div class="module-icon"><span class="material-icons">science</span></div>
+              <div class="module-icon">
+                <span class="material-icons" style="color: #9c27b0"
+                  >science</span
+                >
+              </div>
               <h3>語音測試訓練模組</h3>
             </div>
             <div class="module-body">
@@ -253,36 +320,43 @@
               </ul>
             </div>
           </div>
-          <div class="module-button">進入系統 →</div>
+          <div class="module-button">開始使用 →</div>
         </a>
 
-        <!-- 碳排放追蹤系統 -->
-        <a href="/carbon" class="module-card">
+        <!-- 即時語音互動 -->
+        <a href="/voice_interaction_realtime/" class="module-card">
           <div class="module-content">
             <div class="module-header">
-              <div class="module-icon">🌱</div>
-              <h3>碳排放追蹤系統</h3>
+              <div class="module-icon">
+                <span class="material-icons" style="color: #ff9800"
+                  >record_voice_over</span
+                >
+              </div>
+              <h3>即時語音互動</h3>
             </div>
             <div class="module-body">
-              <span class="module-status status-active">運行中</span>
-              <p>社工訪視碳排放管理系統，追蹤交通碳足跡，推動環保服務</p>
+              <span class="module-status status-new">最新</span>
+              <p>即時語音識別與 AI 對話模組，支援國語和閩南語雙語互動</p>
               <ul class="module-features">
-                <li>訪視記錄管理</li>
-                <li>碳排放自動計算</li>
-                <li>統計報表分析</li>
-                <li>環保效益評估</li>
+                <li>即時語音識別（ASR）</li>
+                <li>智能對話回應（LLM-Weather）</li>
+                <li>流式語音合成（TTS）</li>
+                <li>雙語支援（國語/閩南語）</li>
               </ul>
             </div>
           </div>
-          <div class="module-button">進入系統 →</div>
+          <div class="module-button">開始使用 →</div>
         </a>
-
-        <!-- 定期關懷系統 -->
+        <!-- 定期關懷模組 -->
         <a href="/api/voice-care/schedules-page" class="module-card">
           <div class="module-content">
             <div class="module-header">
-              <div class="module-icon">💝</div>
-              <h3>智慧語音關懷系統</h3>
+              <div class="module-icon">
+                <span class="material-icons" style="color: #e91e63"
+                  >favorite</span
+                >
+              </div>
+              <h3>智慧語音關懷模組</h3>
             </div>
             <div class="module-body">
               <span class="module-status status-new">最新</span>
@@ -295,36 +369,19 @@
               </ul>
             </div>
           </div>
-          <div class="module-button">進入系統 →</div>
+          <div class="module-button">開始使用 →</div>
         </a>
 
-        <!-- 即時語音互動 -->
-        <a href="/voice_interaction_realtime/" class="module-card">
-          <div class="module-content">
-            <div class="module-header">
-              <div class="module-icon"><span class="material-icons">record_voice_over</span></div>
-              <h3>即時語音互動</h3>
-            </div>
-            <div class="module-body">
-              <span class="module-status status-new">最新</span>
-              <p>即時語音識別與 AI 對話系統，支援國語和閩南語雙語互動</p>
-              <ul class="module-features">
-                <li>即時語音識別（Qwen ASR）</li>
-                <li>智能對話回應（DeepSeek）</li>
-                <li>流式語音合成（Qwen TTS）</li>
-                <li>雙語支援（國語/閩南語）</li>
-              </ul>
-            </div>
-          </div>
-          <div class="module-button">進入系統 →</div>
-        </a>
-
-        <!-- AI 廣播劇系統 -->
+        <!-- AI 廣播劇模組 -->
         <a href="/api/audiobook/library" class="module-card">
           <div class="module-content">
             <div class="module-header">
-              <div class="module-icon"><span class="material-icons">library_books</span></div>
-              <h3>AI 廣播劇系統</h3>
+              <div class="module-icon">
+                <span class="material-icons" style="color: #2196f3"
+                  >library_books</span
+                >
+              </div>
+              <h3>AI 廣播劇模組</h3>
             </div>
             <div class="module-body">
               <span class="module-status status-new">最新</span>
@@ -337,12 +394,41 @@
               </ul>
             </div>
           </div>
-          <div class="module-button">進入系統 →</div>
+          <div class="module-button">開始使用 →</div>
+        </a>
+        <!-- 碳排放追蹤模組 -->
+        <a href="/carbon" class="module-card">
+          <div class="module-content">
+            <div class="module-header">
+              <div class="module-icon">
+                <span class="material-icons" style="color: #4caf50">eco</span>
+              </div>
+              <h3>碳排放追蹤模組</h3>
+            </div>
+            <div class="module-body">
+              <span class="module-status status-active">運行中</span>
+              <p>社工訪視碳排放管理模組，追蹤交通碳足跡，推動環保服務</p>
+              <ul class="module-features">
+                <li>訪視記錄管理</li>
+                <li>碳排放自動計算</li>
+                <li>統計報表分析</li>
+                <li>環保效益評估</li>
+              </ul>
+            </div>
+          </div>
+          <div class="module-button">開始使用 →</div>
         </a>
       </div>
 
       <div class="footer">
-        <p>© 2024 AI 智慧服務平台 | 提供創新的 AI 解決方案</p>
+        <p>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; font-size: 16px; color: #955f27"
+            >copyright</span
+          >
+          2025 智慧服務平台 | 提供創新的 AI 解決方案
+        </p>
       </div>
     </div>
 
@@ -355,26 +441,41 @@
         top: 20px;
         right: 20px;
         background: white;
-        padding: 12px 20px;
+        padding: 10px 18px;
         border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
         z-index: 1000;
         font-size: 14px;
+        border: 1px solid #e9ecef;
+        display: flex;
+        align-items: center;
+        gap: 12px;
       "
     >
-      <span style="color: #666" id="userNameDisplay"></span>
+      <span class="material-icons" style="color: #955f27; font-size: 20px"
+        >account_circle</span
+      >
+      <span style="color: #333; font-weight: 500" id="userNameDisplay"></span>
       <button
-        onclick="logout()"
+        id="logoutBtn"
         style="
-          margin-left: 12px;
-          padding: 4px 12px;
-          border: 1px solid #e9ecef;
-          border-radius: 4px;
+          padding: 6px 14px;
+          border: 1.5px solid #955f27;
+          border-radius: 6px;
           background: white;
+          color: #955f27;
           cursor: pointer;
           font-size: 12px;
+          font-weight: 500;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          gap: 4px;
         "
       >
+        <span class="material-icons" style="font-size: 14px; color: #955f27"
+          >logout</span
+        >
         登出
       </button>
     </div>
@@ -402,9 +503,8 @@
           const userNameDisplay = document.getElementById("userNameDisplay");
 
           if (userInfo && userNameDisplay) {
-            userNameDisplay.textContent =
-              "<span class="material-icons">person</span> " + (userData.full_name || userData.username);
-            userInfo.style.display = "block";
+            userNameDisplay.textContent = userData.full_name || userData.username;
+            userInfo.style.display = "flex";
           }
 
           return true;
@@ -420,6 +520,8 @@
       function logout() {
         if (confirm("確定要登出嗎？")) {
           localStorage.removeItem("currentUser");
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
           window.location.href = "/login";
         }
       }
@@ -427,6 +529,27 @@
       // 頁面載入時檢查登入狀態
       window.addEventListener("DOMContentLoaded", function () {
         checkLoginStatus();
+
+        // 綁定登出按鈕事件
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+          logoutBtn.addEventListener("click", logout);
+
+          // 添加 hover 效果
+          logoutBtn.addEventListener("mouseenter", function() {
+            this.style.background = "#955f27";
+            this.style.color = "white";
+            const icon = this.querySelector(".material-icons");
+            if (icon) icon.style.color = "white";
+          });
+
+          logoutBtn.addEventListener("mouseleave", function() {
+            this.style.background = "white";
+            this.style.color = "#955f27";
+            const icon = this.querySelector(".material-icons");
+            if (icon) icon.style.color = "#955f27";
+          });
+        }
       });
     </script>
   </body>

@@ -1,0 +1,260 @@
+/* AI 廣播劇增強版樣式 - Phase 1 */
+
+/* 播放器控制區 */
+.player-controls-enhanced {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-top: 16px;
+}
+
+/* 進度條容器 */
+.progress-container-enhanced {
+  width: 100%;
+}
+
+.progress-bar-enhanced {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #666;
+}
+
+/* 播放控制按鈕 */
+.playback-controls-enhanced {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.control-btn-enhanced {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: #f5f5f5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.control-btn-enhanced:hover {
+  background: #e0e0e0;
+  transform: scale(1.05);
+}
+
+.control-btn-enhanced.play-btn {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.control-btn-enhanced.play-btn:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6a4190 100%);
+}
+
+.control-btn-enhanced .material-icons {
+  font-size: 24px;
+}
+
+/* 速度/音量控制 */
+.settings-controls-enhanced {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+.control-group-enhanced {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.control-group-enhanced label {
+  font-size: 13px;
+  color: #666;
+  min-width: 60px;
+}
+
+.slider-enhanced {
+  flex: 1;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #e0e0e0;
+  border-radius: 2px;
+  outline: none;
+}
+
+.slider-enhanced::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+}
+
+.slider-enhanced::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  border: none;
+}
+
+.value-display-enhanced {
+  min-width: 40px;
+  text-align: right;
+  font-size: 13px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* 章節列表增強 */
+.chapter-item.playing {
+  background: #f0f4ff;
+  border-left: 3px solid #667eea;
+}
+
+.chapter-item.playing .chapter-title {
+  color: #667eea;
+  font-weight: 600;
+}
+
+/* 書籤按鈕 */
+.bookmark-btn-enhanced {
+  padding: 8px 16px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.bookmark-btn-enhanced:hover {
+  background: #f5f5f5;
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.bookmark-btn-enhanced .material-icons {
+  font-size: 18px;
+}
+
+/* 進度提示 */
+.progress-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(102, 126, 234, 0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  display: none;
+  animation: fadeIn 0.3s;
+}
+
+.progress-indicator.show {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .settings-controls-enhanced {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .control-group-enhanced {
+    width: 100%;
+  }
+
+  .playback-controls-enhanced {
+    gap: 8px;
+  }
+
+  .control-btn-enhanced {
+    width: 40px;
+    height: 40px;
+  }
+
+  .control-btn-enhanced.play-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .player-controls-enhanced {
+    padding: 16px;
+  }
+}
+
+/* 載入動畫 */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

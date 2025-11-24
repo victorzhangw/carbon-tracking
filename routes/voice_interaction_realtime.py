@@ -205,3 +205,26 @@ def init_socketio_events(socketio: SocketIO):
         leave_room(session_id)
         emit('left', {'session_id': session_id})
         print(f"✅ 客戶端已離開會話: {session_id}")
+    
+    @socketio.on('quick_message', namespace='/voice_interaction_realtime')
+    def handle_quick_message(data):
+        """處理快速訊息（文字輸入）"""
+        session_id = data.get('session_id')
+        text = data.get('text')
+        
+        if not session_id or session_id not in active_sessions:
+            emit('error', {'message': '會話不存在'})
+            return
+        
+        if not text:
+            emit('error', {'message': '訊息內容為空'})
+            return
+        
+        try:
+            service = active_sessions[session_id]
+            # 直接處理文字輸入，跳過 ASR
+            service.process_text_input(text)
+            print(f"📝 快速訊息: {text}")
+        except Exception as e:
+            print(f"❌ 處理快速訊息失敗: {e}")
+            emit('error', {'message': f'處理失敗: {str(e)}'})

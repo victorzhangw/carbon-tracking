@@ -11,6 +11,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="manifest" href="/static/manifest.json" />
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
     <style>
       * {
         margin: 0;
@@ -264,7 +271,12 @@
   </head>
   <body>
     <div class="navbar">
-      <h1>📝 訪視記錄</h1>
+      <h1>
+        <span class="material-icons" style="vertical-align: middle"
+          >description</span
+        >
+        訪視記錄
+      </h1>
       <div>
         <a href="/carbon/">← 首頁</a>
         <a href="/carbon/dashboard">儀表板</a>
@@ -280,7 +292,7 @@
             type="text"
             id="searchKeyword"
             class="search-input"
-            placeholder="🔍 搜尋社工姓名、工號或長者編號..."
+            placeholder="搜尋社工姓名、工號或長者編號..."
           />
           <select id="filterWorker" class="search-select">
             <option value="">所有社工</option>
@@ -291,15 +303,27 @@
         <div class="search-row">
           <select id="filterTransport" class="search-select">
             <option value="">所有交通工具</option>
-            <option value="機車">🏍️ 機車</option>
-            <option value="汽車">🚗 汽車</option>
-            <option value="大眾運輸">🚌 大眾運輸</option>
+            <option value="機車">機車</option>
+            <option value="汽車">汽車</option>
+            <option value="大眾運輸">大眾運輸</option>
           </select>
           <div class="search-buttons">
             <button class="btn-search" onclick="searchRecords()">
-              🔍 搜尋
+              <span
+                class="material-icons"
+                style="vertical-align: middle; font-size: 1em"
+                >search</span
+              >
+              搜尋
             </button>
-            <button class="btn-clear" onclick="clearSearch()">✖ 清除</button>
+            <button class="btn-clear" onclick="clearSearch()">
+              <span
+                class="material-icons"
+                style="vertical-align: middle; font-size: 1em"
+                >clear</span
+              >
+              清除
+            </button>
           </div>
         </div>
         <div class="search-result-info" id="searchInfo" style="display: none">
@@ -315,16 +339,33 @@
             onclick="exportExcel()"
             style="margin-right: 8px"
           >
-            📊 匯出 Excel
+            <span
+              class="material-icons"
+              style="vertical-align: middle; font-size: 1em"
+              >table_chart</span
+            >
+            匯出 Excel
           </button>
           <button
             class="btn btn-primary"
             onclick="exportCSV()"
             style="margin-right: 8px"
           >
-            📄 匯出 CSV
+            <span
+              class="material-icons"
+              style="vertical-align: middle; font-size: 1em"
+              >description</span
+            >
+            匯出 CSV
           </button>
-          <a href="/carbon/add-visit" class="btn btn-primary">➕ 新增記錄</a>
+          <a href="/carbon/add-visit" class="btn btn-primary">
+            <span
+              class="material-icons"
+              style="vertical-align: middle; font-size: 1em"
+              >add_circle</span
+            >
+            新增記錄
+          </a>
         </div>
       </div>
 
@@ -566,10 +607,10 @@
                     <td>
                       <button onclick="editRecord(${
                         record.id
-                      })" style="background:#8BC34A;color:white;border:none;padding:4px 8px;border-radius:3px;cursor:pointer;margin-right:4px;">✏️</button>
+                      })" style="background:#8BC34A;color:white;border:none;padding:4px 8px;border-radius:3px;cursor:pointer;margin-right:4px;"><span class="material-icons" style="font-size: 1em; vertical-align: middle;">edit</span></button>
                       <button onclick="deleteRecord(${
                         record.id
-                      })" style="background:#F44336;color:white;border:none;padding:4px 8px;border-radius:3px;cursor:pointer;">🗑️</button>
+                      })" style="background:#F44336;color:white;border:none;padding:4px 8px;border-radius:3px;cursor:pointer;"><span class="material-icons" style="font-size: 1em; vertical-align: middle;">delete</span></button>
                     </td>
                 `;
           tbody.appendChild(row);
@@ -637,9 +678,10 @@
 
       function getTransportBadge(type) {
         const badges = {
-          機車: '<span class="badge badge-motorcycle">🏍️ 機車</span>',
-          汽車: '<span class="badge badge-car">🚗 汽車</span>',
-          大眾運輸: '<span class="badge badge-transit">🚌 大眾運輸</span>',
+          機車: '<span class="badge badge-motorcycle"><span class="material-icons" style="vertical-align: middle; font-size: 0.9em;">two_wheeler</span> 機車</span>',
+          汽車: '<span class="badge badge-car"><span class="material-icons" style="vertical-align: middle; font-size: 0.9em;">directions_car</span> 汽車</span>',
+          大眾運輸:
+            '<span class="badge badge-transit"><span class="material-icons" style="vertical-align: middle; font-size: 0.9em;">directions_bus</span> 大眾運輸</span>',
         };
         return badges[type] || type;
       }

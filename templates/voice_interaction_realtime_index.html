@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>即時語音互動系統 - 選擇語言</title>
+
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
     <style>
       * {
         margin: 0;
@@ -13,7 +20,7 @@
 
       body {
         font-family: "Microsoft JhengHei", Arial, sans-serif;
-        background: #e8e8e8;
+        background: #f5f5f5;
         min-height: 100vh;
         display: flex;
         justify-content: center;
@@ -56,31 +63,61 @@
 
       .version-card {
         background: white;
-        border-radius: 8px;
+        border-radius: 12px;
         padding: 40px 30px;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
         color: inherit;
         display: block;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .version-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        transition: all 0.3s ease;
       }
 
       .version-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        transform: translateY(-6px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
       }
 
       .version-card.roy {
-        background: white;
-        border: 2px solid #ff6b35;
+        background: linear-gradient(135deg, #fff 0%, #fff9f5 100%);
+        border: 2px solid #e67e22;
         color: #333;
       }
 
+      .version-card.roy::before {
+        background: linear-gradient(90deg, #e67e22, #f39c12);
+      }
+
+      .version-card.roy:hover {
+        border-color: #d35400;
+        background: linear-gradient(135deg, #fff 0%, #fff5eb 100%);
+      }
+
       .version-card.nofish {
-        background: white;
-        border: 2px solid #667eea;
+        background: linear-gradient(135deg, #fff 0%, #f5f9ff 100%);
+        border: 2px solid #3498db;
         color: #333;
+      }
+
+      .version-card.nofish::before {
+        background: linear-gradient(90deg, #3498db, #5dade2);
+      }
+
+      .version-card.nofish:hover {
+        border-color: #2980b9;
+        background: linear-gradient(135deg, #fff 0%, #ebf5ff 100%);
       }
 
       .version-card .icon {
@@ -104,7 +141,7 @@
         text-align: left;
         margin-top: 20px;
         padding-top: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        border-top: 1px solid #e9ecef;
       }
 
       .version-card .features li {
@@ -113,6 +150,7 @@
         list-style: none;
         padding-left: 25px;
         position: relative;
+        color: #555;
       }
 
       .version-card .features li:before {
@@ -120,6 +158,14 @@
         position: absolute;
         left: 0;
         font-weight: bold;
+      }
+
+      .version-card.roy .features li:before {
+        color: #e67e22;
+      }
+
+      .version-card.nofish .features li:before {
+        color: #3498db;
       }
 
       .info-section {
@@ -165,27 +211,68 @@
         color: #999;
         font-size: 14px;
       }
+
+      .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 15px;
+        padding: 8px 20px;
+        background: white;
+        color: #955f27;
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1.5px solid #955f27;
+        transition: all 0.2s ease;
+        font-weight: 500;
+      }
+
+      .back-button:hover {
+        background: #955f27;
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(149, 95, 39, 0.2);
+      }
+
+      .back-button .material-icons {
+        font-size: 18px;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="header">
-        <h1>🎤 即時語音互動系統</h1>
-        <p>選擇您偏好的語言版本，開始智能語音對話體驗</p>
+        <h1>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; font-size: 1.2em; color: #ff9800"
+            >record_voice_over</span
+          >
+          即時語音互動系統
+        </h1>
+        <p style="font-size: 16px; color: #666; margin-top: 8px">
+          即時語音識別與 AI 對話，支援國語和閩南語雙語互動
+        </p>
+        <a href="/portal" class="back-button">
+          <span class="material-icons">arrow_back</span>
+          返回主選單
+        </a>
       </div>
 
       <div class="version-cards">
         <a href="/voice_interaction_realtime/roy" class="version-card roy">
-          <div class="icon">🎙️</div>
-          <h2>閩南語版</h2>
-          <div class="description">
-            使用 Roy 語音角色，提供親切的閩南語互動體驗
-          </div>
+          <span class="material-icons" style="font-size: 64px; color: #e67e22"
+            >record_voice_over</span
+          >
+          <h2 style="color: #e67e22">閩南語版</h2>
+          <p class="description" style="color: #666; font-size: 15px">
+            專為閩南語使用者設計的語音互動體驗
+          </p>
           <ul class="features">
-            <li>閩南語語音辨識</li>
-            <li>Roy 語音角色</li>
-            <li>適合閩南語使用者</li>
-            <li>橙色主題介面</li>
+            <li>閩南語即時辨識</li>
+            <li>自然語音合成</li>
+            <li>智能對話回應</li>
           </ul>
         </a>
 
@@ -193,46 +280,54 @@
           href="/voice_interaction_realtime/nofish"
           class="version-card nofish"
         >
-          <div class="icon">🎤</div>
-          <h2>國語版</h2>
-          <div class="description">
-            使用 Nofish 語音角色，提供標準的國語互動體驗
-          </div>
+          <span class="material-icons" style="font-size: 64px; color: #3498db"
+            >mic</span
+          >
+          <h2 style="color: #3498db">國語版</h2>
+          <p class="description" style="color: #666; font-size: 15px">
+            專為國語使用者設計的語音互動體驗
+          </p>
           <ul class="features">
-            <li>國語語音辨識</li>
-            <li>Nofish 語音角色</li>
-            <li>適合國語使用者</li>
-            <li>藍色主題介面</li>
+            <li>國語即時辨識</li>
+            <li>自然語音合成</li>
+            <li>智能對話回應</li>
           </ul>
         </a>
       </div>
 
       <div class="info-section">
-        <h3>✨ 系統特色</h3>
+        <h3>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; color: #3498db"
+            >auto_awesome</span
+          >
+          系統特色
+        </h3>
         <div class="features-grid">
           <div class="feature-item">
-            <div class="icon">⚡</div>
+            <span class="material-icons" style="color: #ff9800">flash_on</span>
             <div class="text">
               <strong>即時辨識</strong><br />
               語音即時轉文字，延遲小於 500ms
             </div>
           </div>
           <div class="feature-item">
-            <div class="icon">🤖</div>
+            <span class="material-icons" style="color: #4caf50">smart_toy</span>
             <div class="text">
               <strong>智能回應</strong><br />
               AI 理解對話內容，生成自然回應
             </div>
           </div>
           <div class="feature-item">
-            <div class="icon">🔊</div>
+            <span class="material-icons" style="color: #2196f3">volume_up</span>
             <div class="text">
               <strong>流式語音</strong><br />
               即時語音合成，自然流暢播放
             </div>
           </div>
           <div class="feature-item">
-            <div class="icon">💬</div>
+            <span class="material-icons" style="color: #9c27b0">chat</span>
             <div class="text">
               <strong>多輪對話</strong><br />
               記住對話上下文，連貫交流
@@ -242,8 +337,15 @@
       </div>
 
       <div class="footer">
-        <p>💡 提示：首次使用需要允許瀏覽器訪問麥克風</p>
-        <p>建議使用 Chrome、Edge 或 Firefox 瀏覽器</p>
+        <p>
+          <span
+            class="material-icons"
+            style="vertical-align: middle; font-size: 1em"
+            >lightbulb</span
+          >
+          提示：首次使用需要允許瀏覽器訪問麥克風，建議使用 Chrome、Edge 或
+          Firefox 瀏覽器
+        </p>
       </div>
     </div>
   </body>

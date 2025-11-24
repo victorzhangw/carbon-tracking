@@ -12,6 +12,12 @@
     <link rel="manifest" href="/static/manifest.json" />
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
 
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
     <style>
       * {
         margin: 0;
@@ -171,7 +177,10 @@
   </head>
   <body>
     <div class="navbar">
-      <h1>✏️ 編輯訪視記錄</h1>
+      <h1>
+        <span class="material-icons" style="vertical-align: middle">edit</span>
+        編輯訪視記錄
+      </h1>
       <div>
         <a href="/carbon/">← 首頁</a>
         <a href="/carbon/visit-records">訪視記錄</a>
@@ -231,9 +240,9 @@
               <label>交通工具 *</label>
               <select id="transportType" required>
                 <option value="">請選擇</option>
-                <option value="機車">🏍️ 機車</option>
-                <option value="汽車">🚗 汽車</option>
-                <option value="大眾運輸">🚌 大眾運輸</option>
+                <option value="機車">機車</option>
+                <option value="汽車">汽車</option>
+                <option value="大眾運輸">大眾運輸</option>
               </select>
             </div>
             <div class="form-group">
@@ -275,12 +284,24 @@
           </div>
 
           <div style="margin-top: 20px">
-            <button type="submit" class="btn btn-primary">💾 儲存變更</button>
+            <button type="submit" class="btn btn-primary">
+              <span
+                class="material-icons"
+                style="vertical-align: middle; font-size: 1em"
+                >save</span
+              >
+              儲存變更
+            </button>
             <button
               type="button"
               class="btn btn-secondary"
               onclick="window.history.back()"
             >
+              <span
+                class="material-icons"
+                style="vertical-align: middle; font-size: 1em"
+                >cancel</span
+              >
               取消
             </button>
           </div>
@@ -300,7 +321,7 @@
       const recordId = urlParams.get("id");
 
       if (!recordId) {
-        showAlert("error", "❌ 缺少記錄 ID");
+        showAlert("error", "✗ 缺少記錄 ID");
         setTimeout(
           () => (window.location.href = "/carbon/visit-records"),
           2000
@@ -344,14 +365,14 @@
             document.getElementById("loadingBox").style.display = "none";
             document.getElementById("formCard").style.display = "block";
           } else {
-            showAlert("error", "❌ 載入失敗：" + result.error);
+            showAlert("error", "✗ 載入失敗：" + result.error);
             setTimeout(
               () => (window.location.href = "/carbon/visit-records"),
               2000
             );
           }
         } catch (error) {
-          showAlert("error", "❌ 發生錯誤：" + error.message);
+          showAlert("error", "✗ 發生錯誤：" + error.message);
           setTimeout(
             () => (window.location.href = "/carbon/visit-records"),
             2000

@@ -69,6 +69,16 @@ def test_enhanced_page():
     """Phase 1 功能測試頁面"""
     return render_template('audiobook_test_enhanced.html')
 
+@audiobook_bp.route('/library')
+def library_page():
+    """AI 廣播劇書庫 - 原始版本"""
+    return render_template('audiobook_library.html')
+
+@audiobook_bp.route('/library-enhanced')
+def library_enhanced_page():
+    """AI 廣播劇書庫 - 增強版 (搜尋、篩選、分頁)"""
+    return render_template('audiobook_library_enhanced.html')
+
 @audiobook_bp.route('/upload', methods=['POST'])
 def upload_epub():
     """
@@ -162,6 +172,7 @@ def list_books():
     try:
         import json
         from datetime import datetime
+        from services.book_cover_service import book_cover_service
         
         audiobooks_dir = os.path.join(current_app.root_path, 'static', 'audiobooks')
         books = []
@@ -180,11 +191,25 @@ def list_books():
                         
                         created_time = datetime.fromtimestamp(os.path.getctime(book_dir))
                         
+                        # 檢查是否已有封面，沒有則嘗試獲取
+                        cover_url = metadata.get('cover_url')
+                        if not cover_url:
+                            title = metadata.get('title', '未命名')
+                            author = metadata.get('author')
+                            cover_url = book_cover_service.fetch_cover_url(title, author)
+                            
+                            # 儲存封面 URL 到 metadata
+                            if cover_url:
+                                metadata['cover_url'] = cover_url
+                                with open(metadata_file, 'w', encoding='utf-8') as f:
+                                    json.dump(metadata, f, ensure_ascii=False, indent=2)
+                        
                         books.append({
                             'id': metadata.get('id', book_id),
                             'title': metadata.get('title', '未命名'),
                             'chapter_count': metadata.get('chapter_count', 0),
-                            'created_at': created_time.isoformat()
+                            'created_at': created_time.isoformat(),
+                            'cover_url': cover_url
                         })
                     except Exception as e:
                         logger.error(f"讀取書籍 {book_id} 失敗: {str(e)}")
