@@ -31,7 +31,7 @@
 
       /* 頂部導航欄 - 參考 carbon 設計 */
       .navbar {
-        background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);
+        background: linear-gradient(135deg, #ff9966 0%, #ffb380 100%);
         color: white;
         padding: 12px 20px;
         position: sticky;
@@ -57,16 +57,20 @@
         color: white;
         text-decoration: none;
         font-size: 0.9em;
-        font-weight: 500;
+        font-weight: 600;
         transition: all 0.2s;
-        opacity: 0.9;
-        padding: 6px 12px;
-        border-radius: 4px;
+        padding: 10px 20px;
+        border-radius: 25px;
+        border: 3px solid rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
 
       .back-btn:hover {
-        opacity: 1;
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.8);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
 
       .back-btn .material-icons {
@@ -98,61 +102,60 @@
         padding: 24px 0;
       }
 
-      /* 書籍頭部 */
-      .book-header {
-        background: linear-gradient(to right, #ffffff 0%, #fafbfc 100%);
-        border-radius: 8px;
-        padding: 12px 24px;
-        margin: 0 20px 16px 20px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-        border-left: 3px solid #2196f3;
-      }
-
-      .book-header-content {
-        display: flex;
-        gap: 16px;
-        align-items: center;
-      }
-
-      .book-cover-large {
-        width: 48px;
-        height: 64px;
+      /* 書籍封面（整合到 section-header） */
+      .book-cover-small {
+        width: 40px;
+        height: 60px;
         border-radius: 4px;
-        background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8eaf0 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
         flex-shrink: 0;
-        box-shadow: 0 2px 6px rgba(33, 150, 243, 0.3);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
       }
 
-      .book-header-info {
+      .book-cover-small img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .book-cover-small .material-icons {
+        font-size: 24px;
+        color: #9e9e9e;
+      }
+
+      .book-info-inline {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
         flex: 1;
         min-width: 0;
       }
 
-      .book-title-large {
-        font-size: 18px;
+      .book-title-inline {
+        font-size: 14px;
         font-weight: 600;
         color: #1a1a1a;
-        margin-bottom: 6px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
-      .book-stats {
+      .book-stats-inline {
         display: flex;
-        gap: 16px;
-        color: #666;
-        font-size: 13px;
+        gap: 8px;
+        color: #757575;
+        font-size: 12px;
       }
 
       .book-stat-item {
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 3px;
       }
 
       /* 章節列表 - 精簡設計 */
@@ -165,15 +168,24 @@
       }
 
       .section-header {
-        padding: 14px 20px;
-        border-bottom: 1px solid #f0f0f0;
-        font-size: 15px;
+        padding: 14px 16px;
+        border-bottom: 1px solid #e8e8e8;
+        font-size: 14px;
         font-weight: 600;
         color: #1a1a1a;
         display: flex;
         justify-content: space-between;
         align-items: center;
         background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+        min-height: 68px;
+      }
+
+      .section-header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+        min-width: 0;
       }
 
       .sort-controls {
@@ -182,7 +194,7 @@
       }
 
       .sort-btn {
-        padding: 5px 10px;
+        padding: 6px 10px;
         background: white;
         border: 1px solid #e0e0e0;
         border-radius: 4px;
@@ -190,18 +202,27 @@
         color: #666;
         cursor: pointer;
         transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
       }
 
       .sort-btn:hover {
-        background: #f5f7fa;
-        border-color: #2196f3;
-        color: #2196f3;
+        background: #fff5f0;
+        border-color: #ff9966;
+        color: #ff9966;
       }
 
       .sort-btn.active {
-        background: #2196f3;
+        background: #ff9966;
         color: white;
-        border-color: #2196f3;
+        border-color: #ff9966;
+      }
+
+      .sort-btn .material-icons {
+        font-size: 18px;
       }
 
       .chapter-list {
@@ -234,12 +255,12 @@
         width: 28px;
         height: 28px;
         border-radius: 6px;
-        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        background: linear-gradient(135deg, #ffe8d9 0%, #ffd4b3 100%);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 12px;
-        color: #1976d2;
+        color: #d97742;
         font-weight: 600;
         flex-shrink: 0;
       }
@@ -276,21 +297,21 @@
         align-items: center;
         gap: 4px;
         background: white;
-        color: #2196f3;
+        color: #ff9966;
       }
 
       .play-btn:hover {
-        background: #2196f3;
+        background: #ff9966;
         color: white;
-        border-color: #2196f3;
+        border-color: #ff9966;
         transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+        box-shadow: 0 2px 8px rgba(255, 153, 102, 0.3);
       }
 
       .play-btn.playing {
-        background: #2196f3;
+        background: #ff9966;
         color: white;
-        border-color: #2196f3;
+        border-color: #ff9966;
       }
 
       .play-btn.mandarin:hover {
@@ -429,7 +450,7 @@
 
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, #2196f3 0%, #64b5f6 100%);
+        background: linear-gradient(90deg, #ff9966 0%, #ffb380 100%);
         border-radius: 3px;
         width: 0%;
         transition: width 0.1s linear;
@@ -441,7 +462,7 @@
         transform: translate(-50%, -50%);
         width: 14px;
         height: 14px;
-        background: #2196f3;
+        background: #ff9966;
         border: 2px solid white;
         border-radius: 50%;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -485,24 +506,24 @@
 
       .control-btn:hover {
         background: #e8e8e8;
-        color: #2196f3;
+        color: #ff9966;
         transform: scale(1.05);
       }
 
       .control-btn.active {
-        background: #2196f3;
+        background: #ff9966;
         color: white;
       }
 
       .play-pause-btn {
         width: 56px;
         height: 56px;
-        background: #2196f3;
+        background: #ff9966;
         color: white;
       }
 
       .play-pause-btn:hover {
-        background: #1976d2;
+        background: #ff8547;
         transform: scale(1.08);
       }
 
@@ -525,7 +546,7 @@
         position: absolute;
         bottom: -2px;
         right: -2px;
-        background: #2196f3;
+        background: #ff9966;
         color: white;
         padding: 2px 4px;
         border-radius: 4px;
@@ -562,8 +583,8 @@
       }
 
       .speed-menu button.active {
-        background: #e3f2fd;
-        color: #2196f3;
+        background: #ffe8d9;
+        color: #ff9966;
         font-weight: 600;
       }
 
@@ -599,8 +620,8 @@
       }
 
       .scroll-speed-menu button.active {
-        background: #e3f2fd;
-        color: #2196f3;
+        background: #ffe8d9;
+        color: #ff9966;
         font-weight: 600;
       }
 
@@ -746,12 +767,12 @@
       }
 
       .toolbar-btn:hover {
-        background: #f0f0f0;
-        color: #2196f3;
+        background: #fff5f0;
+        color: #ff9966;
       }
 
       .toolbar-btn.active {
-        background: #2196f3;
+        background: #ff9966;
         color: white;
       }
 
@@ -804,11 +825,11 @@
 
       body.dark-theme .toolbar-btn:hover {
         background: #4d4d4d;
-        color: #64b5f6;
+        color: #ffb380;
       }
 
       body.dark-theme .toolbar-btn.active {
-        background: #2196f3;
+        background: #ff9966;
         color: white;
       }
 
@@ -834,16 +855,16 @@
       body.dark-theme .close-player-btn:hover,
       body.dark-theme .control-btn:hover {
         background: #4d4d4d;
-        color: #64b5f6;
+        color: #ffb380;
       }
 
       body.dark-theme .play-pause-btn {
-        background: #2196f3;
+        background: #ff9966;
         color: white;
       }
 
       body.dark-theme .play-pause-btn:hover {
-        background: #1976d2;
+        background: #ff8547;
       }
 
       body.dark-theme .progress-bar {
@@ -970,34 +991,6 @@
 
     <!-- 主內容 -->
     <div class="container">
-      <!-- 書籍頭部 -->
-      <div class="book-header">
-        <div class="book-header-content">
-          <div class="book-cover-large">
-            <span class="material-icons" style="font-size: 48px; color: #2196f3"
-              >auto_stories</span
-            >
-          </div>
-          <div class="book-header-info">
-            <h1 class="book-title-large" id="bookTitle">載入中...</h1>
-            <div class="book-stats">
-              <div class="book-stat-item">
-                <span class="material-icons" style="font-size: 18px"
-                  >library_books</span
-                >
-                <span id="chapterCount">-- 章</span>
-              </div>
-              <div class="book-stat-item">
-                <span class="material-icons" style="font-size: 18px"
-                  >headphones</span
-                >
-                <span>雙語音頻</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- 主要內容區域：章節列表 + 文字顯示 -->
       <div
         style="
@@ -1010,21 +1003,38 @@
         <!-- 左側：章節列表 -->
         <div class="chapters-section">
           <div class="section-header">
-            <span>📚 章節列表</span>
+            <div class="section-header-left">
+              <div class="book-cover-small" id="bookCover">
+                <span class="material-icons">auto_stories</span>
+              </div>
+              <div class="book-info-inline">
+                <div class="book-title-inline" id="bookTitle">載入中...</div>
+                <div class="book-stats-inline">
+                  <div class="book-stat-item">
+                    <span class="material-icons" style="font-size: 14px"
+                      >menu_book</span
+                    >
+                    <span id="chapterCount">0 章</span>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="sort-controls">
               <button
                 class="sort-btn active"
-                onclick="sortChapters('asc')"
                 id="sortAsc"
+                onclick="sortChapters('asc')"
+                title="正序排列"
               >
-                ↑ 正序
+                <span class="material-icons">arrow_upward</span>
               </button>
               <button
                 class="sort-btn"
-                onclick="sortChapters('desc')"
                 id="sortDesc"
+                onclick="sortChapters('desc')"
+                title="倒序排列"
               >
-                ↓ 倒序
+                <span class="material-icons">arrow_downward</span>
               </button>
             </div>
           </div>
@@ -1048,15 +1058,6 @@
               gap: 12px;
             "
           >
-            <div style="display: flex; align-items: center; gap: 8px">
-              <span
-                class="material-icons"
-                style="font-size: 18px; vertical-align: middle"
-                >description</span
-              >
-              <span>章節內容</span>
-            </div>
-
             <!-- 工具列 -->
             <div
               style="
@@ -1457,6 +1458,13 @@
         document.getElementById(
           "chapterCount"
         ).textContent = `${book.chapter_count} 章`;
+
+        // 載入封面
+        const bookCover = document.getElementById("bookCover");
+        if (book.cover_url) {
+          bookCover.innerHTML = `<img src="${book.cover_url}" alt="${book.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="material-icons" style="display: none;">auto_stories</span>`;
+        }
 
         // 保存章節數據
         chapters = book.chapters;
